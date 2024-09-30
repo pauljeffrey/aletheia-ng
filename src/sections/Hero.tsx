@@ -1,7 +1,5 @@
 import ArrowIcon from "@/assets/arrow-right.svg"
 import cogImage from "@/assets/globe.png"
-import cylinderImage from "@/assets/cylinder.png"
-import noodleImage from "@/assets/cog.png"
 import Image from "next/image";
 
 export const Hero = () => {
