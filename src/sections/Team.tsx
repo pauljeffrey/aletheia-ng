@@ -1,15 +1,14 @@
 "use client";
-import { useScroll, useTransform } from "framer-motion";
+import { useScroll } from "framer-motion";
 import { useRef } from "react";
 import { ExpandableCardDemo } from "@/components/ui/expandable-card";
 
 export const Team = () => {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
+  useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
-  const translateY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   return (
     <section
       ref={sectionRef}

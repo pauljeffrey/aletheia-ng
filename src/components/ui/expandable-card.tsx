@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useRef, useState, createContext, useContext } from "react";
+import React, { useEffect, useId, useRef, useState, createContext } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
@@ -185,7 +185,7 @@ const Carousel = ({ items }: { items: JSX.Element[] }) => {
   );
 };
 
-const Card = ({ card, index, setActive, id }: { card: (typeof cards)[number]; index: number; setActive: React.Dispatch<React.SetStateAction<(typeof cards)[number] | boolean | null>>; id: string }) => {
+const Card = ({ card, setActive, id }: { card: (typeof cards)[number]; index: number; setActive: React.Dispatch<React.SetStateAction<(typeof cards)[number] | boolean | null>>; id: string }) => {
     return (
       <motion.div
         layoutId={`card-${card.title}-${id}`}
