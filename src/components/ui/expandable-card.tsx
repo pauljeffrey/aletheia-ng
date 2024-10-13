@@ -64,7 +64,7 @@ export function ExpandableCardDemo() {
               className="w-full max-w-5xl bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden my-auto"
             >
               <div className="relative">
-                <motion.div layoutId={`image-${active.title}-${id}`}>
+                {/* <motion.div layoutId={`image-${active.title}-${id}`}>
                   <Image
                     priority
                     width={200}
@@ -73,7 +73,7 @@ export function ExpandableCardDemo() {
                     alt={active.title}
                     className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover object-top"
                   />
-                </motion.div>
+                </motion.div> */}
                 <button
                   className="absolute top-4 right-4 h-8 w-8 bg-black/50 dark:bg-white/50 rounded-full flex items-center justify-center"
                   onClick={() => setActive(null)}
