@@ -20,10 +20,9 @@ export const CallToAction = () => {
     >
       <div className="container">
         <div className="section-heading relative">
-          <h2 className="section-title">Sign up for free today</h2>
+          <h2 className="section-title">Work with us today</h2>
           <p className="section-description mt-5">
-            Celebrate the joy of accomplishment with an app designed to track
-            your progress and motivate your efforts.
+          Transform your vision into reality. Our expert team is ready to collaborate, innovate, and deliver exceptional results.
           </p>
           <motion.img
             src={starImage.src}
@@ -45,7 +44,7 @@ export const CallToAction = () => {
           />
         </div>
         <div className="flex gap-2 mt-10 justify-center">
-          <button className="btn btn-primary">Get for free</button>
+          <button className="btn btn-primary">Get started</button>
           <button className="btn btn-text gap-1">
             <span>Learn more</span>
             <ArrowRight className="h-5 w-5" />
