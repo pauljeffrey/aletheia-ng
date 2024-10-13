@@ -69,11 +69,11 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, areas, ic
 export const Features: React.FC = () => (
   <div className="py-[72px]">
     <div className="container">
-      <h2 className="text-center text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] text-transparent bg-clip-text">
+      <h2 className="section-title">
         Areas of Expertise
       </h2>
       <div className="max-w-xl mx-auto">
-        <p className="text-center mt-5 mb-12 text-xl text-[#010D3E] tracking-light">
+        <p className="section-description mt-5 mb-12">
           Our deep-rooted understanding of healthcare systems and markets equips us with a distinctive perspective that merges commercial acumen with public health insights. We tackle the intricate issues faced by healthcare entities and pioneers, crafting tailor-made solutions that honor the distinctiveness of each locale we serve.
         </p>
       </div>
