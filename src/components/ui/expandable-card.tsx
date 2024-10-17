@@ -271,7 +271,7 @@ const cards = [
       content: () => {
         return (
         <>
-        <p>Dr. Najim Pedro is an Associate Director of Regulatory Affairs & Accreditation in the Office of Quality and Safety at NYC Health and Hospitals, Kings County, NY. He earned his medical degree from Lagos State University in Nigeria, followed by his MPH degree at New York University (NYU).</p>
+        <p>Dr. Najim Pedro is an Associate Director of Regulatory Affairs & Accreditation in the Office of Quality and Safety at NYC Health and Hospitals, Kings County, NY. He earned his medical degree from Lagos State University in Nigeria, followed by his MPH degree at New York University (NYU).</p>
         <br />
         <p>Najim co-founded OneDokita Healthcare Limited with the aim of increasing access to healthcare by staffing mobile clinics in remote areas in Nigeria. He then spent six years working in healthcare transformation and innovation in the ambulatory care setting in the US.</p>
         <br />
