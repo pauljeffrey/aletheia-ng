@@ -8,7 +8,7 @@ export const Hero = () => {
       <div className="container">
         <div className="md:flex items-center">
           <div className="md:w-[478px]">
-            <div className="text-xl inline-flex border border-[#222]/10 px-3 py-1 rounded-lg tracking-tight">🩺❤️🌍 </div>
+            <div className="text-xl inline-flex border border-[#222]/10 px-3 py-1 rounded-lg tracking-tight">🩺🌍 </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] text-transparent bg-clip-text mt-6">Redefining Healthcare Access</h1>
             <p className="text-xl text-[#010D3E] tracking-light mt-6">At Synergy Group Consulting, we believe that world-class healthcare should be the standard for everyone, regardless of their circumstances. 
             </p>
