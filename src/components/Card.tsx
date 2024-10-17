@@ -54,7 +54,7 @@ export function WobbleCardDemo() {
           width={500}
           height={500}
           alt="linear demo image"
-          className="absolute -right-10 md:-right-[40%] lg:-right-[20%] -bottom-10 object-contain rounded-2xl"
+          className="absolute -right-10 md:-right-[40%] lg:-right-[20%] grayscale filter -bottom-10 object-contain rounded-2xl"
         />
       </WobbleCard>
     </div>

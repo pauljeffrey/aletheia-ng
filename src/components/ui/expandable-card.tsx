@@ -230,7 +230,7 @@ const cards = [
             <>
             <p>Daniel Okpare is a passionate global health professional with over 10 years of experience strengthening healthcare systems and expanding access to quality care across Africa and North America. He specializes in policy development, advocacy, strategies, data utilization, and program implementation.</p><br />
 
-            <p>His career began as a research project manager at the Hospital for Special Surgery. Daniel currently works as a Community Healthcare Specialist at the NYC Department of Health (NYCDOH), where he supports research and policy planning on healthcare delivery, primary care and FQHC landscape, safety net access to healthcare services, preventive care, and other critical health services that address social determinants of health.</p><br />
+            <p>Daniel currently works as a Community Healthcare Specialist at the NYC Department of Health (NYCDOH), where he supports research and policy planning on healthcare delivery, primary care and FQHC landscape, safety net access to healthcare services, preventive care, and other critical health services that address social determinants of health.</p><br />
 
             <p>Daniel is currently a member of the Strategy & Policy AI workgroup under the AI Taskforce at the NYCDOH. Prior to this, he co-coordinated the city's comprehensive health and operational strategy to provide critical services and support to newly-arrived asylum seekers.</p><br />
 
@@ -264,14 +264,14 @@ const cards = [
     },
     {
       description: "Principal, Global Health",
-      title: "Najim Pedro, MD",
+      title: "Dr. Najim Pedro",
       src: "https://synergygroupcf.com/najim-pedro.png",
       ctaText: "Visit",
       ctaLink: "https://ui.aceternity.com/templates",
       content: () => {
         return (
         <>
-        <p>Najim Pedro, MD, MPH is an Associate Director of Regulatory Affairs & Accreditation in the Office of Quality and Safety at NYC Health and Hospitals | Kings County. He earned his medical degree from Lagos State University in Nigeria, followed by his MPH degree at New York University (NYU).</p>
+        <p>Dr. Najim Pedro is an Associate Director of Regulatory Affairs & Accreditation in the Office of Quality and Safety at NYC Health and Hospitals, Kings County, NY. He earned his medical degree from Lagos State University in Nigeria, followed by his MPH degree at New York University (NYU).</p>
         <br />
         <p>Najim co-founded OneDokita Healthcare Limited with the aim of increasing access to healthcare by staffing mobile clinics in remote areas in Nigeria. He then spent six years working in healthcare transformation and innovation in the ambulatory care setting in the US.</p>
         <br />
