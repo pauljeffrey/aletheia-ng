@@ -10,27 +10,27 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    title: "Catalyzing Product Commercialization",
-    description: "We excel in fusing our commercial life sciences knowledge with our grasp of healthcare markets and public health principles.",
-    areas: ["Market strategy", "Regulatory Navigation", "Commercialization Excellence", "Strategic Partnerships"],
+    title: "Customized AI Solutions",
+    description: "We craft tailored AI solutions that help organizations increase productivity, reduce costs, and unlock new opportunities across diverse industries.",
+    areas: ["Multimodal AI Systems", "Cross-Industry Applications", "Business Intelligence Automation", "Robotics Integration"],
     icon: Briefcase,
   },
   {
-    title: "Transforming Healthcare Delivery",
-    description: "We empower public and non-profit health organizations to establish premier programs, expand capabilities, refine systems, and achieve transformative outcomes.",
-    areas: ["Market Innovation", "Capacity Enhancement", "Data-driven Optimization", "Innovative Health Financing"],
+    title: "Consulting Services",
+    description: "We provide expert guidance to businesses, governments, and organizations in designing, implementing, and scaling AI strategies for measurable results.",
+    areas: ["AI Readiness Assessment", "Scalable AI Frameworks", "Data-Driven Decision Support", "Ethical AI Implementation & Bias Evaluation"],
     icon: Activity,
   },
   {
-    title: "Advancing Public Affairs",
-    description: "Our extensive network with policymakers and thought leaders enables us to forge pioneering partnerships that drive bold policy initiatives, secure funding, and shape the healthcare landscape.",
-    areas: ["Inclusive Dialogue", "Strategy Advocacy", "Policy Influence", "Resource Mobilization"],
+    title: "Collaborative Problem-Solving",
+    description: "We collaborate with governments, NGOs, and private organizations to address complex challenges and deliver transformative societal impact.",
+    areas: ["Health care & Policy Solutions", "Business Process Optimization", "Sustainable Development"],
     icon: Users,
   },
   {
-    title: "Enabling Health System",
-    description: "We guide our partners in deploying avant-garde technologies and solutions that significantly broaden access to essential health products and services.",
-    areas: ["Enhancing clinical research infrastructure", "Fostering local production ecosystems", "Optimizing supply chains and networks", "Pioneering digital health innovations"],
+    title: "Future-Ready Products",
+    description: "We are committed to innovating for tomorrow’s challenges, crafting AI products and systems that anticipate and address emerging trends and opportunities.",
+    areas: ["Cryptomarket & Web3", "Speculative Innovation", "AI-Enhanced Robotics", "Research and Development"],
     icon: Cog,
   },
 ];
@@ -74,7 +74,9 @@ export const Features: React.FC = () => (
       </h2>
       <div className="max-w-xl mx-auto">
         <p className="section-description mt-5 mb-12">
-          Our deep-rooted understanding of healthcare systems and markets equips us with a distinctive perspective that merges commercial acumen with public health insights. We tackle the intricate issues faced by healthcare entities and pioneers, crafting tailor-made solutions that honor the distinctiveness of each locale we serve.
+        At Aletheia AI, we leverage cutting-edge artificial intelligence to solve complex challenges across industries, combining technical expertise with cultural and contextual understanding.
+        Our work spans multilingual AI for diverse languages, transformative healthcare innovations, and intelligent business analytics and automation, delivering tailored, impactful solutions that empower organizations to thrive in a tech-driven world.
+        With a focus on innovation, collaboration, and societal impact, we are shaping a smarter, more inclusive future.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

@@ -8,7 +8,7 @@ export const Header = () => {
   return (
     <header className="sticky top-0 backdrop-blur-sm z-20">
       <div className="flex justify-center items-center py-3 bg-black text-white text-sm gap-3">
-        <p className="text-white/60 hidden md:block md:max-w-md lg:max-w-3xl">Our vision is a world free from healthcare disparities, where every individual can lead a robust and satisfying life.</p>
+        <p className="text-white/60 hidden md:block md:max-w-md lg:max-w-3xl">We envision a future where cutting-edge artificial intelligence and engineering transforms lives, empowers businesses, and drives sustainable development.</p>
         <div className="inline-flex gap-1 items-center">
           <p>Learn more</p>
           <ArrowRight className="h-4 w-4 inline-flex justify-center items-center" />

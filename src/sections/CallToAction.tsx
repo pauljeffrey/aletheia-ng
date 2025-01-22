@@ -22,7 +22,8 @@ export const CallToAction = () => {
         <div className="section-heading relative">
           <h2 className="section-title">Work with us today</h2>
           <p className="section-description mt-5">
-          Transform your vision into reality. Our expert team is ready to collaborate, innovate, and deliver exceptional results.
+          We are on a mission to create meaningful impact through AI, and we’re looking for visionary partners to join us on this journey. Whether you are an investor, business aiming to integrate AI into your workflow or an organization seeking to solve complex challenges, Aletheia AI is here to help.
+          Let’s build the future together.
           </p>
           <motion.img
             src={starImage.src}

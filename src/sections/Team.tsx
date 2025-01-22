@@ -17,7 +17,7 @@ export const Team = () => {
       <div className="container">
         <div className="section-heading">
           <h2 className="section-title mt-5">
-          Meet Our People
+          Our Products/Projects
           </h2>
           <p className="section-description mt-5">
           Our cadre of experts, with their rich experience in top healthcare institutions and diverse global backgrounds, 

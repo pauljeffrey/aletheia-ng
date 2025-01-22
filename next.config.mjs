@@ -44,7 +44,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'synergygroupcf.com',
+        hostname: 'aletheia.com.ng',
         port: '',
         pathname: '/**',
       },

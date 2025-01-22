@@ -28,7 +28,7 @@ export const Footer = () => {
           <SocialYoutube />
         </div>
         <p className="mt-6">
-          &copy; 2024 Synergy Consulting Group. All rights reserved.
+          &copy; 2025 Aletheia Research Labs. All rights reserved.
         </p>
       </div>
     </footer>

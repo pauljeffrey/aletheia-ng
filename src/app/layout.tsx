@@ -6,8 +6,8 @@ import { twMerge } from "tailwind-merge";
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Synergy Consulting Group",
-  description: "Synergy Consulting Group",
+  title: "Aletheia Research Labs",
+  description: "Aletheia Research Labs",
 };
 
 export default function RootLayout({

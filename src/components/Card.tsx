@@ -14,11 +14,10 @@ export function WobbleCardDemo() {
       >
         <div className="max-w-xs">
           <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-          Nutritional Intervention for Type 2 Diabetes Prevention in At-Risk Adults
+          Mediverse
           </h2>
           <p className="mt-4 text-left  text-base/6 text-neutral-200">
-          An 18-month randomized controlled trial investigating the effectiveness of a plant-based diet 
-          and nutrition education program in preventing the onset of type 2 diabetes in individuals with prediabetes.
+          An engaging medical training platform to gamify and enhance learning for medical students and professionals.
           </p>
         </div>
         <Image
@@ -31,22 +30,19 @@ export function WobbleCardDemo() {
       </WobbleCard>
       <WobbleCard containerClassName="col-span-1 min-h-[300px] bg-green-900">
         <h2 className="max-w-80  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-        The Impact of Mindfulness Meditation on Chronic Pain Management
+        Intelligent Biomedical Devices
         </h2>
         <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-        A 12-week study examining how daily mindfulness meditation practices affect pain perception 
-        and quality of life in patients with chronic lower back pain.
+        Research and development into smart, AI-powered devices to revolutionize healthcare diagnostics and treatment.
         </p>
       </WobbleCard>
       <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-blue-900 min-h-[500px] lg:min-h-[300px] xl:min-h-[300px]">
         <div className="max-w-sm">
           <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-          Sleep Hygiene Education and Its Effects on 
-          Adolescent Academic Performance
+          Cryptovision
           </h2>
           <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-          Evaluating the impact of a comprehensive sleep hygiene education program on 
-          sleep quality, duration, and academic performance in high school students.
+          A sophisticated AI-driven cryptocurrency predictor to empower informed decision-making in the volatile crypto market.
           </p>
         </div>
         <Image
