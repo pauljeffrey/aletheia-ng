@@ -11,7 +11,7 @@ export const Footer = () => {
     <footer className="bg-white text-[#00008B] text-sm py-10 text-center">
       <div className="container">
         <div className="inline-flex relative before:content-[''] before:top-2 before:bottom-0 before:w-full before:blur before:absolute">
-          <Image src={logo} height={80} alt="Synergy logo" className="relative" />
+        <a href="/"><Image src={logo} height={80} alt="Synergy logo" className="relative" /></a>
         </div>
         <nav className="flex flex-col md:flex-row md:justify-center gap-6 mt-6">
           <a href="about">About</a>
