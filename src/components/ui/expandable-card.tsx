@@ -242,49 +242,49 @@ const cards = [
         );
       },
     },
-    {
-      description: "Language Model",
-      title: "SabiYarn v2",
-      src: "",
-      ctaText: "Visit",
-      ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
-      content: () => {
-        return (
-            <>
-            <p>SabiYarn v2 takes multilingual AI to the next level, with enhanced reasoning, inter-language translation, and advanced tasks like instruction-following and reasoning. It's being designed to support a wide range of African languages (about 30), to facilitate driving solutions for businesses and governments across the continent.</p>
-            <br />
-            <p><ul>              
-              <b>Key Features:</b>
-              <li>Multilingual support for a wider range of African languages.</li>
-              <li>Advanced reasoning and inter-language translation.</li>
-              <li>Suitable for sectors like governance, healthcare, and cross-border business.</li>
-            </ul></p>
-            </>
-        );
-      },
-    },
-    {
-      description: "Hardware/Robotics",
-      title: "MediVault",
-      src: "",
-      ctaText: "Visit",
-      ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
-      content: () => {
-        return (
-            <>
-            <p>MediVault is an robot-enhanced AI device that digitizes paper-based medical records, simplifying healthcare documentation. It automates data extraction, categorization, and storage, improving workflow efficiency and ensuring compliance with data privacy regulations.</p>
-            <br />
-            <p><ul>              
-              <b>Key Features:</b>
-              <li>AI-assisted digitization of handwritten medical notes.</li>
-              <li>AI-driven categorization, entity recognition for easy data retrieval.</li>
-              <li>Data centralization.</li>
-              <li>Seamless integration with healthcare systems and regulatory compliance.</li>
-            </ul></p>
-            </>
-        );
-      },
-    },
+    // {
+    //   description: "Language Model",
+    //   title: "SabiYarn v2",
+    //   src: "",
+    //   ctaText: "Visit",
+    //   ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
+    //   content: () => {
+    //     return (
+    //         <>
+    //         <p>SabiYarn v2 takes multilingual AI to the next level, with enhanced reasoning, inter-language translation, and advanced tasks like instruction-following and reasoning. It's being designed to support a wide range of African languages (about 30), to facilitate driving solutions for businesses and governments across the continent.</p>
+    //         <br />
+    //         <p><ul>              
+    //           <b>Key Features:</b>
+    //           <li>Multilingual support for a wider range of African languages.</li>
+    //           <li>Advanced reasoning and inter-language translation.</li>
+    //           <li>Suitable for sectors like governance, healthcare, and cross-border business.</li>
+    //         </ul></p>
+    //         </>
+    //     );
+    //   },
+    // },
+    // {
+    //   description: "Hardware/Robotics",
+    //   title: "MediVault",
+    //   src: "",
+    //   ctaText: "Visit",
+    //   ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
+    //   content: () => {
+    //     return (
+    //         <>
+    //         <p>MediVault is an robot-enhanced AI device that digitizes paper-based medical records, simplifying healthcare documentation. It automates data extraction, categorization, and storage, improving workflow efficiency and ensuring compliance with data privacy regulations.</p>
+    //         <br />
+    //         <p><ul>              
+    //           <b>Key Features:</b>
+    //           <li>AI-assisted digitization of handwritten medical notes.</li>
+    //           <li>AI-driven categorization, entity recognition for easy data retrieval.</li>
+    //           <li>Data centralization.</li>
+    //           <li>Seamless integration with healthcare systems and regulatory compliance.</li>
+    //         </ul></p>
+    //         </>
+    //     );
+    //   },
+    // },
     {
       description: "Agentic System",
       title: "Ottobiz",

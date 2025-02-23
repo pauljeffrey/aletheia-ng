@@ -14,19 +14,18 @@ export const Footer = () => {
           <Image src={logo} height={80} alt="Synergy logo" className="relative" />
         </div>
         <nav className="flex flex-col md:flex-row md:justify-center gap-6 mt-6">
-          <a href="#">About</a>
-          <a href="#">Team</a>
-          <a href="#">Services</a>
-          <a href="#">Contact</a>
-          <a href="#">Legal</a>
+          <a href="about">About</a>
+          <a href="research">Research</a>
+          <a href="services">Services</a>
+          <a href="contact">Contact</a>
         </nav>
-        <div className="flex justify-center gap-6 mt-6">
+        {/* <div className="flex justify-center gap-6 mt-6">
           <SocialX />
           <SocialInsta />
           <SocialLinkedIn />
           <SocialPin />
           <SocialYoutube />
-        </div>
+        </div> */}
         <p className="mt-6">
           &copy; 2025 Aletheia Research Labs. All rights reserved.
         </p>
