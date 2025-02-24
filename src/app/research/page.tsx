@@ -22,5 +22,5 @@ const Research = () => {
   );
 };
 
-export default Research;
+export default Research;
 
