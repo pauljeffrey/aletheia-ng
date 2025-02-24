@@ -222,7 +222,7 @@ const cards = [
     {
       description: "Language Model",
       title: "SabiYarn v1",
-      src: "",
+      src: "/image.png",
       ctaText: "Visit",
       ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
       content: () => {
@@ -288,7 +288,7 @@ const cards = [
     {
       description: "Agentic System",
       title: "Ottobiz",
-      src: "",
+      src: "/image.png",
       ctaText: "Visit",
       ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
       content: () => {
