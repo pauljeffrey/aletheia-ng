@@ -1,3 +1,4 @@
+import { Footer } from "@/sections/Footer";
 import { Header } from "@/sections/Header";
 
 const Research = () => {
@@ -18,6 +19,7 @@ const Research = () => {
         </ul>
       </div>
     </section>
+    <Footer />
     </>
   );
 };

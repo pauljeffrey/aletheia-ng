@@ -20,6 +20,7 @@ export const Header = () => {
             <a href="/"><Image src={Logo} alt="Saas Logo" height={80} width={80} /></a>
             <MenuIcon className="h-5 w-5 md:hidden" />
             <nav className="hidden md:flex gap-6 text-black/60 items-center">
+              <a href="home">Home</a>
               <a href="about">About</a>
               <a href="research">Research</a>
               <a href="services">Services</a>

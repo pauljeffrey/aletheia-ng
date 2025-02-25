@@ -1,3 +1,4 @@
+import { Footer } from "@/sections/Footer";
 import { Header } from "@/sections/Header";
 
 const About = () => {
@@ -15,6 +16,7 @@ const About = () => {
             <p className="mt-4 text-gray-600">We envision AI that is inclusive, accessible, and tailored to diverse cultures.</p>
         </div>
         </section>
+        <Footer />
         </>
     );
 };
