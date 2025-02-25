@@ -17,6 +17,20 @@ const Services = () => {
           <li>AI Consulting & Strategy</li>
           <li>Automated Business Solutions</li>
         </ul>
+        <div>
+        <hr className="my-10 border-gray-300" />
+        
+        <h3 className="text-2xl font-semibold mb-6">Try Out Our Model</h3>
+        
+        <div>
+          <iframe
+            src="https://beardedmonster-sabiyarn-125m-713d121.hf.space"
+            style={{ border: 0 }}
+            width="850"
+            height="450"
+          ></iframe>
+        </div>
+        </div>
       </div>
     </section>
     <Footer />
