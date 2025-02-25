@@ -8,7 +8,7 @@ interface Feature {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
-const features: Feature[] = [
+export const features: Feature[] = [
   {
     title: "Customized AI Solutions",
     description: "We craft tailored AI solutions that help organizations increase productivity, reduce costs, and unlock new opportunities across diverse industries.",
@@ -43,7 +43,7 @@ interface FeatureCardProps {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, areas, icon: Icon }) => (
+export const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, areas, icon: Icon }) => (
   <div className="bg-white p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl">
     <div className="flex items-center justify-center w-16 h-16 mb-6 bg-blue-100 rounded-full">
       <Icon className="w-8 h-8 text-blue-600" />

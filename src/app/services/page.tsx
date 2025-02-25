@@ -1,3 +1,4 @@
+import { FeatureCard, features, Features } from "@/sections/Features";
 import { Footer } from "@/sections/Footer";
 import { Header } from "@/sections/Header";
 
@@ -11,12 +12,12 @@ const Services = () => {
         <p className="mt-4 text-gray-600">
           We provide AI-powered automation, consultancy, and tailored AI solutions for various industries.
         </p>
-        <h3 className="text-2xl font-semibold mt-6">Our Services</h3>
-        <ul className="list-disc list-inside text-gray-600">
-          <li>Custom AI Development</li>
-          <li>AI Consulting & Strategy</li>
-          <li>Automated Business Solutions</li>
-        </ul>
+        <h3 className="text-2xl font-semibold mt-6 py-8">Our Services</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {features.map((feature, index) => (
+          <FeatureCard key={index} {...feature} />
+        ))}
+      </div>
       </div>
     </section>
     <Footer />
