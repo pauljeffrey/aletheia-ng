@@ -12,11 +12,11 @@ export const Hero = () => {
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] text-transparent bg-clip-text mt-6">Innovating Today for a Smarter Tomorrow</h1>
             <p className="text-xl text-[#010D3E] tracking-light mt-6">Rooted in innovation and inclusivity, we aim to bridge the gap between technology and humanity by creating AI solutions tailored to diverse cultural, linguistic, business and industrial landscapes.</p>
             <div className="flex gap-1 items-center mt-[30px]">
-              <button className="btn btn-primary">Get started</button>
-              <button className="btn btn-text gap-1">
+            <a href="product"><button className="btn btn-primary">Try latest model</button></a>
+              <a href="research"><button className="btn btn-text gap-1">
                 <span>Learn more</span>
                 <ArrowIcon className="h-5 w-5" />
-              </button>
+              </button></a>
             </div>
           </div>
           <div className="mt-20 md:mt-0 md:h-[648px] md:flex-1 relative">

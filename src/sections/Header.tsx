@@ -20,12 +20,12 @@ export const Header = () => {
             <a href="/"><Image src={Logo} alt="Saas Logo" height={80} width={80} /></a>
             <MenuIcon className="h-5 w-5 md:hidden" />
             <nav className="hidden md:flex gap-6 text-black/60 items-center">
-              <a href="home">Home</a>
+              <a href="/">Home</a>
               <a href="about">About</a>
               <a href="research">Research</a>
               <a href="services">Services</a>
               <a href="contact">Contact</a>
-              <button className="bg-black text-white px-4 py-2 rounded-lg font-medium inline-flex align-items justify-center tracking-tight">Get started</button>
+              <a href="product"><button className="bg-black text-white px-4 py-2 rounded-lg font-medium inline-flex align-items justify-center tracking-tight">Try latest model</button></a>
             </nav>
           </div>
         </div>
