@@ -3,7 +3,7 @@ import { useScroll } from "framer-motion";
 import { useRef } from "react";
 import { ExpandableCardDemo } from "@/components/ui/expandable-card";
 
-export const Team = () => {
+export const Product = () => {
   const sectionRef = useRef(null);
   useScroll({
     target: sectionRef,

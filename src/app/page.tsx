@@ -3,7 +3,7 @@ import { Features } from "@/sections/Features";
 import { Footer } from "@/sections/Footer";
 import { Header } from "@/sections/Header";
 import { Hero } from "@/sections/Hero";
-import { Team } from "@/sections/Team";
+import { Product } from "@/sections/Product";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       <Header />
       <Hero />
       <Features />
-      <Team />
+      <Product />
       <CallToAction />
       <Footer />
     </>
