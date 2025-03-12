@@ -190,11 +190,11 @@ const About = () => {
                                 As a practicing physician, Dr. Otoibhi has witnessed firsthand the healthcare disparities affecting underserved communities. This experience has fueled his passion for creating AI-driven solutions that enhance diagnostics, improve patient management, and increase healthcare accessibility.
                             </p>
                             <p className="text-gray-600 mb-4">
-                His notable achievements include leading the development of SabiYarn-125M, Nigeria's first foundational language model supporting seven indigenous languages, and creating various AI healthcare applications. He currently heads the data science team for 3 different organizations, bringing his expertise to multiple domains simultaneously.
-            		    </p>
-            		    <p className="text-gray-600 mb-4">
-                Dr. Otoibhi is currently pursuing a Master's degree in Robotics and Autonomous Systems with a focus on biomedical engineering at Arizona State University, further expanding his expertise at the intersection of healthcare and cutting-edge technology.
-            		    </p>
+                                His notable achievements include leading the development of SabiYarn-125M, Nigeria's first foundational language model supporting seven indigenous languages, and creating various AI healthcare applications. He currently heads the data science team for 3 different organizations, bringing his expertise to multiple domains simultaneously.
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                                Dr. Otoibhi is currently pursuing a Master's degree in Robotics and Autonomous Systems with a focus on biomedical engineering at Arizona State University, further expanding his expertise at the intersection of healthcare and cutting-edge technology.
+                            </p>
                             <p className="text-gray-600">
                                 <a href="http://www.aletheia.com.ng/jeffreyotoibhi" className="text-blue-600 hover:text-blue-800 font-medium">
                                     Learn more about Dr. Jeffrey Otoibhi →
