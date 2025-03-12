@@ -55,7 +55,7 @@ const About = () => {
 
                     <h3 className="text-2xl font-semibold mt-8 text-gray-800">Founder</h3>
                     <div className="mt-4">
-                        <img src="/images/jeffrey.jpg" alt="Dr. Otoibhi Jeffrey" className="mx-auto w-32 h-32 rounded-full border-4 border-gray-300" />
+                        <img src="../assets/jeffrey.jpg" alt="Dr. Otoibhi Jeffrey" className="mx-auto w-32 h-32 rounded-full border-4 border-gray-300" />
                         <p className="mt-4 text-gray-600">
                             <strong>Dr. Otoibhi Jeffrey</strong> is a medical doctor, AI engineer, and researcher with expertise spanning computer vision, NLP, and biomedical AI.
                             He is the founder of Aletheia Research Labs and the lead architect behind SabiYarn-125M, Nigeria’s first multilingual foundational AI model.
