@@ -1,3 +1,5 @@
+'use client'
+
 import { Footer } from "@/sections/Footer";
 import { Header } from "@/sections/Header";
 import { useState } from "react";
