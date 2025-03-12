@@ -179,7 +179,7 @@ const About = () => {
                     <h3 className="text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">Our Founder</h3>
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
                         <div className="w-48 h-48 bg-gray-200 rounded-full flex-shrink-0">
-                            {/* Placeholder for founder image */}
+                        <img src="/jeffrey.jpg" alt="Dr. Otoibhi Jeffrey" className="mx-auto w-32 h-32 rounded-full border-4 border-gray-300" />
                         </div>
                         <div>
                             <h4 className="text-xl font-medium text-gray-800 mb-2">Dr. Jeffrey Otoibhi</h4>
