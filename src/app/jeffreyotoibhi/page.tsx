@@ -172,7 +172,7 @@ const AboutFounder = () => {
                         {/* Experience Tab */}
                         {activeTab === "experience" && (
                             <div className="space-y-8">
-                                <div className="bg-white p-6 rounded-lg shadow-md">
+                                {/* <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                                         <div>
                                             <h3 className="text-xl font-bold text-gray-800">Coptic Multi-specialist Hospital</h3>
@@ -185,7 +185,7 @@ const AboutFounder = () => {
                                         <li>Provided comprehensive medical care, including emergency management, patient consultations, and surgical procedures.</li>
                                         <li>Collaborated with interdisciplinary teams to optimize patient care pathways.</li>
                                     </ul>
-                                </div>
+                                </div> */}
 
                                 <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
