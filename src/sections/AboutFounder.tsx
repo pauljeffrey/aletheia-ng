@@ -66,13 +66,13 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                 <p className="text-gray-800">Lagos, Nigeria</p>
                             </div>
                         </div>
-                        <div className="bg-white p-4 rounded-lg shadow-md flex items-center gap-3">
+                        {/* <div className="bg-white p-4 rounded-lg shadow-md flex items-center gap-3">
                             <FaGlobe className="text-blue-600 text-xl" />
                             <div>
                                 <p className="text-sm text-gray-500">Website</p>
                                 <a href="https://www.aletheia.com.ng/jeffreyotoibhi" className="text-gray-800 hover:text-blue-600">aletheia.com.ng/jeffreyotoibhi</a>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="bg-white p-4 rounded-lg shadow-md flex items-center gap-3">
                             <FaMobile className="text-blue-600 text-xl" />
                             <div>
@@ -168,6 +168,25 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                         <li>Collaborated with interdisciplinary teams to optimize patient care pathways.</li>
                                     </ul>
                                 </div> */}
+
+                                <div className="bg-white p-6 rounded-lg shadow-md">
+                                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                                        <div>
+                                            <h3 className="text-xl font-bold text-gray-800">Omali</h3>
+                                            <p className="text-lg text-blue-600">Head of Artificial Intelligence</p>
+                                        </div>
+                                        <p className="text-gray-600 mt-2 md:mt-0">Since January 2025</p>
+                                    </div>
+                                    <p className="text-gray-600 mb-4">Lagos, Nigeria</p>
+                                    <ul className="list-disc pl-6 text-gray-600 space-y-2">
+                                        <li>Responsible for designing and evaluating an AI-powered dermatology diagnostic system tailored
+to analyze skin images and handle workflows, providing:</li>
+                                        <ul className="list-disc pl-6 text-gray-600 space-y-2">
+                                            <li>Diagnosis of dermatological conditions and possible home remedies.</li>
+                                            <li>Scheduling appointments and handling payment systems</li>
+                                        </ul>
+                                    </ul>
+                                </div>
 
                                 <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
