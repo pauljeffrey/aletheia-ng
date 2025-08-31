@@ -100,8 +100,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                 further expanding my expertise at the intersection of healthcare and cutting-edge technology.
                             </p> */}
                             <p>
-                                My  technical proficiency in <span className="font-semibold">end-to-end LLM development, 
-                                including RLHF</span>, allows me to identify challenges and develop trustworthy, compliant technological solutions. 
+                                My  technical proficiency in <span className="font-semibold">end-to-end LLM development, including RLHF</span>, allows me to identify challenges and develop trustworthy, compliant technological solutions. 
                                 I am particularly focused on creating robust, scalable, and ethically-responsible AI that transforms healthcare delivery 
                                 and preserves cultural diversity through language technology.
                             </p>
