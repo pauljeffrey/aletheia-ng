@@ -28,8 +28,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Dr. Jeffrey Otoibhi</h1>
                             <h2 className="text-xl md:text-2xl text-blue-600 font-medium mb-4">Medical Doctor | AI Researcher & Engineer</h2>
                             <p className="text-gray-600 text-lg max-w-2xl mb-6">
-                                I am a seasoned AI Expert and Medical Doctor with six years of experience in machine learning
-                                and innovation. Led the development of Nigeria's first foundational decoder-only language model and contributed
+                                I am a seasoned AI Expert and Medical Doctor with six years of experience in AI, ML and innovation. Led the development of Nigeria's first foundational decoder-only language model and contributed
                                 to 7+ AI research projects. Passionate about leveraging AI and robotics to transform healthcare.
                             </p>
                             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
@@ -89,7 +88,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                             <p>
                                 I am a Medical Doctor and AI Expert with a passion for merging 
                                 the worlds of healthcare and artificial intelligence. With a robust 6-year track record, I have delivered 
-                                innovative AI solutions across various domains, including <span className="font-semibold">audio processing, computer vision, and natural language processing</span>.
+                                innovative AI solutions across various domains, including audio processing, computer vision, and natural language processing.
                             </p>
                             <p>
                                 As the lead Engineer and Researcher behind <span className="font-semibold">SabiYarn</span>, Nigeria's first LLM capable of text generation 
