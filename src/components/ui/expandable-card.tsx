@@ -222,7 +222,7 @@ const cards = [
     {
       description: "Language Model",
       title: "SabiYarn v1",
-      src: "/image.png",
+      src: "/sabiyarn_ai.png",
       ctaText: "Visit",
       ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
       content: () => {
