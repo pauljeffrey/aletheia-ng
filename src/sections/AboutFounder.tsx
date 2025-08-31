@@ -1,7 +1,7 @@
 import { Footer } from "@/sections/Footer";
 import { Header } from "@/sections/Header";
-import { FaDownload, FaLinkedin, FaGithub, FaTwitter, FaEnvelope, FaGlobe, FaMobile, FaMapMarkerAlt } from "react-icons/fa";
-
+import { FaDownload, FaLinkedin, FaGithub, FaTwitter, FaEnvelope, FaMobile, FaMapMarkerAlt } from "react-icons/fa";
+// FaGlobe
 // Default active tab for server rendering
 const defaultTab = "experience";
 
