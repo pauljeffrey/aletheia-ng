@@ -1,5 +1,5 @@
 import ArrowRight from "@/assets/arrow-right.svg";
-import Logo from "@/assets/synergy.png";
+import Logo from "@/assets/Aletheia.png";
 import Image from "next/image";
 import MenuIcon from "@/assets/menu.svg"
 
@@ -17,8 +17,8 @@ export const Header = () => {
       <div className="py-5">
         <div className="container">
           <div className="flex items-center justify-between">
-            {/* <a href="/Aletheia.png"><Image src={Logo} alt="Saas Logo" height={80} width={80} /></a> */}
-            <a href="/"><Image src="/Aletheia.png" alt="Saas Logo" height={80} width={80} /></a>
+            <a href="/"><Image src={Logo} alt="Saas Logo" height={80} width={80} /></a>
+            {/* <a href="/"><Image src="/Aletheia.png" alt="Saas Logo" height={80} width={80} /></a> */}
             <MenuIcon className="h-5 w-5 md:hidden" />
             <nav className="hidden md:flex gap-6 text-black/60 items-center">
               <a href="/">Home</a>
