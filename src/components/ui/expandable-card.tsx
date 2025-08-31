@@ -288,9 +288,9 @@ const cards = [
     {
       description: "Agentic System",
       title: "Ottobiz",
-      src: "/image.png",
+      src: "/ottobiz.png",
       ctaText: "Visit",
-      ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
+      ctaLink: "",
       content: () => {
         return (
             <>
