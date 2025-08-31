@@ -28,8 +28,8 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Dr. Jeffrey Otoibhi</h1>
                             <h2 className="text-xl md:text-2xl text-blue-600 font-medium mb-4">Medical Doctor | AI Researcher & Engineer</h2>
                             <p className="text-gray-600 text-lg max-w-2xl mb-6">
-                                I am a seasoned AI Expert and Medical Doctor with five years of experience in machine learning
-                                and innovation. Led the development of Nigeria's first foundational language model and contributed
+                                I am a seasoned AI Expert and Medical Doctor with six years of experience in machine learning
+                                and innovation. Led the development of Nigeria's first foundational decoder-only language model and contributed
                                 to 7+ AI research projects. Passionate about leveraging AI and robotics to transform healthcare.
                             </p>
                             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
@@ -140,6 +140,12 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                             >
                                 Education
                             </a>
+                            <a 
+                                href="?tab=blog" 
+                                className={`px-4 py-2 font-medium ${activeTab === "experience" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-600 hover:text-blue-600"}`}
+                            >
+                                Blog
+                            </a>
                         </div>
                     </div>
 
@@ -148,7 +154,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                         {/* Experience Tab */}
                         {activeTab === "experience" && (
                             <div className="space-y-8">
-                                <div className="bg-white p-6 rounded-lg shadow-md">
+                                {/* <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                                         <div>
                                             <h3 className="text-xl font-bold text-gray-800">Coptic Multi-specialist Hospital</h3>
@@ -161,7 +167,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                         <li>Provided comprehensive medical care, including emergency management, patient consultations, and surgical procedures.</li>
                                         <li>Collaborated with interdisciplinary teams to optimize patient care pathways.</li>
                                     </ul>
-                                </div>
+                                </div> */}
 
                                 <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
@@ -303,10 +309,24 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                     <h3 className="text-xl font-bold text-gray-800 mb-2">Publications</h3>
                                     <ul className="list-disc pl-6 text-gray-600 space-y-4">
                                         <li>
-                                            <p className="font-medium">SabiYarn-125M: Advancing Underrepresented Languages with Multitask NLP Pretraining</p>
+                                            <p className="font-medium">
+                                                <a href="https://aclanthology.org/2025.africanlp-1.14/#">
+                                                SabiYarn-125M: Advancing Underrepresented Languages with Multitask NLP Pretraining
+                                                </a>
+                                                </p>
                                             <p>Otoibhi J., et al.</p>
-                                            <p className="text-sm text-gray-500">Submitted to ACL 2025 and arxiv.org</p>
+                                            <p className="text-sm text-gray-500">Proceedings of the Sixth Workshop on AfricaNLP 2025 (pp. 95-107). Association for Computational Linguistics</p>
                                         </li>
+                                        <li>
+                                            <p className="font-medium">
+                                                <a href="https://cdn.sanity.io/files/ectljjpl/production/d31b930a8c0420cec5c958336f34fce0c4de75e9.pdf">
+                                                Bridging the Justice Gap (Policy Brief): Artificial Intelligence as a Tool for Judicial Efficiency in African Countries
+                                                </a>
+                                                </p>
+                                            <p>Otoibhi J., </p>
+                                            <p className="text-sm text-gray-500">AI Policy Lab Africa</p>
+                                        </li>
+                                        
                                     </ul>
                                 </div>
 
@@ -340,7 +360,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                     <h3 className="text-xl font-bold text-gray-800 mb-2">Professional Affiliations</h3>
                                     <ul className="list-disc pl-6 text-gray-600">
                                         <li>Masakhane member</li>
-                                        <li>Contributor to African NLP advancement</li>
+                                        {/* <li>Contributor to African NLP advancement</li> */}
                                         <li>DataFest Africa</li>
                                         <li>Igbo AI</li>
                                     </ul>
@@ -455,7 +475,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                         {/* Education Tab */}
                         {activeTab === "education" && (
                             <div className="space-y-8">
-                                <div className="bg-white p-6 rounded-lg shadow-md">
+                                {/* <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                                         <div>
                                             <h3 className="text-xl font-bold text-gray-800">Arizona State University</h3>
@@ -464,7 +484,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                         </div>
                                         <p className="text-gray-600 mt-2 md:mt-0">Current</p>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
@@ -486,6 +506,84 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                 </div>
                             </div>
                         )}
+
+
+                        {/* Blogs Tab */}
+                        {activeTab === "blog" && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                                        <a href="https://pauljeffrey.github.io/post/rope/">
+                                            Demystifying Rope Embeddings: A Comprehensive Guide
+                                        </a>
+                                        </h3>
+                                    <p className="text-gray-600 mb-4"> In this article, we will explore rope embeddings in depth, understand their purpose, and compare them with positional and trainable embeddings.</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Positional Embeddings</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Transformers</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">PyTorch</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                                        <a href="https://pauljeffrey.github.io/post/rope/">
+                                            Demystifying Rope Embeddings: A Comprehensive Guide
+                                        </a>
+                                        </h3>
+                                    <p className="text-gray-600 mb-4"> In this article, we will explore rope embeddings in depth, understand their purpose, and compare them with positional and trainable embeddings.</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Positional Embeddings</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Transformers</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">PyTorch</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                                        <a href="https://pauljeffrey.github.io/post/true-casing/">
+                                            Unraveling the Secrets of Raw Text (Part 3)
+                                        </a>
+                                        </h3>
+                                    <p className="text-gray-600 mb-4"> A Journey Through Word, Sentence Segmentation and Capitalization with Python </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Neural Networks</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Natural Language Processing</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Word Capitalization</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                                        <a href="https://pauljeffrey.github.io/post/true-casing/">
+                                            Unraveling the Secrets of Raw Text (Part 2)
+                                        </a>
+                                        </h3>
+                                    <p className="text-gray-600 mb-4"> A Journey Through Word, Sentence Segmentation and Capitalization with Python </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Neural Networks</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Natural Language Processing</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Sentence Segmentation</span>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                                        <a href="https://pauljeffrey.github.io/post/true-casing/">
+                                            Unraveling the Secrets of Raw Text (Part 1)
+                                        </a>
+                                        </h3>
+                                    <p className="text-gray-600 mb-4"> A Journey Through Word, Sentence Segmentation and Capitalization with Python </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Neural Networks</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Natural Language Processing</span>
+                                        <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Word Segmentation</span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        )}
+
                     </div>
 
                     {/* Philosophy Section */}
