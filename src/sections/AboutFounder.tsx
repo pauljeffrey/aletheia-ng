@@ -88,21 +88,25 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                         <div className="text-gray-600 space-y-4">
                             <p>
                                 I am a Medical Doctor and AI Expert with a passion for merging 
-                                the worlds of healthcare and artificial intelligence. With a robust 5-year track record, I have delivered 
+                                the worlds of healthcare and artificial intelligence. With a robust 6-year track record, I have delivered 
                                 innovative AI solutions across various domains, including <span className="font-semibold">audio processing, computer vision, and natural language processing</span>.
                             </p>
                             <p>
                                 As the lead Engineer and Researcher behind <span className="font-semibold">SabiYarn</span>, Nigeria's first LLM capable of text generation 
-                                in multiple Nigerian languages, and the co-founder of <span className="font-semibold">Autobiz</span>, a platform for business automation (SMEs), 
-                                I am committed to pushing the boundaries of AI for meaningful societal impact.
+                                in multiple Nigerian languages, I am committed to pushing the boundaries of AI for meaningful societal impact.
                             </p>
-                            <p>
+                            {/* <p>
                                 Currently, I am pursuing a Master's degree in Robotics and Autonomous Systems with a focus on biomedical engineering at Arizona State University, 
                                 further expanding my expertise at the intersection of healthcare and cutting-edge technology.
+                            </p> */}
+                            <p>
+                                My  technical proficiency in <span className="font-semibold">end-to-end LLM development, 
+                                including RLHF</span>, allows me to identify challenges and develop trustworthy, compliant technological solutions. 
+                                I am particularly focused on creating robust, scalable, and ethically-responsible AI that transforms healthcare delivery 
+                                and preserves cultural diversity through language technology.
                             </p>
                             <p>
-                                My unique blend of clinical expertise and technical proficiency allows me to identify healthcare challenges and develop innovative technological solutions. 
-                                I am particularly interested in the integration of AI, robotics, and nanotechnology to transform healthcare delivery globally.
+                                My long-term vision lies in the integration of AI, robotics, and nanotechnology to transform healthcare delivery globally.
                             </p>
                         </div>
                     </div>
