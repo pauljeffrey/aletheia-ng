@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Settings, Loader2 } from "lucide-react";
+import { Send, Bot, User, Settings, Loader2, Info, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -85,6 +85,7 @@ export function PretrainedModelsTab() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [showInstructions, setShowInstructions] = useState<boolean>(true);
   const [config, setConfig] = useState<ModelConfig>({
     maxLength: 100,
     maxNewTokens: 80,
@@ -189,6 +190,80 @@ export function PretrainedModelsTab() {
       {/* Sidebar */}
       <div className="w-80 border-r border-primary-green/30 bg-bg-card p-5 overflow-y-auto">
         <div className="space-y-5">
+          {/* Instructions Section */}
+          <div className="border border-primary-green/30 rounded-lg overflow-hidden">
+            <button
+              onClick={() => setShowInstructions(!showInstructions)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-primary-green/10 hover:bg-primary-green/20 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <Info className="w-4 h-4 text-primary-green" />
+                <span className="text-sm font-semibold text-primary-green">
+                  Instructions: How to use
+                </span>
+              </div>
+              {showInstructions ? (
+                <ChevronUp className="w-4 h-4 text-primary-green" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-primary-green" />
+              )}
+            </button>
+            {showInstructions && (
+              <div className="px-4 py-4 bg-bg-dark-secondary/50 border-t border-primary-green/20">
+                <div className="text-xs text-text-light space-y-3 leading-relaxed">
+                  <div>
+                    <strong className="text-primary-green">1. Write Text or Select Sample:</strong>
+                    <p className="mt-1">Enter text in the text area or use the dropdown to choose a sample.</p>
+                  </div>
+                  <div>
+                    <strong className="text-primary-green">2. Select a Task:</strong>
+                    <p className="mt-1">Choose a task from the <strong>task dropdown</strong> if using your own text.</p>
+                    <p className="mt-1 text-primary-green/80">Important: This ensures correct model response.</p>
+                  </div>
+                  <div>
+                    <strong className="text-primary-green">3. Avoid Conflicts:</strong>
+                    <p className="mt-1">Don't select a sample text if using your own text.</p>
+                  </div>
+                  <div>
+                    <strong className="text-primary-green">4. Select Nigerian Language:</strong>
+                    <p className="mt-1">If prompted, choose the Nigerian language (it represents the input/base language for diacritization/cleaning, target language for translation).</p>
+                  </div>
+                  <div>
+                    <strong className="text-primary-green">5. Generate Output:</strong>
+                    <p className="mt-1">Click the Send button to generate the response.</p>
+                  </div>
+                  <div>
+                    <strong className="text-primary-green">6. Translation Tips:</strong>
+                    <ul className="mt-1 ml-4 list-disc space-y-1">
+                      <li>English as the target language gives the best results.</li>
+                      <li>You can also do inter-language translation i.e yoruba to igbo</li>
+                      <li>Use sentences instead of words for better results.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong className="text-primary-green">7. Performance Note:</strong>
+                    <ul className="mt-1 ml-4 list-disc space-y-1">
+                      <li>The model's performance varies due to its size and training data. It performs best on text generation and translation.</li>
+                      <li>For other tasks, try multiple times if model's output is not optimal (This is due to the generator's sampling parameter settings).</li>
+                      <li><strong>It's best to read/understand/translate the model's output completely first. Model can sometimes fail to stop generation after providing correct answers.</strong></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong className="text-primary-green">8. Other Tips:</strong>
+                    <ul className="mt-1 ml-4 list-disc space-y-1">
+                      <li>Use simple instructions for instruction following.</li>
+                      <li>For question answering and generation, follow the structure in the corresponding sample text.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong className="text-primary-green">9. Adjust Parameters:</strong>
+                    <p className="mt-1">Experiment with the generation parameters below to improve performance. However, default values are sufficient.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-semibold text-primary-green mb-2">
               Select Model
@@ -412,7 +487,7 @@ export function PretrainedModelsTab() {
                   handleSend();
                 }
               }}
-              placeholder="Enter your text here... (Please read instructions in the sidebar for the best experience)"
+              placeholder="Enter your text here... (See instructions above for guidance)"
               className="flex-1 px-5 py-3 border border-primary-green/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green resize-none bg-bg-dark-secondary text-text-white shadow-sm hover:border-primary-green/50 transition-all"
               rows={3}
             />

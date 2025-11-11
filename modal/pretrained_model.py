@@ -18,8 +18,8 @@ stub = modal.Stub("sabiyarn-fastapi-app")
 image = (
     modal.Image.debian_slim(python_version="3.10")
     .pip_install(
-        "transformers==4.35.0",
-        "torch==2.1.0",
+        "transformers==4.41.2",
+        "torch==2.2.0",
         "accelerate==0.24.0",
         "fastapi==0.104.1",
         "uvicorn==0.24.0",
