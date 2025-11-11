@@ -1,29 +1,37 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack(config) {
-    // Grab the existing rule that handles SVG imports
-    const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg")
-    );
+  webpack(config, { isServer }) {
+    // Only configure SVG handling if @svgr/webpack is available
+    // We're using React components for icons now, but keep this for any future SVG imports
+    try {
+      const fileLoaderRule = config.module.rules.find((rule) =>
+        rule.test?.test?.(".svg")
+      );
 
-    config.module.rules.push(
-      // Reapply the existing rule, but only for svg imports ending in ?url
-      {
-        ...fileLoaderRule,
-        test: /\.svg$/i,
-        resourceQuery: /url/, // *.svg?url
-      },
-      // Convert all other *.svg imports to React components
-      {
-        test: /\.svg$/i,
-        issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
-        use: ["@svgr/webpack"],
+      if (fileLoaderRule) {
+        config.module.rules.push(
+          // Reapply the existing rule, but only for svg imports ending in ?url
+          {
+            ...fileLoaderRule,
+            test: /\.svg$/i,
+            resourceQuery: /url/, // *.svg?url
+          },
+          // Convert all other *.svg imports to React components
+          {
+            test: /\.svg$/i,
+            issuer: fileLoaderRule.issuer,
+            resourceQuery: { not: [...(fileLoaderRule.resourceQuery?.not || []), /url/] }, // exclude if *.svg?url
+            use: ["@svgr/webpack"],
+          }
+        );
+
+        // Modify the file loader rule to ignore *.svg, since we have it handled now.
+        fileLoaderRule.exclude = /\.svg$/i;
       }
-    );
-
-    // Modify the file loader rule to ignore *.svg, since we have it handled now.
-    fileLoaderRule.exclude = /\.svg$/i;
+    } catch (error) {
+      // If SVG handling fails, continue without it (we're using React components anyway)
+      console.warn("SVG webpack configuration skipped:", error.message);
+    }
 
     return config;
   },
@@ -49,6 +57,16 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+  },
+
+  async redirects() {
+    return [
+      {
+        source: '/products/about',
+        destination: '/about',
+        permanent: true,
+      },
+    ];
   },
 };
 

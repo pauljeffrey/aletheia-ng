@@ -2,17 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-bg-dark text-text-white;
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(0, 217, 165, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0, 184, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(0, 255, 229, 0.05) 0%, transparent 50%);
+  }
+}
+
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium inline-flex items-center justify-center tracking-tight;
+    @apply px-6 py-3 rounded-xl font-semibold inline-flex items-center justify-center tracking-tight transition-all duration-300 transform;
   }
 
   .btn-primary {
-    @apply bg-black text-white;
+    @apply bg-gradient-hover text-white hover:scale-105 hover:shadow-glow-lg active:scale-95;
   }
 
   .btn-text {
-    @apply text-black bg-transparent;
+    @apply text-primary-green bg-transparent hover:text-primary-blue hover:scale-105;
+  }
+
+  .btn-secondary {
+    @apply bg-primary-blue text-white hover:bg-secondary-blue hover:shadow-glow hover:scale-105;
   }
 
   .logo-ticker-image {
@@ -20,15 +34,15 @@
   }
 
   .tag {
-    @apply text-sm inline-flex border border-[#222]/10 px-3 py-1 rounded-lg tracking-tight;
+    @apply text-sm inline-flex border border-primary-green/30 px-4 py-2 rounded-full tracking-tight bg-white/80 text-primary-green backdrop-blur-sm hover:bg-primary-green hover:text-white transition-all duration-300;
   }
 
   .section-title {
-    @apply text-center text-3xl md:text-[54px] md:leading-[60px] font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] text-transparent bg-clip-text;
+    @apply text-center text-3xl md:text-[54px] md:leading-[60px] font-bold tracking-tighter bg-gradient-futuristic text-transparent bg-clip-text;
   }
 
   .section-description {
-    @apply text-center text-[22px] leading-[30px] tracking-tight text-[#010D3E];
+    @apply text-center text-[22px] leading-[30px] tracking-tight text-text-medium;
   }
 
   .section-heading {
@@ -36,6 +50,26 @@
   }
 
   .card {
-    @apply p-10 border border-[#222222]/10 rounded-3xl shadow-[0_7px_14px_#EAEAEA] max-w-xs w-full;
+    @apply p-8 border border-primary-green/30 rounded-2xl shadow-lg max-w-xs w-full bg-gradient-card backdrop-blur-sm hover:shadow-glow hover:scale-105 hover:border-primary-green/60 transition-all duration-300;
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-xl bg-bg-dark-secondary/90 border border-primary-green/20 shadow-lg;
+  }
+
+  .futuristic-glow {
+    @apply shadow-glow hover:shadow-glow-lg transition-all duration-300;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-2;
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300 hover:shadow-glow;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-futuristic text-transparent bg-clip-text;
   }
 }

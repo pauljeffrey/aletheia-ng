@@ -51,7 +51,7 @@ export function ExpandableCardDemo() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-lg h-full w-full z-50"
+            className="fixed inset-0 bg-black/60 backdrop-blur-md h-full w-full z-50"
           />
         )}
       </AnimatePresence>
@@ -61,7 +61,7 @@ export function ExpandableCardDemo() {
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="w-full max-w-5xl bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden my-auto"
+              className="w-full max-w-5xl bg-gradient-card backdrop-blur-lg sm:rounded-3xl overflow-hidden my-auto shadow-2xl border border-primary-green/30"
             >
               <div className="relative">
                 {/* <motion.div layoutId={`image-${active.title}-${id}`}>
@@ -75,22 +75,22 @@ export function ExpandableCardDemo() {
                   />
                 </motion.div> */}
                 <button
-                  className="absolute top-4 right-4 h-8 w-8 bg-black/50 dark:bg-white/50 rounded-full flex items-center justify-center"
+                  className="absolute top-4 right-4 h-10 w-10 bg-bg-dark-secondary/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-primary-green hover:text-white transition-all shadow-lg hover:scale-110 z-50 border border-primary-green/30"
                   onClick={() => setActive(null)}
                 >
-                  <IconX className="h-6 w-6 text-white dark:text-black" />
+                  <IconX className="h-6 w-6 text-text-white" />
                 </button>
               </div>
               <div className="p-4 md:p-10 max-h-[calc(100vh-80px)] overflow-y-auto">
                 <motion.h3
                   layoutId={`title-${active.title}-${id}`}
-                  className="text-2xl md:text-5xl font-semibold text-neutral-700 dark:text-white"
+                  className="text-2xl md:text-5xl font-bold gradient-text mt-2"
                 >
                   {active.title}
                 </motion.h3>
                 <motion.p
                   layoutId={`description-${active.description}-${id}`}
-                  className="text-neutral-600 dark:text-neutral-400 text-base mt-2"
+                  className="text-text-light text-base mt-3"
                 >
                   {active.description}
                 </motion.p>
@@ -99,7 +99,7 @@ export function ExpandableCardDemo() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-neutral-600 dark:text-neutral-400 text-base mt-8"
+                  className="text-text-light text-base mt-8"
                 >
                   {typeof active.content === "function" ? active.content() : active.content}
                 </motion.div>
@@ -150,35 +150,37 @@ const Carousel = ({ items }: { items: JSX.Element[] }) => {
         ref={carouselRef}
         onScroll={checkScrollability}
       >
-        <div className={cn("absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l")}></div>
-        <div className={cn("flex flex-row justify-start gap-4 pl-4", "max-w-7xl mx-auto")}>
+        <div className={cn("absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l from-transparent to-bg-dark")}></div>
+        <div className={cn("flex flex-row justify-start gap-6 pl-4", "max-w-7xl mx-auto")}>
           {items.map((item, index) => (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 * index, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 30, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 * index, ease: "easeOut" }}
               key={`card-${index}`}
-              className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+              className="last:pr-[5%] md:last:pr-[33%]"
+              whileHover={{ scale: 1.02 }}
             >
               {item}
             </motion.div>
           ))}
         </div>
       </div>
-      <div className="flex justify-end gap-2 mr-10">
+      <div className="flex justify-end gap-3 mr-10">
         <button
-          className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+          className="relative z-40 h-12 w-12 rounded-full bg-bg-card backdrop-blur-sm border border-primary-green/30 flex items-center justify-center disabled:opacity-50 hover:bg-primary-green hover:text-white hover:border-primary-green transition-all shadow-lg hover:scale-110 disabled:hover:scale-100"
           onClick={scrollLeft}
           disabled={!canScrollLeft}
         >
-          <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
+          <IconArrowNarrowLeft className="h-6 w-6 text-primary-green" />
         </button>
         <button
-          className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+          className="relative z-40 h-12 w-12 rounded-full bg-bg-card backdrop-blur-sm border border-primary-green/30 flex items-center justify-center disabled:opacity-50 hover:bg-primary-green hover:text-white hover:border-primary-green transition-all shadow-lg hover:scale-110 disabled:hover:scale-100"
           onClick={scrollRight}
           disabled={!canScrollRight}
         >
-          <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
+          <IconArrowNarrowRight className="h-6 w-6 text-primary-green" />
         </button>
       </div>
     </div>
@@ -190,26 +192,30 @@ const Card = ({ card, setActive, id }: { card: (typeof cards)[number]; index: nu
       <motion.div
         layoutId={`card-${card.title}-${id}`}
         onClick={() => setActive(card)}
-        className="rounded-3xl bg-white dark:bg-neutral-900 h-auto w-56 md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10 shadow-md cursor-pointer"
+        className="rounded-2xl bg-gradient-card backdrop-blur-sm h-auto w-56 md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10 shadow-lg cursor-pointer border border-primary-green/30 hover:shadow-glow hover:scale-105 hover:border-primary-green/60 transition-all duration-300 group"
+        whileHover={{ y: -5 }}
       >
-        <motion.div layoutId={`image-${card.title}-${id}`} className="w-full h-72 md:h-96 relative">
+        <motion.div 
+          layoutId={`image-${card.title}-${id}`} 
+          className="w-full h-72 md:h-96 relative overflow-hidden"
+        >
           <Image
             src={card.src}
             alt={card.title}
             fill
-            className="object-cover"
+            className="object-cover group-hover:scale-110 transition-transform duration-300"
           />
         </motion.div>
-        <div className="p-4">
+        <div className="p-5">
           <motion.h3
             layoutId={`title-${card.title}-${id}`}
-            className="text-lg md:text-xl font-semibold text-neutral-800 dark:text-white"
+            className="text-lg md:text-xl font-bold text-text-white group-hover:text-primary-green transition-colors"
           >
             {card.title}
           </motion.h3>
           <motion.p
             layoutId={`description-${card.title}-${id}`}
-            className="text-sm md:text-base text-neutral-600 dark:text-neutral-400 mt-1"
+            className="text-sm md:text-base text-text-light mt-2"
           >
             {card.description}
           </motion.p>
@@ -228,16 +234,18 @@ const cards = [
       content: () => {
         return (
             <>
-            <p>SabiYarn v1 is a foundational AI language model tailored for Nigerian languages, offering powerful capabilities in translation, sentiment analysis, topic classification and text generation for 8 indigenous languages. It was designed with an objective– to bridge communication gaps across Nigeria’s multilingual landscape, enabling people and businesses to engage with diverse audiences effectively.</p>
+            <p className="text-text-light leading-relaxed">SabiYarn is a foundational AI language model tailored for Nigerian languages, offering powerful capabilities in translation, sentiment analysis, topic classification and text generation for 8 indigenous languages. It was designed with an objective– to bridge communication gaps across Nigeria's multilingual landscape, enabling people and businesses to engage with diverse audiences effectively.</p>
             <br />
-            <p><ul>              
-              <b>Key Features:</b>
+            <p className="text-text-white"><strong className="text-primary-green">Key Features:</strong></p>
+            <ul className="list-disc list-inside space-y-2 text-text-light mt-2">
               <li>Supports major Nigerian languages like Yoruba, Hausa, Igbo, and Pidgin.</li>
               <li>Multitask capabilities in translation, sentiment analysis, and text generation.</li>
               <li>Localized solutions for businesses/organizations to interact with Nigerian customers.</li>
-            </ul></p>
+            </ul>
             <br />
-            <p><a href="https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M">Check out the demo here</a></p>
+            <a href="/products/sabiyarn" className="inline-block mt-4 px-6 py-2 bg-gradient-hover text-white rounded-lg hover:shadow-glow transition-all font-medium">
+              Try SabiYarn Models
+            </a>
             </>
         );
       },
@@ -294,13 +302,17 @@ const cards = [
       content: () => {
         return (
             <>
-            <p>Ottobiz is an AI-enhanced market platform that automates key aspects of the sales cycle, from advertising, product inquiry to payment verification and logistics. It boosts efficiency, enhances customer experience, and drives revenue through intelligent automation and data insights. This is being built in partnership with Datached.</p>
+            <p className="text-text-light leading-relaxed">Ottobiz is an AI-enhanced market platform that automates key aspects of the sales cycle, from advertising, product inquiry to payment verification and logistics. It boosts efficiency, enhances customer experience, and drives revenue through intelligent automation and data insights. This is being built in partnership with Datached.</p>
             <br />
-            <p><ul>              
-              <b>Key Features:</b>
+            <p className="text-text-white"><strong className="text-primary-green">Key Features:</strong></p>
+            <ul className="list-disc list-inside space-y-2 text-text-light mt-2">
               <li>Automates sales inquiries, payment verification, and logistics.</li>
               <li>Provides insights for upselling.</li>
-            </ul></p>
+            </ul>
+            <br />
+            <a href="/products/ottobiz" className="inline-block mt-4 px-6 py-2 bg-gradient-hover text-white rounded-lg hover:shadow-glow transition-all font-medium">
+              Learn More About Ottobiz
+            </a>
             </>
         );
       },
