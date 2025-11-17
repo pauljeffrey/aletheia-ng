@@ -57,7 +57,7 @@ def generate_text(model_id: str, prompt: str, config: dict) -> str:
     
     try:
         # Load tokenizer and model
-        tokenizer = AutoTokenizer.from_pretrained(repo_name, trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_REPOS["sabiyarn-125m"], trust_remote_code=True)
         model = AutoModelForCausalLM.from_pretrained(
             repo_name, trust_remote_code=True
         ).to(device)
