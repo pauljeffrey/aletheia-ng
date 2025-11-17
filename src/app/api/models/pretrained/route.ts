@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Modal endpoint URLs - verify these match your actual deployments
+// Get exact URLs from: modal app show sabiyarn-fastapi-app
+// Or click "Web endpoint" in Modal dashboard
 const API_URLS = [
   "https://naijaai--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
-  "https://pauljeffrey--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
   "https://model-host--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
+  "https://pauljeffrey--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
 ];
 export async function POST(request: NextRequest) {
   try {
