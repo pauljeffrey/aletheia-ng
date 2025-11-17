@@ -220,14 +220,14 @@ const wrapInput = (
     effectiveTask === "Text Diacritization" ||
     effectiveTask === "Text Cleaning"
   ) {
-    const langTag = LANGUAGE_OPTIONS[language as keyof typeof LANGUAGE_OPTIONS] || "";
+      const langTag = LANGUAGE_OPTIONS[language as keyof typeof LANGUAGE_OPTIONS] || "";
     taskValue = taskValue.replace("{}", `${text} ${langTag}`.trim());
-  } else {
-    taskValue = taskValue.replace("{}", text);
-  }
-  
-  return taskValue;
-};
+    } else {
+      taskValue = taskValue.replace("{}", text);
+    }
+    
+    return taskValue;
+  };
 
   const handleSend = async () => {
     if (!selectedModel || !inputText.trim()) {
@@ -342,7 +342,7 @@ const wrapInput = (
                   </div>
                   <div>
                     <strong className="text-primary-green">3. Avoid Conflicts:</strong>
-                    <p className="mt-1">Don't select a sample text if using your own text.</p>
+                    <p className="mt-1">Don&apos;t select a sample text if using your own text.</p>
                   </div>
                   <div>
                     <strong className="text-primary-green">4. Select Nigerian Language:</strong>
@@ -363,9 +363,9 @@ const wrapInput = (
                   <div>
                     <strong className="text-primary-green">7. Performance Note:</strong>
                     <ul className="mt-1 ml-4 list-disc space-y-1">
-                      <li>The model's performance varies due to its size and training data. It performs best on text generation and translation.</li>
-                      <li>For other tasks, try multiple times if model's output is not optimal (This is due to the generator's sampling parameter settings).</li>
-                      <li><strong>It's best to read/understand/translate the model's output completely first. Model can sometimes fail to stop generation after providing correct answers.</strong></li>
+                      <li>The model&apos;s performance varies due to its size and training data. It performs best on text generation and translation.</li>
+                      <li>For other tasks, try multiple times if model&apos;s output is not optimal (This is due to the generator&apos;s sampling parameter settings).</li>
+                      <li><strong>It&apos;s best to read/understand/translate the model&apos;s output completely first. Model can sometimes fail to stop generation after providing correct answers.</strong></li>
                     </ul>
                   </div>
                   <div>
@@ -382,6 +382,19 @@ const wrapInput = (
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Warning Section */}
+          <div className="border border-yellow-500/50 rounded-lg overflow-hidden bg-yellow-500/10">
+            <div className="px-4 py-3">
+              <div className="flex items-start gap-2">
+                <Info className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+                <div className="text-xs text-yellow-200 space-y-1">
+                  <p className="font-semibold text-yellow-400">Important Notice:</p>
+                  <p>These models are <strong>not designed for chat format</strong> and <strong>cannot maintain context</strong> across multiple messages. Each prompt is processed independently.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div>
@@ -429,22 +442,22 @@ const wrapInput = (
           </div>
 
           {currentBehavior.showTaskSelector ? (
-            <div>
-              <label className="block text-sm font-semibold text-primary-green mb-2">
-                Task
-              </label>
-              <select
-                value={selectedTask}
-                onChange={(e) => setSelectedTask(e.target.value)}
-                className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
-              >
+          <div>
+            <label className="block text-sm font-semibold text-primary-green mb-2">
+              Task
+            </label>
+            <select
+              value={selectedTask}
+              onChange={(e) => setSelectedTask(e.target.value)}
+              className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
+            >
                 {availableTasks.map((task) => (
-                  <option key={task} value={task}>
-                    {task === "select" ? "Select task..." : task}
-                  </option>
-                ))}
-              </select>
-            </div>
+                <option key={task} value={task}>
+                  {task === "select" ? "Select task..." : task}
+                </option>
+              ))}
+            </select>
+          </div>
           ) : currentBehavior.presetTask ? (
             <div className="p-3 border border-primary-green/30 rounded-lg bg-bg-dark-secondary/70 text-sm text-text-light">
               <p>

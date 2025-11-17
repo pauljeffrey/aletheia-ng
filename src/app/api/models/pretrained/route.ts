@@ -45,12 +45,13 @@ export async function POST(request: NextRequest) {
         topP: typeof config?.topP === "string"
           ? parseFloat(config.topP)
           : (config?.topP || 0.95),
+        // Ensure penalty values are always floats (not integers)
         repetitionPenalty: typeof config?.repetitionPenalty === "string"
-          ? parseFloat(config.repetitionPenalty)
-          : (config?.repetitionPenalty || 4.0),
+          ? parseFloat(config.repetitionPenalty) || 4.0
+          : (config?.repetitionPenalty ? parseFloat(String(config.repetitionPenalty)) || 4.0 : 4.0),
         lengthPenalty: typeof config?.lengthPenalty === "string"
-          ? parseFloat(config.lengthPenalty)
-          : (config?.lengthPenalty || 3.0),
+          ? parseFloat(config.lengthPenalty) || 3.0
+          : (config?.lengthPenalty ? parseFloat(String(config.lengthPenalty)) || 3.0 : 3.0),
         earlyStopping: true,
         eosTokenId: 32,
       },
