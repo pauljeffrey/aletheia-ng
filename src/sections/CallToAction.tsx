@@ -1,18 +1,14 @@
 "use client";
 import { ArrowRight } from "@/components/icons/ArrowRight";
-import starImage from "@/assets/star.png";
-import springImage from "@/assets/spring.png";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { useRef } from "react";
 
 export const CallToAction = () => {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
+  useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   });
-
-  const translateY = useTransform(scrollYProgress, [0, 1], [150, -150]);
   return (
     <section
       ref={sectionRef}
@@ -37,8 +33,8 @@ export const CallToAction = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="section-description mt-6 text-text-light"
           >
-          We are on a mission to create meaningful impact through AI, and we're looking for visionary partners to join us on this journey. Whether you are an investor, business aiming to integrate AI into your workflow or an organization seeking to solve complex challenges, Aletheia AI is here to help.
-          Let's build the future together.
+          We are on a mission to create meaningful impact through AI, and we&apos;re looking for visionary partners to join us on this journey. Whether you are an investor, business aiming to integrate AI into your workflow or an organization seeking to solve complex challenges, Aletheia AI is here to help.
+          Let&apos;s build the future together.
           </motion.p>
           <motion.div
             className="absolute -left-[300px] -top-[100px] hidden lg:block"
