@@ -76,6 +76,57 @@ const SAMPLE_TEXTS = {
   "clean this text": "Abin mamaki ne aikin da shugabaZn HNajeriya ybake yi. kCiF 39gaba Tda haRkGa sir!",
 };
 
+type ModelBehavior = {
+  showTaskSelector: boolean;
+  allowedTasks?: string[];
+  presetTask?: string;
+  showLanguageSelector: boolean;
+  allowedLanguages?: string[];
+  translationDirections?: {
+    id: string;
+    label: string;
+    languageTag: string;
+  }[];
+};
+
+const DEFAULT_BEHAVIOR: ModelBehavior = {
+  showTaskSelector: true,
+  showLanguageSelector: true,
+};
+
+const MODEL_BEHAVIOR: Record<string, ModelBehavior> = {
+  "sabiyarn-125m": DEFAULT_BEHAVIOR,
+  "sabiyarn-finetune": DEFAULT_BEHAVIOR,
+  "sabiyarn-sentiment": {
+    showTaskSelector: false,
+    presetTask: "Sentiment Classification",
+    showLanguageSelector: false,
+  },
+  "sabiyarn-topic": {
+    showTaskSelector: false,
+    presetTask: "Topic Classification",
+    showLanguageSelector: false,
+  },
+  "sabiyarn-translate": {
+    showTaskSelector: false,
+    presetTask: "Translation",
+    showLanguageSelector: true,
+  },
+  "sabiyarn-igbo-translate": {
+    showTaskSelector: false,
+    presetTask: "Translation",
+    showLanguageSelector: false,
+    translationDirections: [
+      { id: "english-igbo", label: "English → Igbo", languageTag: "<ibo>" },
+      { id: "igbo-english", label: "Igbo → English", languageTag: "<eng>" },
+    ],
+  },
+  "sabiyarn-language-detection": {
+    showTaskSelector: false,
+    showLanguageSelector: false,
+  },
+};
+
 export function PretrainedModelsTab() {
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [selectedTask, setSelectedTask] = useState<string>("select");
@@ -85,7 +136,8 @@ export function PretrainedModelsTab() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
-  const [showInstructions, setShowInstructions] = useState<boolean>(true);
+  const [showInstructions, setShowInstructions] = useState<boolean>(false);
+  const [translationDirection, setTranslationDirection] = useState<string>("english-igbo");
   const [config, setConfig] = useState<ModelConfig>({
     maxLength: 100,
     maxNewTokens: 80,
@@ -98,6 +150,7 @@ export function PretrainedModelsTab() {
     doSample: false,
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -108,27 +161,88 @@ export function PretrainedModelsTab() {
   }, [messages]);
 
   useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    const behavior = MODEL_BEHAVIOR[selectedModel] || DEFAULT_BEHAVIOR;
+    if (behavior.presetTask) {
+      setSelectedTask(behavior.presetTask);
+    } else {
+      setSelectedTask("select");
+    }
+
+    if (!behavior.showLanguageSelector) {
+      setSelectedLanguage("select");
+    }
+
+    if (behavior.translationDirections && behavior.translationDirections.length > 0) {
+      setTranslationDirection(behavior.translationDirections[0].id);
+    }
+  }, [selectedModel]);
+
+  useEffect(() => {
     if (selectedSample !== "select" && SAMPLE_TEXTS[selectedSample as keyof typeof SAMPLE_TEXTS]) {
       setInputText(SAMPLE_TEXTS[selectedSample as keyof typeof SAMPLE_TEXTS]);
     }
   }, [selectedSample]);
 
-  const wrapInput = (text: string, task: string, language: string): string => {
-    let taskValue = TASK_OPTIONS[task as keyof typeof TASK_OPTIONS] || "{}";
-    
-    if (task === "Translation" || task === "Text Diacritization" || task === "Text Cleaning") {
-      const langTag = LANGUAGE_OPTIONS[language as keyof typeof LANGUAGE_OPTIONS] || "";
-      taskValue = taskValue.replace("{}", `${text} ${langTag}`);
-    } else {
-      taskValue = taskValue.replace("{}", text);
-    }
-    
-    return taskValue;
-  };
+  const currentBehavior = MODEL_BEHAVIOR[selectedModel] || DEFAULT_BEHAVIOR;
+  const availableTasks = currentBehavior.allowedTasks || Object.keys(TASK_OPTIONS);
+  const availableLanguages = currentBehavior.allowedLanguages || Object.keys(LANGUAGE_OPTIONS);
+
+const wrapInput = (
+  text: string,
+  task: string,
+  language: string,
+  modelId: string,
+  translationDirection: string,
+): string => {
+  const behavior = MODEL_BEHAVIOR[modelId] || DEFAULT_BEHAVIOR;
+
+  if (modelId === "sabiyarn-language-detection") {
+    return text;
+  }
+
+  if (behavior.translationDirections && behavior.translationDirections.length > 0) {
+    const direction =
+      behavior.translationDirections.find((dir) => dir.id === translationDirection) ||
+      behavior.translationDirections[0];
+    const template = TASK_OPTIONS["Translation" as keyof typeof TASK_OPTIONS] || "{}";
+    return template.replace("{}", `${text} ${direction.languageTag}`.trim());
+  }
+
+  const effectiveTask = behavior.presetTask || task;
+  let taskValue = TASK_OPTIONS[effectiveTask as keyof typeof TASK_OPTIONS] || "{}";
+  
+  if (
+    effectiveTask === "Translation" ||
+    effectiveTask === "Text Diacritization" ||
+    effectiveTask === "Text Cleaning"
+  ) {
+    const langTag = LANGUAGE_OPTIONS[language as keyof typeof LANGUAGE_OPTIONS] || "";
+    taskValue = taskValue.replace("{}", `${text} ${langTag}`.trim());
+  } else {
+    taskValue = taskValue.replace("{}", text);
+  }
+  
+  return taskValue;
+};
 
   const handleSend = async () => {
     if (!selectedModel || !inputText.trim()) {
       alert("Please select a model and enter some text");
+      return;
+    }
+
+    const behavior = MODEL_BEHAVIOR[selectedModel] || DEFAULT_BEHAVIOR;
+
+    if (
+      behavior.showLanguageSelector &&
+      (selectedTask === "Translation" || selectedTask === "Text Diacritization" || selectedTask === "Text Cleaning") &&
+      selectedLanguage === "select"
+    ) {
+      alert("Please select a language for this task.");
       return;
     }
 
@@ -142,7 +256,13 @@ export function PretrainedModelsTab() {
     setIsLoading(true);
 
     try {
-      const wrappedInput = wrapInput(inputText, selectedTask, selectedLanguage);
+      const wrappedInput = wrapInput(
+        inputText,
+        selectedTask,
+        selectedLanguage,
+        selectedModel,
+        translationDirection
+      );
       
       const response = await fetch("/api/models/pretrained", {
         method: "POST",
@@ -308,24 +428,36 @@ export function PretrainedModelsTab() {
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-primary-green mb-2">
-              Task
-            </label>
-            <select
-              value={selectedTask}
-              onChange={(e) => setSelectedTask(e.target.value)}
-              className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
-            >
-              {Object.keys(TASK_OPTIONS).map((task) => (
-                <option key={task} value={task}>
-                  {task === "select" ? "Select task..." : task}
-                </option>
-              ))}
-            </select>
-          </div>
+          {currentBehavior.showTaskSelector ? (
+            <div>
+              <label className="block text-sm font-semibold text-primary-green mb-2">
+                Task
+              </label>
+              <select
+                value={selectedTask}
+                onChange={(e) => setSelectedTask(e.target.value)}
+                className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
+              >
+                {availableTasks.map((task) => (
+                  <option key={task} value={task}>
+                    {task === "select" ? "Select task..." : task}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : currentBehavior.presetTask ? (
+            <div className="p-3 border border-primary-green/30 rounded-lg bg-bg-dark-secondary/70 text-sm text-text-light">
+              <p>
+                <span className="text-primary-green font-semibold">Task:</span> {currentBehavior.presetTask}
+              </p>
+              <p className="text-xs mt-1">This model is optimized for this task.</p>
+            </div>
+          ) : null}
 
-          {(selectedTask === "Translation" || selectedTask === "Text Diacritization" || selectedTask === "Text Cleaning") && (
+          {currentBehavior.showLanguageSelector &&
+            (selectedTask === "Translation" ||
+              selectedTask === "Text Diacritization" ||
+              selectedTask === "Text Cleaning") && (
             <div>
               <label className="block text-sm font-semibold text-primary-green mb-2">
                 Language
@@ -335,9 +467,28 @@ export function PretrainedModelsTab() {
                 onChange={(e) => setSelectedLanguage(e.target.value)}
                 className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
               >
-                {Object.keys(LANGUAGE_OPTIONS).map((lang) => (
+                {availableLanguages.map((lang) => (
                   <option key={lang} value={lang}>
                     {lang === "select" ? "Select language..." : lang}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {currentBehavior.translationDirections && (
+            <div>
+              <label className="block text-sm font-semibold text-primary-green mb-2">
+                Translation Direction
+              </label>
+              <select
+                value={translationDirection}
+                onChange={(e) => setTranslationDirection(e.target.value)}
+                className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
+              >
+                {currentBehavior.translationDirections.map((direction) => (
+                  <option key={direction.id} value={direction.id}>
+                    {direction.label}
                   </option>
                 ))}
               </select>
@@ -479,6 +630,7 @@ export function PretrainedModelsTab() {
         <div className="border-t border-primary-green/30 p-5 bg-bg-card backdrop-blur-sm">
           <div className="flex gap-3 max-w-5xl mx-auto">
             <textarea
+              ref={inputRef}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               onKeyDown={(e) => {

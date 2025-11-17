@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URLS = [
-  "https://naijaai--sabiyarn-fastapi-app.modal.run/predict",
-  "https://pauljeffrey--sabiyarn-fastapi-app.modal.run/predict",
-  "https://model-host--sabiyarn-fastapi-app.modal.run/predict",
+  "https://naijaai--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
+  "https://pauljeffrey--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
+  "https://model-host--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
 ];
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -64,6 +63,7 @@ export async function POST(request: NextRequest) {
         } else {
           const errorText = await response.text().catch(() => "Unknown error");
           console.error(`API error from ${url}:`, response.status, errorText);
+          lastError = new Error(`HTTP ${response.status}: ${errorText}`);
         }
       } catch (error) {
         lastError = error as Error;

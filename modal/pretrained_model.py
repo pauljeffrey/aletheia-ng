@@ -11,8 +11,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Optional
 
-# Create Modal stub
-stub = modal.Stub("sabiyarn-fastapi-app")
+# Create Modal app
+app = modal.App("sabiyarn-fastapi-app")
 
 # Define the image with required dependencies
 image = (
@@ -39,13 +39,13 @@ MODEL_REPOS: Dict[str, str] = {
     "sabiyarn-yoruba-translate": "BeardedMonster/SabiYarn-125M-Yoruba-translate",
     "sabiyarn-language-detection": "BeardedMonster/Sabiyarn_language_detection",
 }
+END_OF_TOKEN_ID= 32
 
-
-@stub.function(
+@app.function(
     image=image,
     gpu="T4",
     timeout=600,
-    container_idle_timeout=300,
+    scaledown_window=300,
 )
 def generate_text(model_id: str, prompt: str, config: dict) -> str:
     """
@@ -75,6 +75,7 @@ def generate_text(model_id: str, prompt: str, config: dict) -> str:
             "repetition_penalty": config.get("repetitionPenalty", 4.0),
             "length_penalty": config.get("lengthPenalty", 3.0),
             "early_stopping": True,
+            "eos_token_id": END_OF_TOKEN_ID,
         }
         
         # Tokenize input
@@ -128,7 +129,12 @@ async def health():
     """Health check endpoint"""
     return {"status": "healthy", "models": list(MODEL_REPOS.keys())}
 
-# Deploy to Modal
-@stub.asgi(app=web_app)
+# Deploy FastAPI app on Modal
+@app.function(
+    image=image,
+    timeout=600,
+    scaledown_window=300,
+)
+@modal.asgi_app()
 def fastapi_app():
     return web_app

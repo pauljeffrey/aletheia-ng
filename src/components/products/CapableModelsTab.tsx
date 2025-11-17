@@ -44,6 +44,10 @@ export function CapableModelsTab() {
     scrollToBottom();
   }, [sessions, activeSessionId]);
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [activeSessionId]);
+
   const createNewSession = () => {
     const newSession: ChatSession = {
       id: Date.now().toString(),

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URLS = [
-  "https://naijaai--sabiyarn-capable.modal.run/predict",
-  "https://pauljeffrey--sabiyarn-capable.modal.run/predict",
-  "https://model-host--sabiyarn-capable.modal.run/predict",
+  "https://naijaai--sabiyarn-capable-fastapi-app.modal.run/predict",
+  "https://pauljeffrey--sabiyarn-capable-fastapi-app.modal.run/predict",
+  "https://model-host--sabiyarn-capable-fastapi-app.modal.run/predict",
 ];
 
 export async function POST(request: NextRequest) {
