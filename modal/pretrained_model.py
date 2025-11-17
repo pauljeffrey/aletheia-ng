@@ -38,6 +38,7 @@ MODEL_REPOS: Dict[str, str] = {
     "sabiyarn-igbo-translate": "BeardedMonster/SabiYarn-125M-Igbo-translate",
     "sabiyarn-yoruba-translate": "BeardedMonster/SabiYarn-125M-Yoruba-translate",
     "sabiyarn-language-detection": "BeardedMonster/Sabiyarn_language_detection",
+    "sabiyarn-32k": "BeardedMonster/sabiyarn-32k-v2"
 }
 END_OF_TOKEN_ID= 32
 
@@ -57,7 +58,7 @@ def generate_text(model_id: str, prompt: str, config: dict) -> str:
     
     try:
         # Load tokenizer and model
-        tokenizer = AutoTokenizer.from_pretrained(repo_name, trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_REPOS["sabiyarn-125m"], trust_remote_code=True)
         model = AutoModelForCausalLM.from_pretrained(
             repo_name, trust_remote_code=True
         ).to(device)
@@ -69,13 +70,13 @@ def generate_text(model_id: str, prompt: str, config: dict) -> str:
             "max_new_tokens": config.get("maxNewTokens", 80),
             "num_beams": config.get("numBeams", 5),
             "do_sample": config.get("doSample", False),
-            "temperature": config.get("temperature", 0.99),
+            "temperature": float(config.get("temperature", 0.99)),
             "top_k": config.get("topK", 50),
-            "top_p": config.get("topP", 0.95),
-            "repetition_penalty": config.get("repetitionPenalty", 4.0),
-            "length_penalty": config.get("lengthPenalty", 3.0),
+            "top_p": float(config.get("topP", 0.95)),
+            "repetition_penalty": float(config.get("repetitionPenalty", 4.0)),
+            "length_penalty": float(config.get("lengthPenalty", 3.0)),
             "early_stopping": True,
-            "eos_token_id": END_OF_TOKEN_ID,
+            "eos_token_id": END_OF_TOKEN_ID if model_id != "sabiyarn-32k" else tokenizer.eos_token_id,
         }
         
         # Tokenize input
@@ -86,7 +87,7 @@ def generate_text(model_id: str, prompt: str, config: dict) -> str:
             output = model.generate(input_ids, **gen_config)
         
         # Decode output
-        generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+        generated_text = tokenizer.decode(output[0][input_ids.shape[-1]:], skip_special_tokens=True)
         
         # Clean up output
         generated_text = re.sub(

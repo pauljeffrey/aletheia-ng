@@ -21,32 +21,33 @@ interface ModelConfig {
   doSample: boolean;
 }
 
-const PRETRAINED_MODELS = [
-  { id: "sabiyarn-125m", name: "SabiYarn 125M", repo: "BeardedMonster/SabiYarn-125M" },
-];
+// const PRETRAINED_MODELS = [
+//   // { id: "sabiyarn-125m", name: "SabiYarn 125M", repo: "BeardedMonster/SabiYarn-125M" },
+//   // { id: "sabiyarn-32k", name: "SabiYarn 32K", repo: "BeardedMonster/sabiyarn-32k-v2" },
+// ];
 
 const FINETUNED_MODELS = [
   { id: "sabiyarn-finetune", name: "SabiYarn Finetune", repo: "BeardedMonster/SabiYarn-125M-finetune" },
   { id: "sabiyarn-translate", name: "SabiYarn Translate", repo: "BeardedMonster/SabiYarn-125M-translate" },
   { id: "sabiyarn-sentiment", name: "SabiYarn Sentiment", repo: "BeardedMonster/SabiYarn-125M-sentiment" },
   { id: "sabiyarn-topic", name: "SabiYarn Topic", repo: "BeardedMonster/SabiYarn-125M-topic" },
-  { id: "sabiyarn-diacritize", name: "SabiYarn Diacritics Cleaner", repo: "BeardedMonster/SabiYarn-diacritics-cleaner" },
+  // { id: "sabiyarn-diacritize", name: "SabiYarn Diacritics Cleaner", repo: "BeardedMonster/SabiYarn-diacritics-cleaner" },
   { id: "sabiyarn-igbo-translate", name: "SabiYarn Igbo Translate", repo: "BeardedMonster/SabiYarn-125M-Igbo-translate" },
   { id: "sabiyarn-yoruba-translate", name: "SabiYarn Yoruba Translate", repo: "BeardedMonster/SabiYarn-125M-Yoruba-translate" },
-  { id: "sabiyarn-language-detection", name: "SabiYarn Language Detection", repo: "BeardedMonster/Sabiyarn_language_detection" },
+  // { id: "sabiyarn-language-detection", name: "SabiYarn Language Detection", repo: "BeardedMonster/Sabiyarn_language_detection" },
 ];
 
 const TASK_OPTIONS = {
   "select": "{}",
-  "Text Generation": "{}",
+  // "Text Generation": "{}",
   "Translation": "<translate> {} ",
   "Sentiment Classification": "<classify> {} <sentiment>:",
   "Topic Classification": "<classify> {} <topic>",
-  "Simple Instruction Following": "<prompt> {} <response>:",
+  // "Simple Instruction Following": "<prompt> {} <response>:",
   "Headline Generation": "<title> {} <headline>",
   "Text Diacritization": "<diacritize> {} ",
-  "Question Generation": "<prompt> {} <response>:",
-  "Question-Answering": "<prompt> {} <response>:",
+  // "Question Generation": "<prompt> {} <response>:",
+  // "Question-Answering": "<prompt> {} <response>:",
   "Text Summarization": "<summarize> {} <summary>:",
   "Text Cleaning": "<clean> {} ",
 };
@@ -63,18 +64,18 @@ const LANGUAGE_OPTIONS = {
   "Fulah": "<ful>",
 };
 
-const SAMPLE_TEXTS = {
-  "select": "",
-  "Me ya nuna?": "Me ya nuna?",
-  "Wetin dem dey call you?": "Wetin dem dey call you?",
-  "What are you called?": "What are you called?",
-  "how are you?": "how are you?",
-  "Translate to pidgin": "Spain won the 2024 europa football cup. it was a tough one because they had to play very strong opponents in the quarter-finals, semi-finals and finals.",
-  "Classify the sentiment": "Anyi na-echefu oke ike.",
-  "what is the topic of this text": "Africa Free Trade Zone: Kò sí ìdènà láti kó ọjà láti orílẹ̀èdè kan sí òmíràn",
-  "diacritize this text: ": "E sun, Alaga, fun ise amalayi ti e n se ni Naijiria. E maa ba a lo, egbon!",
-  "clean this text": "Abin mamaki ne aikin da shugabaZn HNajeriya ybake yi. kCiF 39gaba Tda haRkGa sir!",
-};
+// const SAMPLE_TEXTS = {
+//   "select": "",
+//   "Me ya nuna?": "Me ya nuna?",
+//   "Wetin dem dey call you?": "Wetin dem dey call you?",
+//   "What are you called?": "What are you called?",
+//   "how are you?": "how are you?",
+//   "Translate to pidgin": "Spain won the 2024 europa football cup. it was a tough one because they had to play very strong opponents in the quarter-finals, semi-finals and finals.",
+//   "Classify the sentiment": "Anyi na-echefu oke ike.",
+//   "what is the topic of this text": "Africa Free Trade Zone: Kò sí ìdènà láti kó ọjà láti orílẹ̀èdè kan sí òmíràn",
+//   "diacritize this text: ": "E sun, Alaga, fun ise amalayi ti e n se ni Naijiria. E maa ba a lo, egbon!",
+//   "clean this text": "Abin mamaki ne aikin da shugabaZn HNajeriya ybake yi. kCiF 39gaba Tda haRkGa sir!",
+// };
 
 type ModelBehavior = {
   showTaskSelector: boolean;
@@ -96,6 +97,7 @@ const DEFAULT_BEHAVIOR: ModelBehavior = {
 
 const MODEL_BEHAVIOR: Record<string, ModelBehavior> = {
   "sabiyarn-125m": DEFAULT_BEHAVIOR,
+  "sabiyarn-32k": DEFAULT_BEHAVIOR,
   "sabiyarn-finetune": DEFAULT_BEHAVIOR,
   "sabiyarn-sentiment": {
     showTaskSelector: false,
@@ -181,11 +183,11 @@ export function PretrainedModelsTab() {
     }
   }, [selectedModel]);
 
-  useEffect(() => {
-    if (selectedSample !== "select" && SAMPLE_TEXTS[selectedSample as keyof typeof SAMPLE_TEXTS]) {
-      setInputText(SAMPLE_TEXTS[selectedSample as keyof typeof SAMPLE_TEXTS]);
-    }
-  }, [selectedSample]);
+  // useEffect(() => {
+  //   if (selectedSample !== "select" && SAMPLE_TEXTS[selectedSample as keyof typeof SAMPLE_TEXTS]) {
+  //     setInputText(SAMPLE_TEXTS[selectedSample as keyof typeof SAMPLE_TEXTS]);
+  //   }
+  // }, [selectedSample]);
 
   const currentBehavior = MODEL_BEHAVIOR[selectedModel] || DEFAULT_BEHAVIOR;
   const availableTasks = currentBehavior.allowedTasks || Object.keys(TASK_OPTIONS);
@@ -220,14 +222,14 @@ const wrapInput = (
     effectiveTask === "Text Diacritization" ||
     effectiveTask === "Text Cleaning"
   ) {
-    const langTag = LANGUAGE_OPTIONS[language as keyof typeof LANGUAGE_OPTIONS] || "";
+      const langTag = LANGUAGE_OPTIONS[language as keyof typeof LANGUAGE_OPTIONS] || "";
     taskValue = taskValue.replace("{}", `${text} ${langTag}`.trim());
-  } else {
-    taskValue = taskValue.replace("{}", text);
-  }
-  
-  return taskValue;
-};
+    } else {
+      taskValue = taskValue.replace("{}", text);
+    }
+    
+    return taskValue;
+  };
 
   const handleSend = async () => {
     if (!selectedModel || !inputText.trim()) {
@@ -263,7 +265,37 @@ const wrapInput = (
         selectedModel,
         translationDirection
       );
+
+      function toFloat(value: any, defaultValue: number) {
+        const num = parseFloat(value);
+        return Number.isFinite(num) ? num : defaultValue;
+      }
       
+      const typedConfig = {
+        maxLength: Number.isFinite(Number(config.maxLength)) ? Number(config.maxLength) : 100,
+        maxNewTokens: Number.isFinite(Number(config.maxNewTokens)) ? Number(config.maxNewTokens) : 80,
+        numBeams: Number.isFinite(Number(config.numBeams)) ? Number(config.numBeams) : 5,
+        doSample: typeof config.doSample === "string"
+          ? config.doSample === "true"
+          : Boolean(config.doSample),
+        temperature: Number.isFinite(Number(config.temperature)) ? Number(config.temperature) : 0.99,
+        topK: Number.isFinite(Number(config.topK)) ? Number(config.topK) : 50,
+        topP: Number.isFinite(Number(config.topP)) ? Number(config.topP) : 0.95,
+        repetitionPenalty: toFloat(config.repetitionPenalty, 4.0),
+        
+        // Number.isFinite(Number(config.repetitionPenalty))
+        //   ? Number(config.repetitionPenalty)
+        //   : 4.0,
+        lengthPenalty: toFloat(config.lengthPenalty, 3.0),
+        
+        // Number.isFinite(Number(config.lengthPenalty))
+        //   ? Number(config.lengthPenalty)
+        //   : 3.0,
+        earlyStopping: true,
+        eosTokenId: 32,
+      };
+      console.log(typedConfig.repetitionPenalty)
+      console.log(typedConfig.lengthPenalty)
       const response = await fetch("/api/models/pretrained", {
         method: "POST",
         headers: {
@@ -272,7 +304,7 @@ const wrapInput = (
         body: JSON.stringify({
           model: selectedModel,
           prompt: wrappedInput,
-          config: config,
+          config: typedConfig,
         }),
       });
 
@@ -306,9 +338,9 @@ const wrapInput = (
   };
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full flex-col lg:flex-row min-h-[600px]">
       {/* Sidebar */}
-      <div className="w-80 border-r border-primary-green/30 bg-bg-card p-5 overflow-y-auto">
+      <div className="w-full lg:w-80 border-b lg:border-b-0 lg:border-r border-primary-green/30 bg-bg-card p-5 overflow-y-auto">
         <div className="space-y-5">
           {/* Instructions Section */}
           <div className="border border-primary-green/30 rounded-lg overflow-hidden">
@@ -342,7 +374,7 @@ const wrapInput = (
                   </div>
                   <div>
                     <strong className="text-primary-green">3. Avoid Conflicts:</strong>
-                    <p className="mt-1">Don't select a sample text if using your own text.</p>
+                    <p className="mt-1">Don&apos;t select a sample text if using your own text.</p>
                   </div>
                   <div>
                     <strong className="text-primary-green">4. Select Nigerian Language:</strong>
@@ -363,9 +395,9 @@ const wrapInput = (
                   <div>
                     <strong className="text-primary-green">7. Performance Note:</strong>
                     <ul className="mt-1 ml-4 list-disc space-y-1">
-                      <li>The model's performance varies due to its size and training data. It performs best on text generation and translation.</li>
-                      <li>For other tasks, try multiple times if model's output is not optimal (This is due to the generator's sampling parameter settings).</li>
-                      <li><strong>It's best to read/understand/translate the model's output completely first. Model can sometimes fail to stop generation after providing correct answers.</strong></li>
+                      <li>The model&apos;s performance varies due to its size and training data. It performs best on text generation and translation.</li>
+                      <li>For other tasks, try multiple times if model&apos;s output is not optimal (This is due to the generator&apos;s sampling parameter settings).</li>
+                      <li><strong>It&apos;s best to read/understand/translate the model&apos;s output completely first. Model can sometimes fail to stop generation after providing correct answers.</strong></li>
                     </ul>
                   </div>
                   <div>
@@ -384,6 +416,19 @@ const wrapInput = (
             )}
           </div>
 
+          {/* Warning Section */}
+          <div className="border border-yellow-500/50 rounded-lg overflow-hidden bg-yellow-500/10">
+            <div className="px-4 py-3">
+              <div className="flex items-start gap-2">
+                <Info className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+                <div className="text-xs text-yellow-200 space-y-1">
+                  <p className="font-semibold text-yellow-400">Important Notice:</p>
+                  <p>These models are <strong>not designed for chat format</strong> and <strong>cannot maintain context</strong> across multiple messages. Each prompt is processed independently.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-semibold text-primary-green mb-2">
               Select Model
@@ -394,13 +439,13 @@ const wrapInput = (
               className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
             >
               <option value="">Select a model...</option>
-              <optgroup label="Pretrained Models">
+              {/* <optgroup label="Pretrained Models">
                 {PRETRAINED_MODELS.map((model) => (
                   <option key={model.id} value={model.id}>
                     {model.name}
                   </option>
-                ))}
-              </optgroup>
+                ))} */}
+              {/* </optgroup> */}
               <optgroup label="Finetuned Models">
                 {FINETUNED_MODELS.map((model) => (
                   <option key={model.id} value={model.id}>
@@ -415,7 +460,7 @@ const wrapInput = (
             <label className="block text-sm font-semibold text-primary-green mb-2">
               Sample Text
             </label>
-            <select
+            {/* <select
               value={selectedSample}
               onChange={(e) => setSelectedSample(e.target.value)}
               className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50 text-sm"
@@ -425,26 +470,26 @@ const wrapInput = (
                   {key === "select" ? "Select sample..." : key}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
 
           {currentBehavior.showTaskSelector ? (
-            <div>
-              <label className="block text-sm font-semibold text-primary-green mb-2">
-                Task
-              </label>
-              <select
-                value={selectedTask}
-                onChange={(e) => setSelectedTask(e.target.value)}
-                className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
-              >
+          <div>
+            <label className="block text-sm font-semibold text-primary-green mb-2">
+              Task
+            </label>
+            <select
+              value={selectedTask}
+              onChange={(e) => setSelectedTask(e.target.value)}
+              className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50"
+            >
                 {availableTasks.map((task) => (
-                  <option key={task} value={task}>
-                    {task === "select" ? "Select task..." : task}
-                  </option>
-                ))}
-              </select>
-            </div>
+                <option key={task} value={task}>
+                  {task === "select" ? "Select task..." : task}
+                </option>
+              ))}
+            </select>
+          </div>
           ) : currentBehavior.presetTask ? (
             <div className="p-3 border border-primary-green/30 rounded-lg bg-bg-dark-secondary/70 text-sm text-text-light">
               <p>
@@ -565,8 +610,8 @@ const wrapInput = (
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col bg-bg-dark">
-        <div className="flex-1 overflow-y-auto p-8 space-y-6">
+      <div className="flex-1 flex flex-col bg-bg-dark min-h-[400px]">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 space-y-6">
           {messages.length === 0 && (
             <div className="flex items-center justify-center h-full text-center">
               <div className="max-w-lg">
@@ -594,7 +639,7 @@ const wrapInput = (
                 </div>
               )}
               <div
-                className={`max-w-[75%] rounded-xl px-5 py-3 shadow-lg ${
+                className={`max-w-full sm:max-w-[80%] rounded-xl px-4 md:px-5 py-3 shadow-lg ${
                   message.role === "user"
                     ? "bg-gradient-hover text-white"
                     : "bg-bg-card text-text-white border border-primary-green/30"
@@ -627,8 +672,8 @@ const wrapInput = (
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="border-t border-primary-green/30 p-5 bg-bg-card backdrop-blur-sm">
-          <div className="flex gap-3 max-w-5xl mx-auto">
+        <div className="border-t border-primary-green/30 p-4 md:p-5 bg-bg-card backdrop-blur-sm">
+          <div className="flex flex-col sm:flex-row gap-3 max-w-5xl mx-auto">
             <textarea
               ref={inputRef}
               value={inputText}
@@ -640,13 +685,13 @@ const wrapInput = (
                 }
               }}
               placeholder="Enter your text here... (See instructions above for guidance)"
-              className="flex-1 px-5 py-3 border border-primary-green/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green resize-none bg-bg-dark-secondary text-text-white shadow-sm hover:border-primary-green/50 transition-all"
+              className="flex-1 px-4 md:px-5 py-3 border border-primary-green/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green resize-none bg-bg-dark-secondary text-text-white shadow-sm hover:border-primary-green/50 transition-all"
               rows={3}
             />
             <button
               onClick={handleSend}
               disabled={isLoading || !selectedModel || !inputText.trim()}
-              className="px-8 py-3 bg-gradient-hover text-white rounded-xl hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 font-semibold hover:scale-105 active:scale-95"
+              className="w-full sm:w-auto px-6 md:px-8 py-3 bg-gradient-hover text-white rounded-xl hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 font-semibold hover:scale-105 active:scale-95"
             >
               {isLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

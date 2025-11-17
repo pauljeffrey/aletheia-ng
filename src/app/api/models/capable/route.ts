@@ -1,15 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_URLS = [
-  "https://naijaai--sabiyarn-capable-fastapi-app.modal.run/predict",
-  "https://pauljeffrey--sabiyarn-capable-fastapi-app.modal.run/predict",
-  "https://model-host--sabiyarn-capable-fastapi-app.modal.run/predict",
-];
+// Modal endpoint URLs for capable models
+// Format: https://{workspace}--sabiyarn-capable-fastapi-app.modal.run/
+// Note: User confirmed capable models use root path
+const WORKSPACES = [ "model-host", "pauljeffrey", "jeffreyotoibhi", "naijaai"];
+const API_URLS = WORKSPACES.map(
+  (workspace) => `https://${workspace}--sabiyarn-capable-fastapi-app.modal.run/`
+);
+
+type CapableConfig = {
+  maxNewTokens?: number;
+  temperature?: number;
+  topP?: number;
+  topK?: number;
+  repetitionPenalty?: number;
+  doSample?: boolean;
+};
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { model, messages, sessionId } = body;
+    const { model, messages, sessionId, config } = body as {
+      model: string;
+      messages: Array<{ role: string; content: string }>;
+      sessionId: string;
+      config?: CapableConfig;
+    };
 
     if (!model || !messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -18,10 +34,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const sanitizeNumber = (value: unknown, fallback: number) => {
+      const num = Number(value);
+      return Number.isFinite(num) ? num : fallback;
+    };
+
+    const typedConfig = {
+      maxNewTokens: sanitizeNumber(config?.maxNewTokens, 256),
+      temperature: sanitizeNumber(config?.temperature, 0.7),
+      topP: sanitizeNumber(config?.topP, 0.9),
+      topK: Math.round(sanitizeNumber(config?.topK, 50)),
+      repetitionPenalty: sanitizeNumber(config?.repetitionPenalty, 1.1),
+      doSample:
+        typeof config?.doSample === "string"
+          ? config?.doSample === "true"
+          : config?.doSample ?? true,
+    };
+
     const payload = {
       model: model,
       messages: messages,
       session_id: sessionId,
+      config: typedConfig,
     };
 
     // Try each API URL until one succeeds
