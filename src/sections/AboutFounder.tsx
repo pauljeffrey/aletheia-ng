@@ -28,7 +28,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Dr. Jeffrey Otoibhi</h1>
                             <h2 className="text-xl md:text-2xl text-blue-600 font-medium mb-4">Medical Doctor | AI Researcher & Engineer</h2>
                             <p className="text-gray-600 text-lg max-w-2xl mb-6">
-                                I am a seasoned AI Expert and Medical Doctor with six years of experience in AI, ML and innovation. Led the development of Nigeria's first foundational decoder-only language model and contributed
+                                I am a seasoned AI Expert and Medical Doctor with six years of experience in AI, ML and innovation. Led the development of Nigeria&apos;s first foundational decoder-only language model and contributed
                                 to 7+ AI research projects. Passionate about leveraging AI and robotics to transform healthcare.
                             </p>
                             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
@@ -91,11 +91,11 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                 innovative AI solutions across various domains, including audio processing, computer vision, and natural language processing.
                             </p>
                             <p>
-                                As the lead Engineer and Researcher behind <span className="font-semibold">SabiYarn</span>, Nigeria's first LLM capable of text generation 
+                                As the lead Engineer and Researcher behind <span className="font-semibold">SabiYarn</span>, Nigeria&apos;s first LLM capable of text generation 
                                 in multiple Nigerian languages, I am committed to pushing the boundaries of AI for meaningful societal impact.
                             </p>
                             {/* <p>
-                                Currently, I am pursuing a Master's degree in Robotics and Autonomous Systems with a focus on biomedical engineering at Arizona State University, 
+                                Currently, I am pursuing a Master&apos;s degree in Robotics and Autonomous Systems with a focus on biomedical engineering at Arizona State University, 
                                 further expanding my expertise at the intersection of healthcare and cutting-edge technology.
                             </p> */}
                             <p>
@@ -200,7 +200,7 @@ to analyze skin images and handle workflows, providing:</li>
                                     </div>
                                     <p className="text-gray-600 mb-4">Lagos</p>
                                     <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                                        <li>Led the development of Nigeria's first decoder-only foundational language model supporting multiple Nigerian languages (Train loss- 2.5, Val loss-2.86).</li>
+                                        <li>Led the development of Nigeria&apos;s first decoder-only foundational language model supporting multiple Nigerian languages (Train loss- 2.5, Val loss-2.86).</li>
                                         <li>Outperformed GPT-4 by 48% and LLaMA2-13B by 259% on average across Nigerian language benchmarks for downstream tasks.</li>
                                     </ul>
                                 </div>
@@ -263,7 +263,7 @@ to analyze skin images and handle workflows, providing:</li>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                                     <h3 className="text-xl font-bold text-gray-800 mb-2">SabiYarn-125M</h3>
-                                    <p className="text-gray-600 mb-4">Nigeria's first decoder-only foundational language model supporting multiple Nigerian languages.</p>
+                                    <p className="text-gray-600 mb-4">Nigeria&apos;s first decoder-only foundational language model supporting multiple Nigerian languages.</p>
                                     <div className="flex flex-wrap gap-2">
                                         <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">NLP</span>
                                         <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Language Models</span>
@@ -313,7 +313,7 @@ to analyze skin images and handle workflows, providing:</li>
 
                                 <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                                     <h3 className="text-xl font-bold text-gray-800 mb-2">Drug Information Retriever</h3>
-                                    <p className="text-gray-600 mb-4">Developed an NER based system to extract drug names and properties from a database based on user's query in natural language. Precision-0.90, Recall- 0.88, F1 score - 0.89, Acc - 0.93.</p>
+                                    <p className="text-gray-600 mb-4">Developed an NER based system to extract drug names and properties from a database based on user&apos;s query in natural language. Precision-0.90, Recall- 0.88, F1 score - 0.89, Acc - 0.93.</p>
                                     <div className="flex flex-wrap gap-2">
                                         <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Healthcare</span>
                                         <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">NLP</span>
@@ -356,7 +356,7 @@ to analyze skin images and handle workflows, providing:</li>
                                     <ul className="list-disc pl-6 text-gray-600 space-y-4">
                                         <li>
                                             <p className="font-medium">PEPLER with reparameterization for explainable recommendations</p>
-                                            <p>Integration of reparameterization to PEPLER's implementation (DIV-3.55, FCR-0.11, BLEU-4 0.8197)</p>
+                                            <p>Integration of reparameterization to PEPLER&apos;s implementation (DIV-3.55, FCR-0.11, BLEU-4 0.8197)</p>
                                         </li>
                                         <li>
                                             <p className="font-medium">Automatic Post-Edit (APE) Translator with Online Adaptation</p>
@@ -391,7 +391,7 @@ to analyze skin images and handle workflows, providing:</li>
                                     <h3 className="text-xl font-bold text-gray-800 mb-2">Grants & Recognition</h3>
                                     <ul className="list-disc pl-6 text-gray-600">
                                         <li>ML Collective Compute Grant - Awarded for SabiYarn-125M development</li>
-                                        <li>Guest speaker at DataFest Africa 2024 on "Transforming Patient Care through Innovation, Ethics, Challenges and Future Prospects"</li>
+                                        <li>Guest speaker at DataFest Africa 2024 on &quot;Transforming Patient Care through Innovation, Ethics, Challenges and Future Prospects&quot;</li>
                                     </ul>
                                 </div>
                             </div>
@@ -500,7 +500,7 @@ to analyze skin images and handle workflows, providing:</li>
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                                         <div>
                                             <h3 className="text-xl font-bold text-gray-800">Arizona State University</h3>
-                                            <p className="text-lg text-blue-600">Master's in Robotics and Autonomous Systems</p>
+                                            <p className="text-lg text-blue-600">Master&apos;s in Robotics and Autonomous Systems</p>
                                             <p className="text-gray-600">Focus on Biomedical Engineering</p>
                                         </div>
                                         <p className="text-gray-600 mt-2 md:mt-0">Current</p>
@@ -612,9 +612,9 @@ to analyze skin images and handle workflows, providing:</li>
                         <h2 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">My Philosophy</h2>
                         <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-lg border border-blue-100">
                             <p className="text-gray-700 text-lg italic">
-                                "I believe AI has the power to revolutionize healthcare and society. My goal is to build AI systems that enhance 
-                                patient treatment, monitoring, and rehabilitation—and I won't stop until this vision is realized. The integration of AI, 
-                                robotics, and nanotechnology represents the next frontier in medicine, and I am committed to being at the forefront of this transformation."
+                                &quot;I believe AI has the power to revolutionize healthcare and society. My goal is to build AI systems that enhance 
+                                patient treatment, monitoring, and rehabilitation—and I won&apos;t stop until this vision is realized. The integration of AI, 
+                                robotics, and nanotechnology represents the next frontier in medicine, and I am committed to being at the forefront of this transformation.&quot;
                             </p>
                         </div>
                     </div>
@@ -654,7 +654,7 @@ to analyze skin images and handle workflows, providing:</li>
                     <div>
                         <h2 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Get in Touch</h2>
                         <p className="text-gray-600 mb-6">
-                            I'm always open to collaboration, research opportunities, and discussions about AI, healthcare, and technology. 
+                            I&apos;m always open to collaboration, research opportunities, and discussions about AI, healthcare, and technology. 
                             Whether you have a project in mind or just want to connect, feel free to reach out!
                         </p>
                         <div className="flex flex-wrap gap-4 justify-center md:justify-start mb-8">

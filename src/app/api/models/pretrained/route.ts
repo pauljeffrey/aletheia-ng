@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Modal endpoint URLs - verify these match your actual deployments
-// Get exact URLs from: modal app show sabiyarn-fastapi-app
-// Or click "Web endpoint" in Modal dashboard
-const API_URLS = [
-  "https://naijaai--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
-  "https://model-host--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
-  "https://pauljeffrey--sabiyarn-fastapi-app-fastapi-app.modal.run/predict",
-];
+// Modal endpoint URLs for pretrained models
+// Format: https://{workspace}--sabiyarn-fastapi-app-fastapi-app.modal.run/predict
+const WORKSPACES = ["naijaai", "model-host", "pauljeffrey"];
+const API_URLS = WORKSPACES.map(
+  (workspace) =>
+    `https://${workspace}--sabiyarn-fastapi-app-fastapi-app.modal.run/predict`
+);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -20,20 +19,40 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Convert config values to proper types (handle both string and number inputs)
     const payload = {
       model: model,
       prompt: prompt,
       config: {
-        maxLength: config.maxLength || 100,
-        maxNewTokens: config.maxNewTokens || 80,
-        numBeams: config.numBeams || 5,
-        doSample: config.doSample || false,
-        temperature: config.temperature || 0.99,
-        topK: config.topK || 50,
-        topP: config.topP || 0.95,
-        repetitionPenalty: config.repetitionPenalty || 4.0,
-        lengthPenalty: config.lengthPenalty || 3.0,
+        maxLength: typeof config?.maxLength === "string" 
+          ? parseInt(config.maxLength, 10) 
+          : (config?.maxLength || 100),
+        maxNewTokens: typeof config?.maxNewTokens === "string"
+          ? parseInt(config.maxNewTokens, 10)
+          : (config?.maxNewTokens || 80),
+        numBeams: typeof config?.numBeams === "string"
+          ? parseInt(config.numBeams, 10)
+          : (config?.numBeams || 5),
+        doSample: typeof config?.doSample === "string"
+          ? config.doSample === "true"
+          : (config?.doSample || false),
+        temperature: typeof config?.temperature === "string"
+          ? parseFloat(config.temperature)
+          : (config?.temperature || 0.99),
+        topK: typeof config?.topK === "string"
+          ? parseInt(config.topK, 10)
+          : (config?.topK || 50),
+        topP: typeof config?.topP === "string"
+          ? parseFloat(config.topP)
+          : (config?.topP || 0.95),
+        repetitionPenalty: typeof config?.repetitionPenalty === "string"
+          ? parseFloat(config.repetitionPenalty)
+          : (config?.repetitionPenalty || 4.0),
+        lengthPenalty: typeof config?.lengthPenalty === "string"
+          ? parseFloat(config.lengthPenalty)
+          : (config?.lengthPenalty || 3.0),
         earlyStopping: true,
+        eosTokenId: 32,
       },
     };
 
