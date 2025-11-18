@@ -6,7 +6,7 @@ Deploy to different workspaces: naijaai, pauljeffrey, model-host
 import modal
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from typing import List, Dict
+from typing import List, Dict, Any, Optional
 import re
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -43,7 +43,12 @@ END_OF_TOKEN_ID = 32
     timeout=600,
     scaledown_window=300,
 )
-def chat_completion(model_id: str, messages: List[Dict[str, str]], session_id: str) -> Dict[str, str]:
+def chat_completion(
+    model_id: str,
+    messages: List[Dict[str, str]],
+    session_id: str,
+    config: Optional[Dict[str, Any]] = None,
+) -> Dict[str, str]:
     """
     Generate chat completion with conversation history.
     This will be implemented when capable models are available.
@@ -80,12 +85,22 @@ def chat_completion(model_id: str, messages: List[Dict[str, str]], session_id: s
         # Tokenize
         input_ids = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt").to(device)
         
+        cfg = config or {}
+        max_new_tokens = int(cfg.get("maxNewTokens", 256))
+        temperature = float(cfg.get("temperature", 0.7))
+        top_p = float(cfg.get("topP", 0.9))
+        top_k = max(1, int(cfg.get("topK", 50)))
+        repetition_penalty = float(cfg.get("repetitionPenalty", 1.1))
+        do_sample = bool(cfg.get("doSample", True))
+
         # Generate
         gen_config = {
-            "max_new_tokens": 256,
-            "temperature": 0.7,
-            "top_p": 0.9,
-            "do_sample": True,
+            "max_new_tokens": max_new_tokens,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "repetition_penalty": repetition_penalty,
+            "do_sample": do_sample,
             "pad_token_id": tokenizer.eos_token_id,
             "eos_token_id": END_OF_TOKEN_ID,
         }
@@ -127,6 +142,7 @@ class ChatRequest(BaseModel):
     model: str
     messages: List[Dict[str, str]]
     session_id: str
+    config: Optional[Dict[str, Any]] = None
 
 @web_app.post("/predict")
 async def predict(request: ChatRequest):
@@ -142,7 +158,8 @@ async def predict(request: ChatRequest):
         result = await chat_completion.remote.aio(
             request.model,
             request.messages,
-            request.session_id
+            request.session_id,
+            request.config
         )
         return {
             "output": result["output"],

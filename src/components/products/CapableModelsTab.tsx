@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Plus, X, Loader2, MessageSquare } from "lucide-react";
+import { Send, Bot, User, Plus, X, Loader2, MessageSquare, Settings, ChevronDown, ChevronUp } from "lucide-react";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -21,6 +21,15 @@ interface CapableModel {
   name: string;
 }
 
+interface AdvancedConfig {
+  maxNewTokens: number;
+  temperature: number;
+  topP: number;
+  topK: number;
+  repetitionPenalty: number;
+  doSample: boolean;
+}
+
 const CAPABLE_MODELS: CapableModel[] = [
   // Placeholder for future models
   // { id: "sabiyarn-it", name: "SabiYarn IT" },
@@ -33,6 +42,15 @@ export function CapableModelsTab() {
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [inputText, setInputText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [config, setConfig] = useState<AdvancedConfig>({
+    maxNewTokens: 256,
+    temperature: 0.7,
+    topP: 0.9,
+    topK: 50,
+    repetitionPenalty: 1.1,
+    doSample: true,
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -128,6 +146,14 @@ export function CapableModelsTab() {
           model: selectedModel,
           messages: chatHistory,
           sessionId: activeSessionId,
+          config: {
+            maxNewTokens: Number.isFinite(Number(config.maxNewTokens)) ? Number(config.maxNewTokens) : 256,
+            temperature: Number.isFinite(Number(config.temperature)) ? Number(config.temperature) : 0.7,
+            topP: Number.isFinite(Number(config.topP)) ? Number(config.topP) : 0.9,
+            topK: Number.isFinite(Number(config.topK)) ? Number(config.topK) : 50,
+            repetitionPenalty: Number.isFinite(Number(config.repetitionPenalty)) ? Number(config.repetitionPenalty) : 1.1,
+            doSample: Boolean(config.doSample),
+          },
         }),
       });
 
@@ -186,9 +212,9 @@ export function CapableModelsTab() {
   const activeSession = getActiveSession();
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full flex-col lg:flex-row min-h-[600px]">
       {/* Sidebar */}
-      <div className="w-72 border-r border-primary-green/30 bg-bg-card flex flex-col">
+      <div className="w-full lg:w-72 border-b lg:border-b-0 lg:border-r border-primary-green/30 bg-bg-card flex flex-col">
         <div className="p-5 border-b border-primary-green/30">
           <button
             onClick={createNewSession}
@@ -199,27 +225,133 @@ export function CapableModelsTab() {
           </button>
         </div>
 
-        <div className="p-5 border-b border-primary-green/30">
-          <label className="block text-sm font-semibold text-primary-green mb-2">
-            Select Model
-          </label>
-          <select
-            value={selectedModel}
-            onChange={(e) => setSelectedModel(e.target.value)}
-            className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50 text-sm"
-          >
-            <option value="">Select a model...</option>
-            {CAPABLE_MODELS.map((model) => (
-              <option key={model.id} value={model.id}>
-                {model.name}
-              </option>
-            ))}
-            {CAPABLE_MODELS.length === 0 && (
-              <option value="" disabled>
-                Models coming soon...
-              </option>
+        <div className="p-5 border-b border-primary-green/30 space-y-4">
+          <div>
+            <label className="block text-sm font-semibold text-primary-green mb-2">
+              Select Model
+            </label>
+            <select
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="w-full px-4 py-2.5 border border-primary-green/30 rounded-lg bg-bg-dark-secondary text-text-white focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green transition-all hover:border-primary-green/50 text-sm"
+            >
+              <option value="">Select a model...</option>
+              {CAPABLE_MODELS.map((model) => (
+                <option key={model.id} value={model.id}>
+                  {model.name}
+                </option>
+              ))}
+              {CAPABLE_MODELS.length === 0 && (
+                <option value="" disabled>
+                  Models coming soon...
+                </option>
+              )}
+            </select>
+          </div>
+
+          <div className="border border-primary-green/30 rounded-xl overflow-hidden">
+            <button
+              onClick={() => setShowSettings((prev) => !prev)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-primary-green/10 hover:bg-primary-green/20 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <Settings className="w-4 h-4 text-primary-green" />
+                <span className="text-sm font-semibold text-primary-green">Advanced Settings</span>
+              </div>
+              {showSettings ? (
+                <ChevronUp className="w-4 h-4 text-primary-green" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-primary-green" />
+              )}
+            </button>
+            {showSettings && (
+              <div className="px-4 py-4 space-y-4 bg-bg-dark-secondary/70 border-t border-primary-green/20 text-xs text-text-light">
+                <div>
+                  <label className="block mb-1 font-semibold text-primary-green/80">
+                    Max New Tokens: {config.maxNewTokens}
+                  </label>
+                  <input
+                    type="range"
+                    min="32"
+                    max="1024"
+                    value={config.maxNewTokens}
+                    onChange={(e) => setConfig({ ...config, maxNewTokens: parseInt(e.target.value) })}
+                    className="w-full accent-primary-green"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 font-semibold text-primary-green/80">
+                    Temperature: {config.temperature.toFixed(2)}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.1"
+                    max="2.0"
+                    step="0.01"
+                    value={config.temperature}
+                    onChange={(e) => setConfig({ ...config, temperature: parseFloat(e.target.value) })}
+                    className="w-full accent-primary-green"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 font-semibold text-primary-green/80">
+                    Top P: {config.topP.toFixed(2)}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.1"
+                    max="1.0"
+                    step="0.01"
+                    value={config.topP}
+                    onChange={(e) => setConfig({ ...config, topP: parseFloat(e.target.value) })}
+                    className="w-full accent-primary-green"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 font-semibold text-primary-green/80">
+                    Top K: {config.topK}
+                  </label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="200"
+                    value={config.topK}
+                    onChange={(e) => setConfig({ ...config, topK: parseInt(e.target.value) })}
+                    className="w-full accent-primary-green"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1 font-semibold text-primary-green/80">
+                    Repetition Penalty: {config.repetitionPenalty.toFixed(2)}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="2.0"
+                    step="0.05"
+                    value={config.repetitionPenalty}
+                    onChange={(e) => setConfig({ ...config, repetitionPenalty: parseFloat(e.target.value) })}
+                    className="w-full accent-primary-green"
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-primary-green/80">Enable Sampling</span>
+                  <button
+                    onClick={() => setConfig((prev) => ({ ...prev, doSample: !prev.doSample }))}
+                    className={`w-12 h-6 rounded-full transition-colors ${
+                      config.doSample ? "bg-primary-green" : "bg-gray-500"
+                    }`}
+                  >
+                    <span
+                      className={`block w-5 h-5 bg-white rounded-full transition-transform transform ${
+                        config.doSample ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
             )}
-          </select>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-3">
@@ -255,8 +387,8 @@ export function CapableModelsTab() {
         </div>
       </div>
 
-      {/* Chat Area */}
-      <div className="flex-1 flex flex-col bg-bg-dark">
+    {/* Chat Area */}
+      <div className="flex-1 flex flex-col bg-bg-dark min-h-[400px]">
         {!activeSession ? (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center max-w-lg">
@@ -277,7 +409,7 @@ export function CapableModelsTab() {
           </div>
         ) : (
           <>
-            <div className="flex-1 overflow-y-auto p-8 space-y-6">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 space-y-6">
               {activeSession.messages.length === 0 && (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center max-w-lg">
@@ -305,7 +437,7 @@ export function CapableModelsTab() {
                     </div>
                   )}
                   <div
-                    className={`max-w-[75%] rounded-xl px-5 py-3 shadow-lg ${
+                    className={`max-w-full sm:max-w-[80%] rounded-xl px-4 md:px-5 py-3 shadow-lg ${
                       message.role === "user"
                         ? "bg-gradient-hover text-white"
                         : "bg-bg-card text-text-white border border-primary-green/30"
@@ -335,9 +467,9 @@ export function CapableModelsTab() {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="border-t border-primary-green/30 p-5 bg-bg-card backdrop-blur-sm">
+            <div className="border-t border-primary-green/30 p-4 md:p-5 bg-bg-card backdrop-blur-sm">
               <div className="max-w-5xl mx-auto">
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <textarea
                     ref={inputRef}
                     value={inputText}
@@ -349,7 +481,7 @@ export function CapableModelsTab() {
                       }
                     }}
                     placeholder="Message..."
-                    className="flex-1 px-5 py-3 border border-primary-green/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green resize-none bg-bg-dark-secondary text-text-white shadow-sm hover:border-primary-green/50 transition-all"
+                    className="flex-1 px-4 md:px-5 py-3 border border-primary-green/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green resize-none bg-bg-dark-secondary text-text-white shadow-sm hover:border-primary-green/50 transition-all"
                     rows={1}
                     style={{ minHeight: "52px", maxHeight: "200px" }}
                     onInput={(e) => {
@@ -361,7 +493,7 @@ export function CapableModelsTab() {
                   <button
                     onClick={handleSend}
                     disabled={isLoading || !selectedModel || !inputText.trim()}
-                    className="px-8 py-3 bg-gradient-hover text-white rounded-xl hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 font-semibold hover:scale-105 active:scale-95"
+                    className="w-full sm:w-auto px-6 md:px-8 py-3 bg-gradient-hover text-white rounded-xl hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 font-semibold hover:scale-105 active:scale-95"
                   >
                     {isLoading ? (
                       <Loader2 className="w-5 h-5 animate-spin" />

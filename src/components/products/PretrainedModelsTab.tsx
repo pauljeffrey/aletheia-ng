@@ -264,6 +264,26 @@ const wrapInput = (
         translationDirection
       );
       
+      const typedConfig = {
+        maxLength: Number.isFinite(Number(config.maxLength)) ? Number(config.maxLength) : 100,
+        maxNewTokens: Number.isFinite(Number(config.maxNewTokens)) ? Number(config.maxNewTokens) : 80,
+        numBeams: Number.isFinite(Number(config.numBeams)) ? Number(config.numBeams) : 5,
+        doSample: typeof config.doSample === "string"
+          ? config.doSample === "true"
+          : Boolean(config.doSample),
+        temperature: Number.isFinite(Number(config.temperature)) ? Number(config.temperature) : 0.99,
+        topK: Number.isFinite(Number(config.topK)) ? Number(config.topK) : 50,
+        topP: Number.isFinite(Number(config.topP)) ? Number(config.topP) : 0.95,
+        repetitionPenalty: Number.isFinite(Number(config.repetitionPenalty))
+          ? Number(config.repetitionPenalty)
+          : 4.0,
+        lengthPenalty: Number.isFinite(Number(config.lengthPenalty))
+          ? Number(config.lengthPenalty)
+          : 3.0,
+        earlyStopping: true,
+        eosTokenId: 32,
+      };
+
       const response = await fetch("/api/models/pretrained", {
         method: "POST",
         headers: {
@@ -272,7 +292,7 @@ const wrapInput = (
         body: JSON.stringify({
           model: selectedModel,
           prompt: wrappedInput,
-          config: config,
+          config: typedConfig,
         }),
       });
 
@@ -306,9 +326,9 @@ const wrapInput = (
   };
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full flex-col lg:flex-row min-h-[600px]">
       {/* Sidebar */}
-      <div className="w-80 border-r border-primary-green/30 bg-bg-card p-5 overflow-y-auto">
+      <div className="w-full lg:w-80 border-b lg:border-b-0 lg:border-r border-primary-green/30 bg-bg-card p-5 overflow-y-auto">
         <div className="space-y-5">
           {/* Instructions Section */}
           <div className="border border-primary-green/30 rounded-lg overflow-hidden">
@@ -578,8 +598,8 @@ const wrapInput = (
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col bg-bg-dark">
-        <div className="flex-1 overflow-y-auto p-8 space-y-6">
+      <div className="flex-1 flex flex-col bg-bg-dark min-h-[400px]">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 space-y-6">
           {messages.length === 0 && (
             <div className="flex items-center justify-center h-full text-center">
               <div className="max-w-lg">
@@ -607,7 +627,7 @@ const wrapInput = (
                 </div>
               )}
               <div
-                className={`max-w-[75%] rounded-xl px-5 py-3 shadow-lg ${
+                className={`max-w-full sm:max-w-[80%] rounded-xl px-4 md:px-5 py-3 shadow-lg ${
                   message.role === "user"
                     ? "bg-gradient-hover text-white"
                     : "bg-bg-card text-text-white border border-primary-green/30"
@@ -640,8 +660,8 @@ const wrapInput = (
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="border-t border-primary-green/30 p-5 bg-bg-card backdrop-blur-sm">
-          <div className="flex gap-3 max-w-5xl mx-auto">
+        <div className="border-t border-primary-green/30 p-4 md:p-5 bg-bg-card backdrop-blur-sm">
+          <div className="flex flex-col sm:flex-row gap-3 max-w-5xl mx-auto">
             <textarea
               ref={inputRef}
               value={inputText}
@@ -653,13 +673,13 @@ const wrapInput = (
                 }
               }}
               placeholder="Enter your text here... (See instructions above for guidance)"
-              className="flex-1 px-5 py-3 border border-primary-green/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green resize-none bg-bg-dark-secondary text-text-white shadow-sm hover:border-primary-green/50 transition-all"
+              className="flex-1 px-4 md:px-5 py-3 border border-primary-green/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-primary-green resize-none bg-bg-dark-secondary text-text-white shadow-sm hover:border-primary-green/50 transition-all"
               rows={3}
             />
             <button
               onClick={handleSend}
               disabled={isLoading || !selectedModel || !inputText.trim()}
-              className="px-8 py-3 bg-gradient-hover text-white rounded-xl hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 font-semibold hover:scale-105 active:scale-95"
+              className="w-full sm:w-auto px-6 md:px-8 py-3 bg-gradient-hover text-white rounded-xl hover:shadow-glow disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 font-semibold hover:scale-105 active:scale-95"
             >
               {isLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
