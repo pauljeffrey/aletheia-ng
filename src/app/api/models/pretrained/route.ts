@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ 
               output: data.output || data.response || "No response generated" 
             });
-          } catch (jsonError) {
+          } catch {
             // If response is not JSON, try as text
             const textData = await response.text();
             return NextResponse.json({ 
