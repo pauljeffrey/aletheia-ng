@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_URLS = [
-  "https://naijaai--sabiyarn-capable-fastapi-app.modal.run/predict",
-  "https://pauljeffrey--sabiyarn-capable-fastapi-app.modal.run/predict",
-  "https://model-host--sabiyarn-capable-fastapi-app.modal.run/predict",
-];
+// Modal endpoint URLs for capable models
+// Format: https://{workspace}--sabiyarn-capable-fastapi-app.modal.run/
+// Note: User confirmed capable models use root path
+const WORKSPACES = ["naijaai", "model-host", "pauljeffrey"];
+const API_URLS = WORKSPACES.map(
+  (workspace) => `https://${workspace}--sabiyarn-capable-fastapi-app.modal.run/`
+);
 
 export async function POST(request: NextRequest) {
   try {

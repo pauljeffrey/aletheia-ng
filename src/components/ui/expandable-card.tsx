@@ -234,7 +234,7 @@ const cards = [
       content: () => {
         return (
             <>
-            <p className="text-text-light leading-relaxed">SabiYarn is a foundational AI language model tailored for Nigerian languages, offering powerful capabilities in translation, sentiment analysis, topic classification and text generation for 8 indigenous languages. It was designed with an objective– to bridge communication gaps across Nigeria's multilingual landscape, enabling people and businesses to engage with diverse audiences effectively.</p>
+            <p className="text-text-light leading-relaxed">SabiYarn is a foundational AI language model tailored for Nigerian languages, offering powerful capabilities in translation, sentiment analysis, topic classification and text generation for 8 indigenous languages. It was designed with an objective– to bridge communication gaps across Nigeria&apos;s multilingual landscape, enabling people and businesses to engage with diverse audiences effectively.</p>
             <br />
             <p className="text-text-white"><strong className="text-primary-green">Key Features:</strong></p>
             <ul className="list-disc list-inside space-y-2 text-text-light mt-2">
