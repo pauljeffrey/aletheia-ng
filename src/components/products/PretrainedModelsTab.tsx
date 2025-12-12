@@ -133,7 +133,7 @@ export function PretrainedModelsTab() {
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [selectedTask, setSelectedTask] = useState<string>("select");
   const [selectedLanguage, setSelectedLanguage] = useState<string>("select");
-  const [selectedSample, setSelectedSample] = useState<string>("select");
+  // const [selectedSample, setSelectedSample] = useState<string>("select");
   const [inputText, setInputText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
