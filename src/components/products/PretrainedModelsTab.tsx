@@ -44,12 +44,12 @@ const TASK_OPTIONS = {
   "Sentiment Classification": "<classify> {} <sentiment>:",
   "Topic Classification": "<classify> {} <topic>",
   // "Simple Instruction Following": "<prompt> {} <response>:",
-  "Headline Generation": "<title> {} <headline>",
-  "Text Diacritization": "<diacritize> {} ",
+  // "Headline Generation": "<title> {} <headline>",
+  // "Text Diacritization": "<diacritize> {} ",
   // "Question Generation": "<prompt> {} <response>:",
   // "Question-Answering": "<prompt> {} <response>:",
-  "Text Summarization": "<summarize> {} <summary>:",
-  "Text Cleaning": "<clean> {} ",
+  // "Text Summarization": "<summarize> {} <summary>:",
+  // "Text Cleaning": "<clean> {} ",
 };
 
 const LANGUAGE_OPTIONS = {
