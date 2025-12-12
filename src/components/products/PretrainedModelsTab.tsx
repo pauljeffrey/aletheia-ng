@@ -77,6 +77,11 @@ const LANGUAGE_OPTIONS = {
 //   "clean this text": "Abin mamaki ne aikin da shugabaZn HNajeriya ybake yi. kCiF 39gaba Tda haRkGa sir!",
 // };
 
+function toFloat(value: any, defaultValue: number) {
+  const num = parseFloat(value);
+  return Number.isFinite(num) ? num : defaultValue;
+}
+
 type ModelBehavior = {
   showTaskSelector: boolean;
   allowedTasks?: string[];
@@ -265,11 +270,6 @@ const wrapInput = (
         selectedModel,
         translationDirection
       );
-
-      function toFloat(value: any, defaultValue: number) {
-        const num = parseFloat(value);
-        return Number.isFinite(num) ? num : defaultValue;
-      }
       
       const typedConfig = {
         maxLength: Number.isFinite(Number(config.maxLength)) ? Number(config.maxLength) : 100,
