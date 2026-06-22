@@ -113,6 +113,12 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                     <div className="mb-8">
                         <div className="flex flex-wrap border-b">
                             <a 
+                                href="?tab=portfolio" 
+                                className={`px-4 py-2 font-medium ${activeTab === "portfolio" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-600 hover:text-blue-600"}`}
+                            >
+                                Portfolio
+                            </a>
+                            <a 
                                 href="?tab=experience" 
                                 className={`px-4 py-2 font-medium ${activeTab === "experience" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-600 hover:text-blue-600"}`}
                             >
@@ -144,7 +150,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                             </a>
                             <a 
                                 href="?tab=blog" 
-                                className={`px-4 py-2 font-medium ${activeTab === "experience" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-600 hover:text-blue-600"}`}
+                                className={`px-4 py-2 font-medium ${activeTab === "blog" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-600 hover:text-blue-600"}`}
                             >
                                 Blog
                             </a>
@@ -153,23 +159,146 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
 
                     {/* Tab Content */}
                     <div className="mb-16">
+                        {/* Portfolio Tab */}
+                        {activeTab === "portfolio" && (
+                            <div className="space-y-12">
+                                <p className="text-gray-500 text-sm italic">Live previews of selected projects — click &quot;Open&quot; to explore in full.</p>
+
+                                {/* Ottobiz */}
+                                <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+                                    <div className="p-6 border-b border-gray-100">
+                                        <div className="flex items-start justify-between gap-4 flex-wrap">
+                                            <div>
+                                                <h3 className="text-2xl font-bold text-gray-800 mb-1">Ottobiz</h3>
+                                                <p className="text-blue-600 font-medium mb-3">Autonomous AI Business Operations Platform</p>
+                                                <p className="text-gray-600 max-w-2xl">
+                                                    OttoBiz is a fully autonomous AI commerce agent that transforms how businesses operate — handling everything from the moment a customer enquires about a product, all the way through purchase, payment verification, logistics coordination, intelligent upselling &amp; cross-selling, and post-sale complaint resolution. It&apos;s not just automation; it&apos;s a tireless end-to-end business partner that works 24/7, so your team can focus on what matters most.
+                                                </p>
+                                            </div>
+                                            <a
+                                                href="https://ottobiz-hvbmsui8f-jeffreys-projects-d39f6687.vercel.app/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-shrink-0 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors text-sm font-medium"
+                                            >
+                                                Open ↗
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="relative w-full" style={{ height: "480px" }}>
+                                        <iframe
+                                            src="https://ottobiz-hvbmsui8f-jeffreys-projects-d39f6687.vercel.app/"
+                                            className="w-full h-full border-0"
+                                            title="Ottobiz – Autonomous AI Business Operations Platform"
+                                            loading="lazy"
+                                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                        />
+                                        <div className="absolute inset-0 pointer-events-none" />
+                                    </div>
+                                </div>
+
+                                {/* STUD */}
+                                <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+                                    <div className="p-6 border-b border-gray-100">
+                                        <div className="flex items-start justify-between gap-4 flex-wrap">
+                                            <div>
+                                                <h3 className="text-2xl font-bold text-gray-800 mb-1">STUD</h3>
+                                                <p className="text-blue-600 font-medium mb-3">Master Medicine Through Adventure</p>
+                                                <p className="text-gray-600 max-w-2xl">
+                                                    An immersive, gamified medical education platform where healthcare professionals embark on clinical adventures, master medical knowledge, and advance their careers. STUD turns the grind of studying into an engaging journey — built for the next generation of doctors and clinicians.
+                                                </p>
+                                            </div>
+                                            <a
+                                                href="https://stud-b2xsvpt30-jeffreys-projects-d39f6687.vercel.app/demo"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-shrink-0 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors text-sm font-medium"
+                                            >
+                                                Open ↗
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="relative w-full" style={{ height: "480px" }}>
+                                        <iframe
+                                            src="https://stud-b2xsvpt30-jeffreys-projects-d39f6687.vercel.app/demo"
+                                            className="w-full h-full border-0"
+                                            title="STUD – Gamified Medical Education Platform"
+                                            loading="lazy"
+                                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                        />
+                                        <div className="absolute inset-0 pointer-events-none" />
+                                    </div>
+                                </div>
+
+                                {/* SabiYarn */}
+                                <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+                                    <div className="p-6 border-b border-gray-100">
+                                        <div className="flex items-start justify-between gap-4 flex-wrap">
+                                            <div>
+                                                <h3 className="text-2xl font-bold text-gray-800 mb-1">SabiYarn</h3>
+                                                <p className="text-blue-600 font-medium mb-3">Nigeria&apos;s First Foundational AI Language Model</p>
+                                                <p className="text-gray-600 max-w-2xl">
+                                                    SabiYarn is a groundbreaking foundational AI language model purpose-built for African languages — delivering translation, sentiment analysis, topic classification, and text generation across 8 indigenous Nigerian languages including Yoruba, Hausa, Igbo, and Pidgin. Designed to bridge Nigeria&apos;s multilingual communication gap, it empowers people and businesses to engage authentically with diverse audiences at scale.
+                                                </p>
+                                            </div>
+                                            <a
+                                                href="https://www.aletheia.com.ng/products/sabiyarn"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-shrink-0 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors text-sm font-medium"
+                                            >
+                                                Open ↗
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div className="relative w-full" style={{ height: "480px" }}>
+                                        <iframe
+                                            src="https://www.aletheia.com.ng/products/sabiyarn"
+                                            className="w-full h-full border-0"
+                                            title="SabiYarn – Nigerian Foundational Language Model"
+                                            loading="lazy"
+                                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                        />
+                                        <div className="absolute inset-0 pointer-events-none" />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Experience Tab */}
                         {activeTab === "experience" && (
                             <div className="space-y-8">
-                                {/* <div className="bg-white p-6 rounded-lg shadow-md">
+
+                                <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                                         <div>
-                                            <h3 className="text-xl font-bold text-gray-800">Coptic Multi-specialist Hospital</h3>
-                                            <p className="text-lg text-blue-600">General Physician</p>
+                                            <h3 className="text-xl font-bold text-gray-800">AISHA</h3>
+                                            <p className="text-lg text-blue-600">AI Engineer</p>
                                         </div>
-                                        <p className="text-gray-600 mt-2 md:mt-0">Since April 2024</p>
+                                        <p className="text-gray-600 mt-2 md:mt-0">Present</p>
                                     </div>
-                                    <p className="text-gray-600 mb-4">Victoria Island, Lagos</p>
                                     <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                                        <li>Provided comprehensive medical care, including emergency management, patient consultations, and surgical procedures.</li>
-                                        <li>Collaborated with interdisciplinary teams to optimize patient care pathways.</li>
+                                        <li>Boosted LLM output quality by 20% while cutting prompt length by 88% through a clinical evaluation of 200+ user dialogues.</li>
+                                        <li>Engineered an agentic data pipeline for real-time conversation analysis, enabling automated health insights and dynamic visualization.</li>
+                                        <li>Led the development of an automated &quot;LLM-as-a-judge&quot; framework to evaluate safety, triage accuracy, empathy, and cultural alignment.</li>
+                                        <li>Optimized system architecture to enhance functionality and healthcare assistant reliability.</li>
+                                        <li>Integrated clinical data governance with AI engineering to ensure safe, high-quality, and validated triage protocols.</li>
                                     </ul>
-                                </div> */}
+                                </div>
+
+                                <div className="bg-white p-6 rounded-lg shadow-md">
+                                    <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+                                        <div>
+                                            <h3 className="text-xl font-bold text-gray-800">Above Health</h3>
+                                            <p className="text-lg text-blue-600">AI Engineer</p>
+                                        </div>
+                                        <p className="text-gray-600 mt-2 md:mt-0">Present</p>
+                                    </div>
+                                    <ul className="list-disc pl-6 text-gray-600 space-y-2">
+                                        <li>Designed and deployed a clinical AI system integrated with EHR via FHIR, featuring context-aware history and agentic appointment orchestration for a live healthcare environment.</li>
+                                        <li>Developed automated evaluation frameworks (including LLM-as-a-judge) to mitigate hallucinations and ensure factual accuracy, prioritizing clinical safety at scale.</li>
+                                    </ul>
+                                </div>
 
                                 <div className="bg-white p-6 rounded-lg shadow-md">
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
@@ -226,17 +355,38 @@ to analyze skin images and handle workflows, providing:</li>
                                     <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
                                         <div>
                                             <h3 className="text-xl font-bold text-gray-800">Freelance</h3>
-                                            <p className="text-lg text-blue-600">AI Engineer/Researcher</p>
+                                            <p className="text-lg text-blue-600">AI Engineer / Researcher</p>
                                         </div>
-                                        <p className="text-gray-600 mt-2 md:mt-0">Since September 2019</p>
+                                        <p className="text-gray-600 mt-2 md:mt-0">Since September 2019 · Remote</p>
                                     </div>
-                                    <p className="text-gray-600 mb-4">Remote</p>
-                                    <ul className="list-disc pl-6 text-gray-600 space-y-2">
-                                        <li><strong>AI Mental Health Support Companion:</strong> Developed, deployed an AI chatbot companion with context-aware interactions, robust dialogue management, documentation systems and progress tracking.</li>
-                                        <li><strong>RAG-Powered Customer Support Chatbot:</strong> An Information Retrieval enhanced GPT4All-based chatbot. Enhanced response relevance and accuracy by 30%, resolved 10% of inquiries in real-time.</li>
-                                        <li><strong>AI-Driven Traffic and Accident Event Analysis Engine:</strong> Using ResNet-based video segmentation, CNN-LSTM, VideoViT, and LLMs for accident classification, weather analysis, and narrative generation. Accuracy - 71%.</li>
-                                        <li><strong>Brazilian Appliance Repair Recommendation System:</strong> Created an API-based ML system for appliance repair recommendations, reducing human support needs and improving first-time fix rates.</li>
-                                        <li><strong>Neuronal Responses Prediction to Excitable Images (Macaque v4):</strong> Developed a custom model (CNN core + attention readout) to predict neuronal responses in macaque V4 visual areas. Correlation score -0.27.</li>
+                                    <ul className="list-disc pl-6 text-gray-600 space-y-3">
+                                        <li>
+                                            <strong>Distributed LLM Pre-training (Bittensor):</strong> Continuous pre-training of GPT-NeoX-20B and GPT-J-6B on the Bittensor dataset using DeepSpeed ZeRO-3 across multi-node GPU clusters. Achieved a final cross-entropy loss of 1.89 (6.62 PPL), boosting TAO token earnings by 15%.
+                                        </li>
+                                        <li>
+                                            <strong>RAG-Powered Customer Support Chatbot:</strong> Designed and deployed high-throughput RAG systems using VectorDB and GPT4All, improving response accuracy by 30% and resolving 10% of inquiries in real-time.
+                                        </li>
+                                        <li>
+                                            <strong>AI-Driven Traffic &amp; Accident Event Analysis Engine:</strong> Engineered a complex vision-language system (VideoViT, CNN-LSTM, Gemini 2.5 Pro, GPT-4o) for accident classification and narrative generation, improving baseline accuracy by over 20%.
+                                        </li>
+                                        <li>
+                                            <strong>Multi-Modal Clinical Depression Detection (DAIC-WOZ):</strong> Prediction of clinical depression using speech and text. Accuracy: 82%, Precision: 0.69, Recall: 0.70, F1: 0.63.
+                                        </li>
+                                        <li>
+                                            <strong>SignSynth: Speech-to-Sign Language Translator:</strong> Built a multi-modal pipeline using Transformers for pose generation and U-Nets for sign language image synthesis (SSIM: 0.9478, MAE: 0.04).
+                                        </li>
+                                        <li>
+                                            <strong>Adversarial Network Packet Generation:</strong> Developed a novel LSTM-based model to generate 350,000 unique adversarial network packets (IP + TCP) for proactive security vulnerability testing.
+                                        </li>
+                                        <li>
+                                            <strong>Automatic Post-Edit (APE) Translator with Real-time Adaptation:</strong> Designed a language translator with real-time adaptation, achieving BLEU-4: 0.43, TER: 0.66 for domain-specific text.
+                                        </li>
+                                        <li>
+                                            <strong>BERT-Based Appliance Repair Assistant:</strong> Created and integrated a BERT-based system via a scalable REST API for appliance repair recommendations, reducing human support needs and improving first-time fix rates.
+                                        </li>
+                                        <li>
+                                            <strong>Neuronal Response Prediction (Macaque V4):</strong> Designed a CNN Core + attention readout model for predicting neuronal responses to excitable images. Correlation score: 0.27.
+                                        </li>
                                     </ul>
                                 </div>
 
@@ -399,91 +549,87 @@ to analyze skin images and handle workflows, providing:</li>
 
                         {/* Skills Tab */}
                         {activeTab === "skills" && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="bg-white p-6 rounded-lg shadow-md">
-                                    <h3 className="text-xl font-bold text-gray-800 mb-4">Technical Skills</h3>
-                                    
-                                    <div className="mb-4">
-                                        <h4 className="font-medium text-gray-700 mb-2">Programming Languages</h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Python</span>
-                                            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">JavaScript</span>
-                                            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">TypeScript</span>
-                                            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">C++</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mb-4">
-                                        <h4 className="font-medium text-gray-700 mb-2">Libraries & Frameworks</h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">PyTorch</span>
-                                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">TensorFlow</span>
-                                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">NumPy</span>
-                                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Jax</span>
-                                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Scikit-learn</span>
-                                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">OpenCV</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="mb-4">
-                                        <h4 className="font-medium text-gray-700 mb-2">Tools & Platforms</h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">MLflow</span>
-                                            <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Docker</span>
-                                            <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Git</span>
-                                            <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">AWS</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div>
-                                        <h4 className="font-medium text-gray-700 mb-2">Data Engineering</h4>
-                                        <div className="flex flex-wrap gap-2">
-                                            <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">PySpark</span>
-                                            <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Hadoop</span>
-                                            <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">MongoDB</span>
-                                            <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">PostgreSQL</span>
-                                            <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Redis</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="bg-white p-6 rounded-lg shadow-md">
-                                    <h3 className="text-xl font-bold text-gray-800 mb-4">Areas of Expertise</h3>
-                                    
-                                    <div className="space-y-4">
-                                        <div>
-                                            <h4 className="font-medium text-gray-700 mb-2">AI & Machine Learning</h4>
+                            <div className="space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* Left column */}
+                                    <div className="space-y-6">
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4">Alignment &amp; Safety</h3>
                                             <div className="flex flex-wrap gap-2">
-                                                <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">AI Research</span>
-                                                <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Explainable AI</span>
-                                                <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">AI Safety</span>
                                                 <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">RLHF</span>
+                                                <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Explainable AI</span>
+                                                <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Adversarial Robustness</span>
                                             </div>
                                         </div>
-                                        
-                                        <div>
-                                            <h4 className="font-medium text-gray-700 mb-2">Healthcare & Medicine</h4>
+
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4">Programming</h3>
                                             <div className="flex flex-wrap gap-2">
-                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Medical Diagnostics</span>
-                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Patient Care</span>
-                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Biomedical Engineering</span>
-                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Healthcare Innovation</span>
+                                                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Python</span>
+                                                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">JavaScript</span>
                                             </div>
                                         </div>
-                                        
-                                        <div>
-                                            <h4 className="font-medium text-gray-700 mb-2">Specialized AI Applications</h4>
+
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4">Libraries &amp; Frameworks</h3>
                                             <div className="flex flex-wrap gap-2">
-                                                <span className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">NLP</span>
-                                                <span className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Computer Vision</span>
-                                                <span className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Audio Processing</span>
-                                                <span className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Robotics</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">PyTorch</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">TensorFlow</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">PEFT</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Pydantic AI</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">LangChain</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">LangGraph</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">DeepSpeed</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Transformers</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Accelerate</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">NumPy</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">SciPy</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Pandas</span>
+                                                <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Scikit-learn</span>
                                             </div>
                                         </div>
-                                        
-                                        <div>
-                                            <h4 className="font-medium text-gray-700 mb-2">Languages</h4>
+                                    </div>
+
+                                    {/* Right column */}
+                                    <div className="space-y-6">
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4">MLOps</h3>
                                             <div className="flex flex-wrap gap-2">
+                                                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">MLflow</span>
+                                                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Docker</span>
+                                                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Git</span>
+                                                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">AWS</span>
+                                                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">FastAPI</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4">Data Engineering</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">PySpark</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4">Databases &amp; Knowledge Systems</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Redis</span>
+                                                <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">MongoDB</span>
+                                                <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">PostgreSQL</span>
+                                                <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">SQL</span>
+                                                <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Knowledge Graph</span>
+                                                <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">GraphRAG</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white p-6 rounded-lg shadow-md">
+                                            <h3 className="text-xl font-bold text-gray-800 mb-4">Domains</h3>
+                                            <div className="flex flex-wrap gap-2">
+                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Healthcare AI</span>
+                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">NLP</span>
+                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Computer Vision</span>
+                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Audio Processing</span>
+                                                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">Robotics</span>
                                                 <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">English (Fluent)</span>
                                                 <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">German (Basic)</span>
                                             </div>

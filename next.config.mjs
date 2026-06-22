@@ -59,6 +59,25 @@ const nextConfig = {
     ],
   },
 
+  async headers() {
+    return [
+      {
+        // Allow any origin to embed this site in an iframe
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'ALLOWALL',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors *",
+          },
+        ],
+      },
+    ];
+  },
+
   async redirects() {
     return [
       {
