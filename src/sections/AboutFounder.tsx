@@ -161,106 +161,158 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                     <div className="mb-16">
                         {/* Portfolio Tab */}
                         {activeTab === "portfolio" && (
-                            <div className="space-y-12">
-                                <p className="text-gray-500 text-sm italic">Live previews of selected projects — click &quot;Open&quot; to explore in full.</p>
+                            <div>
+                                <p className="text-gray-500 text-sm italic mb-6">Live previews of selected projects — click &quot;Open&quot; to explore in full.</p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                                {/* Ottobiz */}
-                                <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
-                                    <div className="p-6 border-b border-gray-100">
-                                        <div className="flex items-start justify-between gap-4 flex-wrap">
-                                            <div>
-                                                <h3 className="text-2xl font-bold text-gray-800 mb-1">Ottobiz</h3>
-                                                <p className="text-blue-600 font-medium mb-3">Autonomous AI Business Operations Platform</p>
-                                                <p className="text-gray-600 max-w-2xl">
-                                                    OttoBiz is a fully autonomous AI commerce agent that transforms how businesses operate — handling everything from the moment a customer enquires about a product, all the way through purchase, payment verification, logistics coordination, intelligent upselling &amp; cross-selling, and post-sale complaint resolution. It&apos;s not just automation; it&apos;s a tireless end-to-end business partner that works 24/7, so your team can focus on what matters most.
-                                                </p>
+                                    {/* Ottobiz */}
+                                    <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col">
+                                        <div className="p-4 border-b border-gray-100">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <h3 className="text-lg font-bold text-gray-800 mb-0.5">Ottobiz</h3>
+                                                    <p className="text-blue-600 text-sm font-medium mb-2">Autonomous AI Business Operations Platform</p>
+                                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                                        A fully autonomous AI commerce agent handling the entire business cycle — from product enquiry through purchase, payment, logistics, upselling, and complaint resolution. A tireless end-to-end partner that works 24/7.
+                                                    </p>
+                                                </div>
+                                                <a
+                                                    href="https://ottobiz-hvbmsui8f-jeffreys-projects-d39f6687.vercel.app/"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex-shrink-0 flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition-colors text-xs font-medium"
+                                                >
+                                                    Open ↗
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div className="relative w-full flex-1" style={{ height: "280px" }}>
+                                            <iframe
+                                                src="https://ottobiz-hvbmsui8f-jeffreys-projects-d39f6687.vercel.app/"
+                                                className="w-full h-full border-0"
+                                                title="Ottobiz – Autonomous AI Business Operations Platform"
+                                                loading="lazy"
+                                                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                            />
+                                            <div className="absolute inset-0 pointer-events-none" />
+                                        </div>
+                                    </div>
+
+                                    {/* STUD */}
+                                    <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col">
+                                        <div className="p-4 border-b border-gray-100">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <h3 className="text-lg font-bold text-gray-800 mb-0.5">STUD</h3>
+                                                    <p className="text-blue-600 text-sm font-medium mb-2">Master Medicine Through Adventure</p>
+                                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                                        An immersive, gamified medical education platform where healthcare professionals embark on clinical adventures and advance their careers. Built for the next generation of doctors and clinicians.
+                                                    </p>
+                                                </div>
+                                                <a
+                                                    href="https://stud-eight-taupe.vercel.app/"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex-shrink-0 flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition-colors text-xs font-medium"
+                                                >
+                                                    Open ↗
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div className="relative w-full flex-1" style={{ height: "280px" }}>
+                                            <iframe
+                                                src="https://stud-eight-taupe.vercel.app/"
+                                                className="w-full h-full border-0"
+                                                title="STUD – Gamified Medical Education Platform"
+                                                loading="lazy"
+                                                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                            />
+                                            <div className="absolute inset-0 pointer-events-none" />
+                                        </div>
+                                    </div>
+
+                                    {/* SabiYarn */}
+                                    <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col">
+                                        <div className="p-4 border-b border-gray-100">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <h3 className="text-lg font-bold text-gray-800 mb-0.5">SabiYarn</h3>
+                                                    <p className="text-blue-600 text-sm font-medium mb-2">Nigeria&apos;s First Foundational AI Language Model</p>
+                                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                                        A groundbreaking language model purpose-built for African languages — translation, sentiment analysis, topic classification, and text generation across 8 indigenous Nigerian languages including Yoruba, Hausa, Igbo, and Pidgin.
+                                                    </p>
+                                                </div>
+                                                <a
+                                                    href="https://www.aletheia.com.ng/products/sabiyarn"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex-shrink-0 flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition-colors text-xs font-medium"
+                                                >
+                                                    Open ↗
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div className="relative w-full flex-1" style={{ height: "280px" }}>
+                                            <iframe
+                                                src="https://www.aletheia.com.ng/products/sabiyarn"
+                                                className="w-full h-full border-0"
+                                                title="SabiYarn – Nigerian Foundational Language Model"
+                                                loading="lazy"
+                                                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                                            />
+                                            <div className="absolute inset-0 pointer-events-none" />
+                                        </div>
+                                    </div>
+
+                                    {/* West African MT + RLHF */}
+                                    <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col">
+                                        <div className="p-4 border-b border-gray-100">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    <h3 className="text-lg font-bold text-gray-800 mb-0.5">West African MT + RLHF</h3>
+                                                    <p className="text-blue-600 text-sm font-medium mb-2">AfriCOMET-Guided Translation for Low-Resource Languages</p>
+                                                    <p className="text-gray-600 text-sm leading-relaxed">
+                                                        A distributed fine-tuning framework that applies RLHF with AfriCOMET as a reward model to improve machine translation for low-resource West African language pairs — Hausa, Igbo, Yoruba, Wolof, and more. Two-stage SFT → RLHF pipeline on Gemma 3 with multi-GPU DDP/FSDP support.
+                                                    </p>
+                                                </div>
+                                                <a
+                                                    href="https://github.com/pauljeffrey/westafrican-mt-rlhf"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex-shrink-0 flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition-colors text-xs font-medium"
+                                                >
+                                                    Open ↗
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div
+                                            className="relative w-full flex-1 bg-gradient-to-br from-gray-900 to-gray-800 flex flex-col justify-between p-5 overflow-hidden"
+                                            style={{ height: "280px" }}
+                                        >
+                                            <div className="font-mono text-xs leading-relaxed text-gray-300">
+                                                <p className="text-green-400 mb-2">$ git clone westafrican-mt-rlhf</p>
+                                                <p className="text-gray-500">westafrican-mt-rlhf/</p>
+                                                <p className="pl-3 text-gray-400">├── src/ <span className="text-gray-600">— SFT + RLHF training</span></p>
+                                                <p className="pl-3 text-gray-400">├── scripts/ <span className="text-gray-600">— train, eval, translate</span></p>
+                                                <p className="pl-3 text-gray-400">└── app/ <span className="text-gray-600">— live demo UI + API</span></p>
+                                            </div>
+                                            <div className="flex flex-wrap gap-2 mt-3">
+                                                <span className="bg-gray-700/80 text-green-300 text-xs px-2 py-1 rounded">RLHF</span>
+                                                <span className="bg-gray-700/80 text-green-300 text-xs px-2 py-1 rounded">AfriCOMET</span>
+                                                <span className="bg-gray-700/80 text-green-300 text-xs px-2 py-1 rounded">PyTorch</span>
+                                                <span className="bg-gray-700/80 text-green-300 text-xs px-2 py-1 rounded">DDP / FSDP</span>
                                             </div>
                                             <a
-                                                href="https://ottobiz-hvbmsui8f-jeffreys-projects-d39f6687.vercel.app/"
+                                                href="https://github.com/pauljeffrey/westafrican-mt-rlhf"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex-shrink-0 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors text-sm font-medium"
+                                                className="mt-3 inline-flex items-center gap-1.5 text-sm text-white/90 hover:text-white font-medium"
                                             >
-                                                Open ↗
+                                                View repository on GitHub ↗
                                             </a>
                                         </div>
                                     </div>
-                                    <div className="relative w-full" style={{ height: "480px" }}>
-                                        <iframe
-                                            src="https://ottobiz-hvbmsui8f-jeffreys-projects-d39f6687.vercel.app/"
-                                            className="w-full h-full border-0"
-                                            title="Ottobiz – Autonomous AI Business Operations Platform"
-                                            loading="lazy"
-                                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                                        />
-                                        <div className="absolute inset-0 pointer-events-none" />
-                                    </div>
-                                </div>
 
-                                {/* STUD */}
-                                <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
-                                    <div className="p-6 border-b border-gray-100">
-                                        <div className="flex items-start justify-between gap-4 flex-wrap">
-                                            <div>
-                                                <h3 className="text-2xl font-bold text-gray-800 mb-1">STUD</h3>
-                                                <p className="text-blue-600 font-medium mb-3">Master Medicine Through Adventure</p>
-                                                <p className="text-gray-600 max-w-2xl">
-                                                    An immersive, gamified medical education platform where healthcare professionals embark on clinical adventures, master medical knowledge, and advance their careers. STUD turns the grind of studying into an engaging journey — built for the next generation of doctors and clinicians.
-                                                </p>
-                                            </div>
-                                            <a
-                                                href="https://stud-b2xsvpt30-jeffreys-projects-d39f6687.vercel.app/demo"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex-shrink-0 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors text-sm font-medium"
-                                            >
-                                                Open ↗
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="relative w-full" style={{ height: "480px" }}>
-                                        <iframe
-                                            src="https://stud-b2xsvpt30-jeffreys-projects-d39f6687.vercel.app/demo"
-                                            className="w-full h-full border-0"
-                                            title="STUD – Gamified Medical Education Platform"
-                                            loading="lazy"
-                                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                                        />
-                                        <div className="absolute inset-0 pointer-events-none" />
-                                    </div>
-                                </div>
-
-                                {/* SabiYarn */}
-                                <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
-                                    <div className="p-6 border-b border-gray-100">
-                                        <div className="flex items-start justify-between gap-4 flex-wrap">
-                                            <div>
-                                                <h3 className="text-2xl font-bold text-gray-800 mb-1">SabiYarn</h3>
-                                                <p className="text-blue-600 font-medium mb-3">Nigeria&apos;s First Foundational AI Language Model</p>
-                                                <p className="text-gray-600 max-w-2xl">
-                                                    SabiYarn is a groundbreaking foundational AI language model purpose-built for African languages — delivering translation, sentiment analysis, topic classification, and text generation across 8 indigenous Nigerian languages including Yoruba, Hausa, Igbo, and Pidgin. Designed to bridge Nigeria&apos;s multilingual communication gap, it empowers people and businesses to engage authentically with diverse audiences at scale.
-                                                </p>
-                                            </div>
-                                            <a
-                                                href="https://www.aletheia.com.ng/products/sabiyarn"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex-shrink-0 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors text-sm font-medium"
-                                            >
-                                                Open ↗
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="relative w-full" style={{ height: "480px" }}>
-                                        <iframe
-                                            src="https://www.aletheia.com.ng/products/sabiyarn"
-                                            className="w-full h-full border-0"
-                                            title="SabiYarn – Nigerian Foundational Language Model"
-                                            loading="lazy"
-                                            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                                        />
-                                        <div className="absolute inset-0 pointer-events-none" />
-                                    </div>
                                 </div>
                             </div>
                         )}
