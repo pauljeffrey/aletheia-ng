@@ -3,61 +3,59 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
 import { StructuredData } from "@/components/StructuredData";
+import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Aletheia Research Labs | AI, Data Analytics & Robotics Solutions",
-    template: "%s | Aletheia Research Labs",
+    default: `${SITE_NAME} | AI, Data Analytics & Robotics Solutions`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "Aletheia Research Labs is a leading AI research and development company specializing in multilingual AI models, data analytics, robotics, AI strategy, and AI governance. We create innovative AI solutions for businesses, healthcare, and underserved communities.",
+  description: SITE_DESCRIPTION,
   keywords: [
-    "AI research",
+    "AI research Nigeria",
+    "Aletheia Research Labs",
     "artificial intelligence",
     "data analytics",
     "robotics",
-    "AI models",
     "multilingual AI",
     "Nigerian languages",
     "SabiYarn",
-    "AI strategy",
-    "AI governance",
-    "AI software development",
-    "machine learning",
-    "natural language processing",
     "healthcare AI",
-    "business AI solutions",
+    "African NLP",
+    "machine learning",
+    "AI governance",
   ],
-  authors: [{ name: "Aletheia Research Labs" }],
-  creator: "Aletheia Research Labs",
-  publisher: "Aletheia Research Labs",
-  metadataBase: new URL("https://www.aletheia.com.ng"),
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.aletheia.com.ng",
-    siteName: "Aletheia Research Labs",
-    title: "Aletheia Research Labs | AI, Data Analytics & Robotics Solutions",
-    description: "Leading AI research and development company specializing in multilingual AI models, data analytics, robotics, AI strategy, and AI governance.",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | AI, Data Analytics & Robotics Solutions`,
+    description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/og-image.png",
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Aletheia Research Labs",
+        alt: SITE_NAME,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aletheia Research Labs | AI, Data Analytics & Robotics Solutions",
-    description: "Leading AI research and development company specializing in multilingual AI models, data analytics, robotics, AI strategy, and AI governance.",
-    images: ["/og-image.png"],
-    creator: "@AletheiaAI",
+    title: `${SITE_NAME} | AI, Data Analytics & Robotics Solutions`,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
+    creator: "@Jeffreypaul_",
   },
   robots: {
     index: true,
@@ -70,11 +68,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    // Add your verification codes here when you get them
-    // google: "your-google-verification-code",
-    // yandex: "your-yandex-verification-code",
-    // yahoo: "your-yahoo-verification-code",
+  icons: {
+    icon: "/Aletheia.png",
+    apple: "/Aletheia.png",
   },
 };
 

@@ -1,14 +1,12 @@
 import { Metadata } from "next";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "About Us",
-  description: "Learn about Aletheia Research Labs - our mission, vision, values, and commitment to creating innovative AI solutions for businesses, healthcare, and underserved communities.",
-  openGraph: {
-    title: "About Aletheia Research Labs",
-    description: "Learn about Aletheia Research Labs - our mission, vision, values, and commitment to creating innovative AI solutions.",
-    url: "https://www.aletheia.com.ng/about",
-  },
-};
+  description:
+    "Learn about Aletheia Research Labs — our mission, vision, values, and work on multilingual AI, healthcare, and robotics for underserved communities.",
+  path: "/about",
+});
 
 export default function AboutLayout({
   children,

@@ -177,7 +177,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                                     </p>
                                                 </div>
                                                 <a
-                                                    href="https://ottobiz-hvbmsui8f-jeffreys-projects-d39f6687.vercel.app/"
+                                                    href="https://ottobiz.vercel.app/"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="flex-shrink-0 flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition-colors text-xs font-medium"
@@ -188,7 +188,7 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                         </div>
                                         <div className="relative w-full flex-1" style={{ height: "280px" }}>
                                             <iframe
-                                                src="https://ottobiz-hvbmsui8f-jeffreys-projects-d39f6687.vercel.app/"
+                                                src="https://ottobiz.vercel.app/"
                                                 className="w-full h-full border-0"
                                                 title="Ottobiz – Autonomous AI Business Operations Platform"
                                                 loading="lazy"

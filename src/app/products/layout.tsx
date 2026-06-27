@@ -1,14 +1,12 @@
 import { Metadata } from "next";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Products",
-  description: "Explore Aletheia Research Labs' innovative AI products including SabiYarn multilingual language models and Ottobiz AI-enhanced market platform.",
-  openGraph: {
-    title: "Our Products | Aletheia Research Labs",
-    description: "Explore our innovative AI solutions including SabiYarn multilingual language models and Ottobiz AI-enhanced market platform.",
-    url: "https://www.aletheia.com.ng/products",
-  },
-};
+  description:
+    "Explore Aletheia Research Labs products including SabiYarn multilingual language models and Ottobiz agentic AI commerce platform.",
+  path: "/products",
+});
 
 export default function ProductsLayout({
   children,
