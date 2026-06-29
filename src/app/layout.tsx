@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { DM_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
 import { StructuredData } from "@/components/StructuredData";
 import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
-const dmSans = DM_Sans({ subsets: ["latin"] });
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -81,7 +90,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="relative">
-      <body className={twMerge(dmSans.className, "antialiased bg-bg-dark")}>
+      <body className={twMerge(dmSans.variable, instrumentSerif.variable, "font-sans antialiased bg-bg-dark")}>
         <StructuredData />
         {children}
       </body>

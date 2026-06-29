@@ -1,5 +1,6 @@
 import React, { useEffect, useId, useRef, useState, createContext } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { IconArrowNarrowLeft, IconArrowNarrowRight, IconX } from "@tabler/icons-react";
@@ -57,25 +58,24 @@ export function ExpandableCardDemo() {
       </AnimatePresence>
       <AnimatePresence>
         {active && typeof active === "object" ? (
-          <div className="fixed inset-0 grid place-items-center z-[60] overflow-y-auto py-10">
+          <div className="fixed inset-0 z-[60] overflow-y-auto py-6 sm:py-10 px-4 sm:px-6">
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="w-full max-w-5xl bg-gradient-card backdrop-blur-lg sm:rounded-3xl overflow-hidden my-auto shadow-2xl border border-primary-green/30"
+              className="w-full max-w-5xl mx-auto bg-bg-card sm:rounded-2xl overflow-hidden my-auto shadow-elevated border border-border-subtle"
             >
               <div className="relative">
-                {/* <motion.div layoutId={`image-${active.title}-${id}`}>
+                <motion.div layoutId={`image-${active.title}-${id}`} className="relative h-48 md:h-56 w-full">
                   <Image
                     priority
-                    width={200}
-                    height={200}
+                    fill
                     src={active.src}
                     alt={active.title}
-                    className="w-full h-80 lg:h-80 sm:rounded-tr-lg sm:rounded-tl-lg object-cover object-top"
+                    className="object-cover object-top"
                   />
-                </motion.div> */}
+                </motion.div>
                 <button
-                  className="absolute top-4 right-4 h-10 w-10 bg-bg-dark-secondary/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-primary-green hover:text-white transition-all shadow-lg hover:scale-110 z-50 border border-primary-green/30"
+                  className="absolute top-4 right-4 h-10 w-10 bg-bg-dark-secondary/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/10 transition-all z-50 border border-border-subtle"
                   onClick={() => setActive(null)}
                 >
                   <IconX className="h-6 w-6 text-text-white" />
@@ -84,7 +84,7 @@ export function ExpandableCardDemo() {
               <div className="p-4 md:p-10 max-h-[calc(100vh-80px)] overflow-y-auto">
                 <motion.h3
                   layoutId={`title-${active.title}-${id}`}
-                  className="text-2xl md:text-5xl font-bold gradient-text mt-2"
+                  className="text-2xl md:text-4xl font-display text-text-white mt-2"
                 >
                   {active.title}
                 </motion.h3>
@@ -146,12 +146,12 @@ const Carousel = ({ items }: { items: JSX.Element[] }) => {
   return (
     <div className="relative w-full">
       <div
-        className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
+        className="flex w-full overflow-x-auto overscroll-x-contain py-8 sm:py-10 md:py-20 scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory"
         ref={carouselRef}
         onScroll={checkScrollability}
       >
         <div className={cn("absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l from-transparent to-bg-dark")}></div>
-        <div className={cn("flex flex-row justify-start gap-6 pl-4", "max-w-7xl mx-auto")}>
+        <div className={cn("flex flex-row justify-start gap-4 sm:gap-6 pl-0 sm:pl-4 pr-4 sm:pr-0", "max-w-7xl mx-auto")}>
           {items.map((item, index) => (
             <motion.div
               initial={{ opacity: 0, y: 30, scale: 0.9 }}
@@ -159,7 +159,7 @@ const Carousel = ({ items }: { items: JSX.Element[] }) => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 * index, ease: "easeOut" }}
               key={`card-${index}`}
-              className="last:pr-[5%] md:last:pr-[33%]"
+              className="snap-start shrink-0 last:pr-4 md:last:pr-[33%]"
               whileHover={{ scale: 1.02 }}
             >
               {item}
@@ -167,16 +167,16 @@ const Carousel = ({ items }: { items: JSX.Element[] }) => {
           ))}
         </div>
       </div>
-      <div className="flex justify-end gap-3 mr-10">
+      <div className="flex justify-center sm:justify-end gap-3 mt-2 sm:mt-0 sm:mr-10">
         <button
-          className="relative z-40 h-12 w-12 rounded-full bg-bg-card backdrop-blur-sm border border-primary-green/30 flex items-center justify-center disabled:opacity-50 hover:bg-primary-green hover:text-white hover:border-primary-green transition-all shadow-lg hover:scale-110 disabled:hover:scale-100"
+          className="relative z-40 h-10 w-10 rounded-lg bg-bg-card border border-border-subtle flex items-center justify-center disabled:opacity-40 hover:border-border hover:bg-white/[0.04] transition-all"
           onClick={scrollLeft}
           disabled={!canScrollLeft}
         >
           <IconArrowNarrowLeft className="h-6 w-6 text-primary-green" />
         </button>
         <button
-          className="relative z-40 h-12 w-12 rounded-full bg-bg-card backdrop-blur-sm border border-primary-green/30 flex items-center justify-center disabled:opacity-50 hover:bg-primary-green hover:text-white hover:border-primary-green transition-all shadow-lg hover:scale-110 disabled:hover:scale-100"
+          className="relative z-40 h-10 w-10 rounded-lg bg-bg-card border border-border-subtle flex items-center justify-center disabled:opacity-40 hover:border-border hover:bg-white/[0.04] transition-all"
           onClick={scrollRight}
           disabled={!canScrollRight}
         >
@@ -192,12 +192,12 @@ const Card = ({ card, setActive, id }: { card: (typeof cards)[number]; index: nu
       <motion.div
         layoutId={`card-${card.title}-${id}`}
         onClick={() => setActive(card)}
-        className="rounded-2xl bg-gradient-card backdrop-blur-sm h-auto w-56 md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10 shadow-lg cursor-pointer border border-primary-green/30 hover:shadow-glow hover:scale-105 hover:border-primary-green/60 transition-all duration-300 group"
-        whileHover={{ y: -5 }}
+        className="rounded-xl bg-bg-card h-auto w-[min(85vw,280px)] sm:w-72 md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10 cursor-pointer border border-border-subtle hover:border-border transition-all duration-200 group snap-start shrink-0"
+        whileHover={{ y: -2 }}
       >
         <motion.div 
           layoutId={`image-${card.title}-${id}`} 
-          className="w-full h-72 md:h-96 relative overflow-hidden"
+          className="w-full h-48 sm:h-72 md:h-96 relative overflow-hidden"
         >
           <Image
             src={card.src}
@@ -227,94 +227,44 @@ const Card = ({ card, setActive, id }: { card: (typeof cards)[number]; index: nu
 const cards = [
     {
       description: "Language Model",
-      title: "SabiYarn v1",
+      title: "SabiYarn-125M",
       src: "/sabiyarn_ai.png",
-      ctaText: "Visit",
-      ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
-      content: () => {
-        return (
-            <>
-            <p className="text-text-light leading-relaxed">SabiYarn is a foundational AI language model tailored for Nigerian languages, offering powerful capabilities in translation, sentiment analysis, topic classification and text generation for 8 indigenous languages. It was designed with an objective– to bridge communication gaps across Nigeria&apos;s multilingual landscape, enabling people and businesses to engage with diverse audiences effectively.</p>
-            <br />
-            <p className="text-text-white"><strong className="text-primary-green">Key Features:</strong></p>
-            <ul className="list-disc list-inside space-y-2 text-text-light mt-2">
-              <li>Supports major Nigerian languages like Yoruba, Hausa, Igbo, and Pidgin.</li>
-              <li>Multitask capabilities in translation, sentiment analysis, and text generation.</li>
-              <li>Localized solutions for businesses/organizations to interact with Nigerian customers.</li>
-            </ul>
-            <br />
-            <a href="/products/sabiyarn" className="inline-block mt-4 px-6 py-2 bg-gradient-hover text-white rounded-lg hover:shadow-glow transition-all font-medium">
-              Try SabiYarn Models
-            </a>
-            </>
-        );
-      },
+      content: () => (
+        <>
+          <p className="text-text-light leading-relaxed">
+            SabiYarn is a foundational AI language model tailored for Nigerian languages, offering translation, sentiment analysis, topic classification and text generation for 8 indigenous languages.
+          </p>
+          <p className="text-text-white mt-4"><strong className="text-primary-green">Key Features:</strong></p>
+          <ul className="list-disc list-inside space-y-2 text-text-light mt-2">
+            <li>Supports Yoruba, Hausa, Igbo, Pidgin, and more.</li>
+            <li>Multitask capabilities in translation, sentiment analysis, and text generation.</li>
+            <li>Localized solutions for businesses engaging Nigerian audiences.</li>
+          </ul>
+          <Link href="/products/sabiyarn" className="inline-block mt-6 btn btn-primary text-sm">
+            Try SabiYarn Models
+          </Link>
+        </>
+      ),
     },
-    // {
-    //   description: "Language Model",
-    //   title: "SabiYarn v2",
-    //   src: "",
-    //   ctaText: "Visit",
-    //   ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
-    //   content: () => {
-    //     return (
-    //         <>
-    //         <p>SabiYarn v2 takes multilingual AI to the next level, with enhanced reasoning, inter-language translation, and advanced tasks like instruction-following and reasoning. It's being designed to support a wide range of African languages (about 30), to facilitate driving solutions for businesses and governments across the continent.</p>
-    //         <br />
-    //         <p><ul>              
-    //           <b>Key Features:</b>
-    //           <li>Multilingual support for a wider range of African languages.</li>
-    //           <li>Advanced reasoning and inter-language translation.</li>
-    //           <li>Suitable for sectors like governance, healthcare, and cross-border business.</li>
-    //         </ul></p>
-    //         </>
-    //     );
-    //   },
-    // },
-    // {
-    //   description: "Hardware/Robotics",
-    //   title: "MediVault",
-    //   src: "",
-    //   ctaText: "Visit",
-    //   ctaLink: "https://huggingface.co/spaces/BeardedMonster/SabiYarn_125M",
-    //   content: () => {
-    //     return (
-    //         <>
-    //         <p>MediVault is an robot-enhanced AI device that digitizes paper-based medical records, simplifying healthcare documentation. It automates data extraction, categorization, and storage, improving workflow efficiency and ensuring compliance with data privacy regulations.</p>
-    //         <br />
-    //         <p><ul>              
-    //           <b>Key Features:</b>
-    //           <li>AI-assisted digitization of handwritten medical notes.</li>
-    //           <li>AI-driven categorization, entity recognition for easy data retrieval.</li>
-    //           <li>Data centralization.</li>
-    //           <li>Seamless integration with healthcare systems and regulatory compliance.</li>
-    //         </ul></p>
-    //         </>
-    //     );
-    //   },
-    // },
     {
-      description: "Agentic System",
-      title: "Ottobiz",
-      src: "/ottobiz.png",
-      ctaText: "Visit",
-      ctaLink: "",
-      content: () => {
-        return (
-            <>
-            <p className="text-text-light leading-relaxed">Ottobiz is an AI-enhanced market platform that automates key aspects of the sales cycle, from advertising, product inquiry to payment verification and logistics. It boosts efficiency, enhances customer experience, and drives revenue through intelligent automation and data insights. This is being built in partnership with Datached.</p>
-            <br />
-            <p className="text-text-white"><strong className="text-primary-green">Key Features:</strong></p>
-            <ul className="list-disc list-inside space-y-2 text-text-light mt-2">
-              <li>Automates sales inquiries, payment verification, and logistics.</li>
-              <li>Provides insights for upselling.</li>
-            </ul>
-            <br />
-            <a href="/products/ottobiz" className="inline-block mt-4 px-6 py-2 bg-gradient-hover text-white rounded-lg hover:shadow-glow transition-all font-medium">
-              Learn More About Ottobiz
-            </a>
-            </>
-        );
-      },
+      description: "Medical Education",
+      title: "STUD",
+      src: "/image.png",
+      content: () => (
+        <>
+          <p className="text-text-light leading-relaxed">
+            STUD is a gamified medical education platform — clinical adventures that help the next generation of clinicians master medicine through interactive, scenario-based learning.
+          </p>
+          <p className="text-text-white mt-4"><strong className="text-primary-green">Key Features:</strong></p>
+          <ul className="list-disc list-inside space-y-2 text-text-light mt-2">
+            <li>Scenario-based clinical simulations and case studies.</li>
+            <li>Gamified progression to reinforce medical knowledge.</li>
+            <li>Built for students, residents, and continuing education.</li>
+          </ul>
+          <Link href="/jeffreyotoibhi?tab=portfolio" className="inline-block mt-6 btn btn-text text-primary-green">
+            View in portfolio →
+          </Link>
+        </>
+      ),
     },
 ];

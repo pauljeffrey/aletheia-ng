@@ -1,91 +1,35 @@
 "use client";
+
+import Link from "next/link";
 import { ArrowRight } from "@/components/icons/ArrowRight";
-import { motion, useScroll } from "framer-motion";
-import { useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export const CallToAction = () => {
-  const sectionRef = useRef(null);
-  useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section
-      ref={sectionRef}
-      className="bg-bg-dark py-32 overflow-x-clip relative"
-    >
-      <div className="absolute inset-0 bg-gradient-neon pointer-events-none"></div>
-      <div className="container relative z-10">
-        <div className="section-heading relative">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="section-title"
-          >
-            Work with us today
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="section-description mt-6 text-text-light"
-          >
-          We are on a mission to create meaningful impact through AI, and we&apos;re looking for visionary partners to join us on this journey. Whether you are an investor, business aiming to integrate AI into your workflow or an organization seeking to solve complex challenges, Aletheia AI is here to help.
-          Let&apos;s build the future together.
-          </motion.p>
-          <motion.div
-            className="absolute -left-[300px] -top-[100px] hidden lg:block"
-            animate={{
-              rotate: [0, 360],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          >
-            <div className="w-64 h-64 bg-primary-blue/20 rounded-full blur-3xl"></div>
-          </motion.div>
-          <motion.div
-            className="absolute -right-[300px] -top-[50px] hidden lg:block"
-            animate={{
-              rotate: [360, 0],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          >
-            <div className="w-80 h-80 bg-primary-green/20 rounded-full blur-3xl"></div>
-          </motion.div>
-        </div>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+    <section className="bg-bg-dark-secondary py-16 sm:py-24 md:py-32 overflow-x-clip border-t border-border-subtle">
+      <div className="container">
+        <SectionHeader
+          title="Work with us today"
+          description="We're building meaningful impact through AI — whether you're an investor, a business integrating AI, or an organization solving hard problems, Aletheia Research Labs is ready to collaborate."
+          className="mb-10"
+        />
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-4 mt-12 justify-center"
+          transition={{ duration: 0.5 }}
+          className="flex flex-col sm:flex-row gap-3 justify-center"
         >
-          <button className="btn btn-primary group">
+          <Link href="/contact" className="btn btn-primary">
             Get started
-            <motion.span
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="ml-2"
-            >
-              →
-            </motion.span>
-          </button>
-          <button className="btn btn-text text-primary-green hover:text-cyan group">
+          </Link>
+          <Link href="/about" className="btn btn-text group">
             <span>Learn more</span>
-            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+            <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
         </motion.div>
       </div>
     </section>

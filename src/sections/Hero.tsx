@@ -1,157 +1,99 @@
 "use client";
 
-import { ArrowRight as ArrowIcon } from "@/components/icons/ArrowRight";
-import { motion } from "framer-motion";
-import { Sparkles, Zap, Brain, Code2, Settings, Shield } from "lucide-react";
+import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 export const Hero = () => {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <section className="pt-20 pb-32 md:pt-24 md:pb-40 bg-gradient-hero overflow-hidden relative min-h-[90vh] flex items-center">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0, 217, 165, 0.4) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 184, 255, 0.4) 1px, transparent 1px)
-            `,
-            backgroundSize: "60px 60px",
-          }}
-        />
-        
-        <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-primary-blue/20 rounded-full blur-3xl"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-primary-green/20 rounded-full blur-3xl"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, 50, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan/25 rounded-full blur-2xl"
-          animate={{
-            scale: [1, 1.5, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      </div>
+    <section className="relative overflow-hidden pt-20 pb-16 sm:pt-24 sm:pb-20 md:pt-32 md:pb-28 bg-bg-dark bg-gradient-hero">
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.35]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
+          backgroundSize: "64px 64px",
+          maskImage: "radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent)",
+        }}
+      />
 
       <div className="container relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-full bg-primary-green/10 backdrop-blur-sm border border-primary-green/30 mb-6 hover:scale-105 transition-transform hover:shadow-glow max-w-4xl mx-auto"
-          >
-            <Sparkles className="w-4 h-4 text-primary-green animate-pulse flex-shrink-0" />
-            <span className="text-xs md:text-sm font-medium text-text-white text-center">
-              AI Models • Data Analytics • Robotics • AI Software Development • AI Strategy • AI Governance
-            </span>
-          </motion.div>
-
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
-          >
-            <span className="gradient-text">Innovating Today</span>
-            <br />
-            <span className="text-text-white">for a Smarter Tomorrow</span>
-          </motion.h1>
-
-          {/* Description */}
+        <div className="max-w-4xl mx-auto text-center px-1">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl text-text-light mb-10 max-w-2xl mx-auto leading-relaxed"
+            transition={{ duration: 0.5 }}
+            className="tag mb-6 sm:mb-8 text-[10px] sm:text-xs"
           >
-            Rooted in innovation and inclusivity, we aim to bridge the gap between technology and humanity by creating AI solutions tailored to diverse cultural, linguistic, business and industrial landscapes.
+            Research-first AI · Global impact
           </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+          <motion.h1
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="font-display text-[2rem] leading-[1.12] sm:text-4xl md:text-6xl lg:text-7xl text-text-white tracking-tight mb-5 sm:mb-6"
           >
-            <a href="/products/sabiyarn" className="group">
-              <button className="btn btn-primary group-hover:shadow-glow-lg">
-                Try Latest Model
-                <Zap className="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
-              </button>
-            </a>
-            <a href="/research" className="group">
-              <button className="btn btn-text text-primary-green hover:text-cyan">
-                <span>Learn More</span>
-                <ArrowIcon className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </a>
-          </motion.div>
+            Innovating Today
+            <span className="block text-primary-green italic mt-1">for a Smarter Tomorrow</span>
+          </motion.h1>
 
-          {/* Feature Icons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-wrap justify-center gap-6 md:gap-8 mt-16"
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-base sm:text-lg md:text-xl text-text-medium max-w-2xl mx-auto leading-relaxed mb-4 px-1"
           >
-            {[
-              { icon: Brain, label: "AI Models", color: "text-primary-green" },
-              { icon: Code2, label: "Data Analytics", color: "text-primary-blue" },
-              { icon: Zap, label: "Robotics", color: "text-cyan" },
-              { icon: Code2, label: "AI Powered Software Development", color: "text-primary-green" },
-              { icon: Settings, label: "AI Strategy", color: "text-primary-blue" },
-              { icon: Shield, label: "AI Governance", color: "text-cyan" },
-            ].map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
-                whileHover={{ scale: 1.1, y: -5 }}
-                className="flex flex-col items-center gap-3 group cursor-pointer"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-bg-card backdrop-blur-sm border border-primary-green/30 flex items-center justify-center group-hover:shadow-glow group-hover:border-primary-green/60 transition-all duration-300">
-                  <item.icon className={`w-8 h-8 ${item.color} group-hover:scale-110 transition-transform`} />
-                </div>
-                <span className="text-xs md:text-sm font-medium text-text-light group-hover:text-text-white transition-colors text-center max-w-[120px]">
-                  {item.label}
-                </span>
-              </motion.div>
-            ))}
+            Rooted in innovation and inclusivity, we bridge the gap between technology and humanity — creating AI solutions tailored to diverse cultural, linguistic, business, and industrial landscapes.
+          </motion.p>
+
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-sm sm:text-base text-text-light max-w-xl mx-auto leading-relaxed mb-8 sm:mb-10 px-1"
+          >
+            A research-first approach to hard problems.{" "}
+            <span className="text-primary-green">AI that speaks every language.</span>
+          </motion.p>
+
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center w-full max-w-sm sm:max-w-none mx-auto"
+          >
+            <Link href="/products/sabiyarn" className="btn btn-primary px-6 py-3 text-sm sm:text-base w-full sm:w-auto">
+              Explore SabiYarn-125M
+              <ArrowRight className="ml-2 w-4 h-4 shrink-0" />
+            </Link>
+            <Link href="/jeffreyotoibhi?tab=portfolio" className="btn btn-text px-6 py-3 text-sm sm:text-base w-full sm:w-auto">
+              View our work
+            </Link>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-14 sm:mt-20 pt-8 sm:pt-10 border-t border-border-subtle"
+        >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-4xl mx-auto">
+            {[
+              { value: "7+", label: "Indigenous languages" },
+              { value: "ACL '25", label: "Published research" },
+              { value: "48%", label: "Benchmark lift vs GPT-4" },
+              { value: "4+", label: "Shipped products" },
+            ].map((item) => (
+              <div key={item.label} className="text-center md:text-left">
+                <p className="text-xl sm:text-2xl md:text-3xl font-display text-text-white">{item.value}</p>
+                <p className="text-[10px] sm:text-xs text-text-medium mt-1 uppercase tracking-wider leading-snug">{item.label}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

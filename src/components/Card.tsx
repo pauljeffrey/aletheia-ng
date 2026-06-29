@@ -2,55 +2,63 @@
 import Image from "next/image";
 import React from "react";
 import { WobbleCard } from "./ui/wobble-card";
-import diabetesImage  from "@/assets/diabetes.jpg"
-import sleepImage from "@/assets/sleep.jpg"
 
 export function WobbleCardDemo() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full">
       <WobbleCard
-        containerClassName="col-span-1 lg:col-span-2 h-full bg-orange-800 min-h-[500px] lg:min-h-[300px]"
+        containerClassName="col-span-1 lg:col-span-2 h-full bg-bg-card border border-border-subtle min-h-[300px]"
         className=""
       >
         <div className="max-w-xs">
-          <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-          Mediverse
+          <h2 className="text-left text-balance text-xl lg:text-2xl font-medium text-text-white">
+            STUD
           </h2>
-          <p className="mt-4 text-left  text-base/6 text-neutral-200">
-          An engaging medical training platform to gamify and enhance learning for medical students and professionals.
+          <p className="mt-4 text-left text-base/6 text-text-medium">
+            Gamified medical education — master medicine through clinical adventures built for the next generation of clinicians.
           </p>
         </div>
         <Image
-          src={diabetesImage}
+          src="/image.png"
           width={500}
           height={500}
-          alt="diabetes image"
-          className="absolute -right-4 lg:-right-[40%] grayscale filter -bottom-10 object-contain rounded-2xl"
+          alt=""
+          className="absolute -right-4 lg:-right-[40%] grayscale filter -bottom-10 object-contain rounded-2xl opacity-80"
         />
       </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 min-h-[300px] bg-green-900">
-        <h2 className="max-w-80  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-        Intelligent Biomedical Devices
+      <WobbleCard containerClassName="col-span-1 min-h-[300px] bg-bg-card border border-border-subtle">
+        <h2 className="max-w-xs text-left text-xl lg:text-2xl font-medium text-text-white">
+          SabiYarn-125M
         </h2>
-        <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-        Research and development into smart, AI-powered devices to revolutionize healthcare diagnostics and treatment.
+        <p className="mt-4 text-left text-base/6 text-text-medium">
+          Nigeria&apos;s first decoder-only foundational language model — seven indigenous languages, production-ready NLP.
         </p>
+        <Image
+          src="/sabiyarn_ai.png"
+          width={200}
+          height={200}
+          alt=""
+          className="absolute -right-2 -bottom-4 opacity-20 object-contain"
+        />
       </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-blue-900 min-h-[500px] lg:min-h-[300px] xl:min-h-[300px]">
-        <div className="max-w-sm">
-          <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-          Cryptovision
+      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-bg-card border border-border-subtle min-h-[280px]">
+        <div className="max-w-2xl">
+          <h2 className="text-left text-balance text-xl lg:text-2xl font-medium text-text-white">
+            Agentic &amp; Multilingual Systems
           </h2>
-          <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-          A sophisticated AI-driven cryptocurrency predictor to empower informed decision-making in the volatile crypto market.
+          <p className="mt-4 text-left text-base/6 text-text-medium">
+            From West African MT with RLHF to agentic commerce and clinical AI — Aletheia ships research-backed products, not slides.
           </p>
+          <a href="/jeffreyotoibhi?tab=portfolio" className="inline-block mt-4 text-primary-green hover:text-accent-green text-sm font-medium">
+            View founder portfolio →
+          </a>
         </div>
         <Image
-          src={sleepImage}
-          width={500}
-          height={500}
-          alt="linear demo image"
-          className="absolute -right-10 md:-right-[40%] lg:-right-[20%] grayscale filter -bottom-10 object-contain rounded-2xl"
+          src="/image.png"
+          width={400}
+          height={400}
+          alt=""
+          className="absolute -right-4 lg:-right-[20%] opacity-30 -bottom-8 object-contain rounded-2xl max-h-[70%] w-auto grayscale"
         />
       </WobbleCard>
     </div>

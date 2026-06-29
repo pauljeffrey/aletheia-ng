@@ -1,26 +1,56 @@
 import Image from "next/image";
+import Link from "next/link";
 import Logo from "@/assets/Aletheia.png";
+import { FOOTER_LINKS } from "@/lib/nav";
+import { SOCIAL_LINKS } from "@/lib/social";
 
 export const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-gradient-hover text-white text-sm py-12 text-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
-      <div className="container relative z-10">
-        <div className="inline-flex mb-6">
-          <a href="/" className="hover:scale-110 transition-transform">
-            <Image src={Logo} height={70} width={70} alt="Aletheia logo" className="drop-shadow-lg rounded-full" />
-          </a>
+    <footer className="border-t border-border-subtle bg-bg-dark-secondary py-10 sm:py-14">
+      <div className="container">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+          <div className="max-w-sm">
+            <Link href="/" className="inline-flex items-center gap-3 hover:opacity-90 transition-opacity">
+              <Image src={Logo} height={40} width={40} alt="Aletheia logo" className="rounded-full" />
+              <span className="text-sm font-medium text-text-white">Aletheia Research Labs</span>
+            </Link>
+            <p className="text-sm text-text-medium mt-4 leading-relaxed">
+              Foundational AI for underrepresented languages. Research-grade engineering, built to ship.
+            </p>
+          </div>
+
+          <nav className="flex flex-wrap gap-x-8 gap-y-3">
+            {FOOTER_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-text-medium hover:text-text-white transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
-        <nav className="flex flex-col md:flex-row md:justify-center gap-6 md:gap-8 mt-6">
-          <a href="/about" className="hover:text-cyan hover:scale-105 transition-all duration-200 font-medium">About</a>
-          <a href="/products" className="hover:text-cyan hover:scale-105 transition-all duration-200 font-medium">Products</a>
-          <a href="/research" className="hover:text-cyan hover:scale-105 transition-all duration-200 font-medium">Research</a>
-          <a href="/services" className="hover:text-cyan hover:scale-105 transition-all duration-200 font-medium">Services</a>
-          <a href="/contact" className="hover:text-cyan hover:scale-105 transition-all duration-200 font-medium">Contact</a>
-        </nav>
-        <p className="mt-8 text-white/90">
-          &copy; 2025 Aletheia Research Labs. All rights reserved.
-        </p>
+
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-12 pt-8 border-t border-border-subtle">
+          <p className="text-xs text-text-medium">&copy; {year} Aletheia Research Labs</p>
+          <div className="flex gap-3">
+            {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="w-9 h-9 rounded-lg border border-border-subtle flex items-center justify-center text-text-medium hover:text-text-white hover:border-border transition-colors"
+              >
+                <Icon className="w-3.5 h-3.5" />
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </footer>
   );
