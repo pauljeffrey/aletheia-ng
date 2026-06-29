@@ -3,7 +3,7 @@ import { DM_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { twMerge } from "tailwind-merge";
 import { StructuredData } from "@/components/StructuredData";
-import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_LOGO, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -78,8 +78,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/Aletheia.png",
-    apple: "/Aletheia.png",
+    icon: [
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+      { url: SITE_LOGO, type: "image/png", sizes: "any" },
+    ],
+    apple: "/apple-icon.png",
+    shortcut: SITE_LOGO,
   },
 };
 

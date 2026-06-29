@@ -19,11 +19,11 @@ export function WobbleCardDemo() {
           </p>
         </div>
         <Image
-          src="/image.png"
-          width={500}
-          height={500}
-          alt=""
-          className="absolute -right-4 lg:-right-[40%] grayscale filter -bottom-10 object-contain rounded-2xl opacity-80"
+          src="/stud.png"
+          width={280}
+          height={280}
+          alt="STUD logo"
+          className="absolute -right-4 lg:-right-[30%] -bottom-6 object-contain opacity-90 max-h-[75%] w-auto"
         />
       </WobbleCard>
       <WobbleCard containerClassName="col-span-1 min-h-[300px] bg-bg-card border border-border-subtle">
@@ -53,13 +53,6 @@ export function WobbleCardDemo() {
             View founder portfolio →
           </a>
         </div>
-        <Image
-          src="/image.png"
-          width={400}
-          height={400}
-          alt=""
-          className="absolute -right-4 lg:-right-[20%] opacity-30 -bottom-8 object-contain rounded-2xl max-h-[70%] w-auto grayscale"
-        />
       </WobbleCard>
     </div>
   );

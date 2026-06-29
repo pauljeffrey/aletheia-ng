@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/lib/site";
+import { SITE_LOGO, SITE_URL } from "@/lib/site";
 
 export function StructuredData() {
   const organizationSchema = {
@@ -7,8 +7,8 @@ export function StructuredData() {
     name: "Aletheia Research Labs",
     alternateName: "Aletheia AI",
     url: SITE_URL,
-    logo: `${SITE_URL}/Aletheia.png`,
-    image: `${SITE_URL}/Aletheia.png`,
+    logo: `${SITE_URL}${SITE_LOGO}`,
+    image: `${SITE_URL}${SITE_LOGO}`,
     description:
       "AI research and development company specializing in multilingual AI models, healthcare AI, robotics, and agentic systems.",
     foundingDate: "2024-08-15",
@@ -21,7 +21,7 @@ export function StructuredData() {
       "@type": "ContactPoint",
       contactType: "Customer Service",
       email: "drjeffrey.paul@aletheia.com.ng",
-      telephone: "+2349027728309",
+      telephone: "+12042302149",
       url: `${SITE_URL}/contact`,
     },
     sameAs: [

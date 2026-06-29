@@ -3,7 +3,25 @@
 import { COMPANY_EMAIL } from "@/lib/social";
 import { FormEvent } from "react";
 
-export function ContactForm() {
+const INTEREST_OPTIONS = [
+  "Partnership",
+  "Product demo",
+  "Research collaboration",
+  "Consulting",
+  "General inquiry",
+] as const;
+
+type Interest = (typeof INTEREST_OPTIONS)[number];
+
+interface ContactFormProps {
+  defaultInterest?: string;
+}
+
+export function ContactForm({ defaultInterest }: ContactFormProps) {
+  const initialInterest = INTEREST_OPTIONS.includes(defaultInterest as Interest)
+    ? (defaultInterest as Interest)
+    : "General inquiry";
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -30,7 +48,7 @@ export function ContactForm() {
           id="name"
           name="name"
           required
-          className="w-full px-4 py-3 rounded-xl bg-bg-card border border-primary-green/30 text-text-white placeholder:text-text-medium focus:outline-none focus:border-primary-green transition-colors"
+          className="w-full px-4 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-white placeholder:text-text-medium focus:outline-none focus:border-border transition-colors"
           placeholder="Your name"
         />
       </div>
@@ -43,7 +61,7 @@ export function ContactForm() {
           name="email"
           type="email"
           required
-          className="w-full px-4 py-3 rounded-xl bg-bg-card border border-primary-green/30 text-text-white placeholder:text-text-medium focus:outline-none focus:border-primary-green transition-colors"
+          className="w-full px-4 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-white placeholder:text-text-medium focus:outline-none focus:border-border transition-colors"
           placeholder="you@company.com"
         />
       </div>
@@ -54,13 +72,14 @@ export function ContactForm() {
         <select
           id="interest"
           name="interest"
-          className="w-full px-4 py-3 rounded-xl bg-bg-card border border-primary-green/30 text-text-white focus:outline-none focus:border-primary-green transition-colors"
+          defaultValue={initialInterest}
+          className="w-full px-4 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-white focus:outline-none focus:border-border transition-colors"
         >
-          <option value="Partnership">Partnership</option>
-          <option value="Product demo">Product demo</option>
-          <option value="Research collaboration">Research collaboration</option>
-          <option value="Consulting">Consulting</option>
-          <option value="General inquiry">General inquiry</option>
+          {INTEREST_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
         </select>
       </div>
       <div>
@@ -72,13 +91,18 @@ export function ContactForm() {
           name="message"
           required
           rows={5}
-          className="w-full px-4 py-3 rounded-xl bg-bg-card border border-primary-green/30 text-text-white placeholder:text-text-medium focus:outline-none focus:border-primary-green transition-colors resize-y"
+          className="w-full px-4 py-3 rounded-xl bg-bg-card border border-border-subtle text-text-white placeholder:text-text-medium focus:outline-none focus:border-border transition-colors resize-y"
           placeholder="Tell us about your project or question..."
         />
       </div>
       <button type="submit" className="btn btn-primary w-full sm:w-auto">
         Send message
       </button>
+      <p className="text-xs text-text-medium leading-relaxed">
+        Submitting opens your email app with a pre-filled message to{" "}
+        <span className="text-text-light">{COMPANY_EMAIL}</span>. You&apos;ll need to press send
+        in your mail app — nothing is sent automatically from this site.
+      </p>
     </form>
   );
 }

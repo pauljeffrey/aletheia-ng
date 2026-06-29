@@ -203,7 +203,11 @@ const Card = ({ card, setActive, id }: { card: (typeof cards)[number]; index: nu
             src={card.src}
             alt={card.title}
             fill
-            className="object-cover group-hover:scale-110 transition-transform duration-300"
+            className={cn(
+              card.imageFit === "contain"
+                ? "object-contain p-6 bg-bg-dark-secondary group-hover:scale-105 transition-transform duration-300"
+                : "object-cover group-hover:scale-110 transition-transform duration-300"
+            )}
           />
         </motion.div>
         <div className="p-5">
@@ -229,6 +233,7 @@ const cards = [
       description: "Language Model",
       title: "SabiYarn-125M",
       src: "/sabiyarn_ai.png",
+      imageFit: "cover" as const,
       content: () => (
         <>
           <p className="text-text-light leading-relaxed">
@@ -249,7 +254,8 @@ const cards = [
     {
       description: "Medical Education",
       title: "STUD",
-      src: "/image.png",
+      src: "/stud.png",
+      imageFit: "contain" as const,
       content: () => (
         <>
           <p className="text-text-light leading-relaxed">

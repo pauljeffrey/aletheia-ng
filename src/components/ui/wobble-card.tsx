@@ -68,11 +68,12 @@ export const WobbleCard = ({
 const Noise = () => {
   return (
     <div
-      className="absolute inset-0 w-full h-full scale-[1.2] transform opacity-10 [mask-image:radial-gradient(#fff,transparent,75%)]"
+      className="absolute inset-0 w-full h-full opacity-[0.04] pointer-events-none"
       style={{
-        backgroundImage: "url(/noise.webp)",
-        backgroundSize: "30%",
+        backgroundImage:
+          "radial-gradient(circle at 1px 1px, rgba(255,255,255,0.35) 1px, transparent 0)",
+        backgroundSize: "24px 24px",
       }}
-    ></div>
+    />
   );
 };

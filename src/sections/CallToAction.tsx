@@ -13,7 +13,7 @@ export const CallToAction = () => {
       <div className="container">
         <SectionHeader
           title="Work with us today"
-          description="We're building meaningful impact through AI — whether you're an investor, a business integrating AI, or an organization solving hard problems, Aletheia Research Labs is ready to collaborate."
+          description="We're building meaningful impact through AI — whether you're an investor, a business integrating AI, an organization solving hard problems, or a team seeking expert consulting, Aletheia Research Labs is ready to collaborate."
           className="mb-10"
         />
         <motion.div
@@ -21,10 +21,13 @@ export const CallToAction = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col sm:flex-row gap-3 justify-center"
+          className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center"
         >
           <Link href="/contact" className="btn btn-primary">
             Get started
+          </Link>
+          <Link href="/contact?interest=Consulting" className="btn btn-secondary">
+            Consult with us
           </Link>
           <Link href="/about" className="btn btn-text group">
             <span>Learn more</span>

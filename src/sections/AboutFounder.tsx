@@ -162,7 +162,16 @@ export default async function AboutFounder({ searchParams }: { searchParams: { [
                                         <div className="p-4 border-b border-border-subtle">
                                             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                                                 <div className="min-w-0">
-                                                    <h3 className="text-lg font-bold text-text-white mb-0.5">STUD</h3>
+                                            <div className="flex items-center gap-3 mb-2">
+                                                    <Image
+                                                        src="/stud.png"
+                                                        alt="STUD logo"
+                                                        width={44}
+                                                        height={44}
+                                                        className="rounded-lg shrink-0 object-contain bg-bg-dark-secondary"
+                                                    />
+                                                    <h3 className="text-lg font-bold text-text-white">STUD</h3>
+                                                </div>
                                                     <p className="text-primary-green text-sm font-medium mb-2">Master Medicine Through Adventure</p>
                                                     <p className="text-text-light text-sm leading-relaxed">
                                                         An immersive, gamified medical education platform where healthcare professionals embark on clinical adventures and advance their careers. Built for the next generation of doctors and clinicians.
