@@ -71,6 +71,64 @@
   }
 }
 
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 30%, transparent 100%);
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  }
+
+  .text-shimmer {
+    background: linear-gradient(90deg, #71717a 0%, #71717a 35%, #e4e4e7 50%, #71717a 65%, #71717a 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  @keyframes shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+  }
+
+  .range-neon {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 var(--pct, 50%), rgba(255, 255, 255, 0.1) var(--pct, 50%));
+    outline: none;
+    cursor: pointer;
+  }
+
+  .range-neon::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 14px;
+    width: 14px;
+    border-radius: 9999px;
+    background: #fafafa;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35), 0 0 12px rgba(99, 102, 241, 0.6);
+  }
+
+  .range-neon::-moz-range-thumb {
+    height: 14px;
+    width: 14px;
+    border: 0;
+    border-radius: 9999px;
+    background: #fafafa;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35), 0 0 12px rgba(99, 102, 241, 0.6);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
