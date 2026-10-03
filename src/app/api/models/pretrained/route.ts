@@ -1,105 +1,56 @@
 import { NextRequest, NextResponse } from "next/server";
+import { modalBases, proxyToModal } from "@/lib/modal-proxy";
 
-// Modal endpoint URLs for pretrained models
-// Format: https://{workspace}--sabiyarn-fastapi-app-fastapi-app.modal.run/predict
-const WORKSPACES = ["naijaai", "model-host", "pauljeffrey"];
-const API_URLS = WORKSPACES.map(
-  (workspace) =>
-    `https://${workspace}--sabiyarn-fastapi-app-fastapi-app.modal.run/predict`
-);
+export const dynamic = "force-dynamic";
+
+// Routes: /predict (JSON) and /stream (server-sent events)
+const API_BASES = modalBases("sabiyarn-fastapi-app");
+
+type RawConfig = Record<string, unknown> | undefined;
+
+const toInt = (value: unknown, fallback: number) => {
+  const n = typeof value === "string" ? parseInt(value, 10) : Number(value);
+  return Number.isFinite(n) ? Math.round(n) : fallback;
+};
+
+const toFloat = (value: unknown, fallback: number) => {
+  const n = typeof value === "string" ? parseFloat(value) : Number(value);
+  return Number.isFinite(n) && n !== 0 ? n : fallback;
+};
+
+const toBool = (value: unknown, fallback: boolean) =>
+  typeof value === "string" ? value === "true" : typeof value === "boolean" ? value : fallback;
+
+const buildConfig = (config: RawConfig) => ({
+  maxLength: toInt(config?.maxLength, 100),
+  maxNewTokens: toInt(config?.maxNewTokens, 80),
+  numBeams: toInt(config?.numBeams, 1),
+  doSample: toBool(config?.doSample, true),
+  temperature: toFloat(config?.temperature, 0.99),
+  topK: toInt(config?.topK, 15),
+  topP: toFloat(config?.topP, 0.95),
+  // Penalties must always be sent as floats
+  repetitionPenalty: toFloat(config?.repetitionPenalty, 4.0),
+  lengthPenalty: toFloat(config?.lengthPenalty, 3.0),
+  earlyStopping: true,
+  eosTokenId: 32,
+});
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { model, prompt, config } = body;
+    const { model, prompt, config, stream } = await request.json();
 
     if (!model || !prompt) {
-      return NextResponse.json(
-        { error: "Model and prompt are required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Model and prompt are required" }, { status: 400 });
     }
 
-    // Convert config values to proper types (handle both string and number inputs)
-    const payload = {
-      model: model,
-      prompt: prompt,
-      config: {
-        maxLength: typeof config?.maxLength === "string" 
-          ? parseInt(config.maxLength, 10) 
-          : (config?.maxLength || 100),
-        maxNewTokens: typeof config?.maxNewTokens === "string"
-          ? parseInt(config.maxNewTokens, 10)
-          : (config?.maxNewTokens || 80),
-        numBeams: typeof config?.numBeams === "string"
-          ? parseInt(config.numBeams, 10)
-          : (config?.numBeams || 5),
-        doSample: typeof config?.doSample === "string"
-          ? config.doSample === "true"
-          : (config?.doSample || false),
-        temperature: typeof config?.temperature === "string"
-          ? parseFloat(config.temperature)
-          : (config?.temperature || 0.99),
-        topK: typeof config?.topK === "string"
-          ? parseInt(config.topK, 10)
-          : (config?.topK || 50),
-        topP: typeof config?.topP === "string"
-          ? parseFloat(config.topP)
-          : (config?.topP || 0.95),
-        // Ensure penalty values are always floats (not integers)
-        repetitionPenalty: typeof config?.repetitionPenalty === "string"
-          ? parseFloat(config.repetitionPenalty) || 4.0
-          : (config?.repetitionPenalty ? parseFloat(String(config.repetitionPenalty)) || 4.0 : 4.0),
-        lengthPenalty: typeof config?.lengthPenalty === "string"
-          ? parseFloat(config.lengthPenalty) || 3.0
-          : (config?.lengthPenalty ? parseFloat(String(config.lengthPenalty)) || 3.0 : 3.0),
-        earlyStopping: true,
-        eosTokenId: 32,
-      },
-    };
-
-    // Try each API URL until one succeeds
-    let lastError: Error | null = null;
-    for (const url of API_URLS) {
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-          signal: AbortSignal.timeout(120000), // 2 minute timeout
-        });
-
-        if (response.ok) {
-          try {
-            const data = await response.json();
-            return NextResponse.json({ 
-              output: data.output || data.response || "No response generated" 
-            });
-          } catch {
-            // If response is not JSON, try as text
-            const textData = await response.text();
-            return NextResponse.json({ 
-              output: textData || "No response generated" 
-            });
-          }
-        } else {
-          const errorText = await response.text().catch(() => "Unknown error");
-          console.error(`API error from ${url}:`, response.status, errorText);
-          lastError = new Error(`HTTP ${response.status}: ${errorText}`);
-        }
-      } catch (error) {
-        lastError = error as Error;
-        console.error(`Error fetching from ${url}:`, error);
-        continue;
-      }
-    }
-
-    // If all URLs failed, return error
-    return NextResponse.json(
-      { error: "All API endpoints failed", details: lastError?.message },
-      { status: 500 }
-    );
+    return await proxyToModal({
+      bases: API_BASES,
+      payload: { model, prompt, config: buildConfig(config) },
+      stream: Boolean(stream),
+      signal: request.signal,
+      mapPredict: (data) => ({ output: data.output || data.response || "No response generated" }),
+    });
   } catch (error) {
     console.error("Error in pretrained models API:", error);
     return NextResponse.json(
@@ -108,4 +59,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

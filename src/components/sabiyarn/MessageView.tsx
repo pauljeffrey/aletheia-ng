@@ -41,7 +41,7 @@ function useTypewriter(text: string, enabled: boolean, onDone?: () => void) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, enabled]);
 
-  return text.slice(0, count);
+  return enabled ? text.slice(0, count) : text;
 }
 
 function IconButton({ label, onClick, children }: { label: string; onClick: () => void; children: React.ReactNode }) {
@@ -60,14 +60,15 @@ function IconButton({ label, onClick, children }: { label: string; onClick: () =
 interface MessageViewProps {
   message: ChatMessage;
   animate?: boolean;
+  streaming?: boolean;
   onAnimationDone?: () => void;
   onRegenerate?: () => void;
 }
 
-export function MessageView({ message, animate, onAnimationDone, onRegenerate }: MessageViewProps) {
+export function MessageView({ message, animate, streaming, onAnimationDone, onRegenerate }: MessageViewProps) {
   const [copied, setCopied] = useState(false);
   const shown = useTypewriter(message.content, !!animate && message.role === "assistant", onAnimationDone);
-  const typing = shown.length < message.content.length;
+  const typing = streaming || shown.length < message.content.length;
 
   const copy = async () => {
     try {

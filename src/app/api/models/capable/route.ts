@@ -1,94 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
+import { modalBases, proxyToModal } from "@/lib/modal-proxy";
 
-// Modal endpoint URLs for capable models
-// Format: https://{workspace}--sabiyarn-capable-fastapi-app.modal.run/
-// Note: User confirmed capable models use root path
-const WORKSPACES = ["naijaai", "model-host", "pauljeffrey"];
-const API_URLS = WORKSPACES.map(
-  (workspace) => `https://${workspace}--sabiyarn-capable-fastapi-app.modal.run/`
-);
+export const dynamic = "force-dynamic";
 
-type CapableConfig = {
-  maxNewTokens?: number;
-  temperature?: number;
-  topP?: number;
-  topK?: number;
-  repetitionPenalty?: number;
-  doSample?: boolean;
+// Routes: /predict (JSON) and /stream (server-sent events)
+const API_BASES = modalBases("sabiyarn-capable");
+
+const ROLES = new Set(["system", "user", "assistant"]);
+
+const sanitizeNumber = (value: unknown, fallback: number) => {
+  const num = Number(value);
+  return Number.isFinite(num) ? num : fallback;
 };
+
+const buildConfig = (config: Record<string, unknown> | undefined) => ({
+  maxNewTokens: Math.round(sanitizeNumber(config?.maxNewTokens, 256)),
+  temperature: sanitizeNumber(config?.temperature, 0.7),
+  topP: sanitizeNumber(config?.topP, 0.95),
+  topK: Math.round(sanitizeNumber(config?.topK, 15)),
+  repetitionPenalty: sanitizeNumber(config?.repetitionPenalty, 1.1),
+  doSample: typeof config?.doSample === "string" ? config.doSample === "true" : config?.doSample ?? true,
+});
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { model, messages, sessionId, config } = body as {
-      model: string;
-      messages: Array<{ role: string; content: string }>;
-      sessionId: string;
-      config?: CapableConfig;
-    };
+    const { model, messages, sessionId, config, stream } = await request.json();
 
-    if (!model || !messages || !Array.isArray(messages)) {
-      return NextResponse.json(
-        { error: "Model and messages are required" },
-        { status: 400 }
-      );
+    if (!model || !Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: "Model and messages are required" }, { status: 400 });
     }
 
-    const sanitizeNumber = (value: unknown, fallback: number) => {
-      const num = Number(value);
-      return Number.isFinite(num) ? num : fallback;
-    };
+    const cleanMessages = messages
+      .filter((m: { role?: unknown; content?: unknown }) => ROLES.has(String(m?.role)) && typeof m?.content === "string")
+      .map((m: { role: string; content: string }) => ({ role: m.role, content: m.content }));
 
-    const typedConfig = {
-      maxNewTokens: sanitizeNumber(config?.maxNewTokens, 256),
-      temperature: sanitizeNumber(config?.temperature, 0.7),
-      topP: sanitizeNumber(config?.topP, 0.9),
-      topK: Math.round(sanitizeNumber(config?.topK, 50)),
-      repetitionPenalty: sanitizeNumber(config?.repetitionPenalty, 1.1),
-      doSample:
-        typeof config?.doSample === "string"
-          ? config?.doSample === "true"
-          : config?.doSample ?? true,
-    };
-
-    const payload = {
-      model: model,
-      messages: messages,
-      session_id: sessionId,
-      config: typedConfig,
-    };
-
-    // Try each API URL until one succeeds
-    let lastError: Error | null = null;
-    for (const url of API_URLS) {
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          return NextResponse.json({
-            output: data.output || data.response || "",
-            sessionName: data.session_name || data.sessionName || "New Chat",
-          });
-        }
-      } catch (error) {
-        lastError = error as Error;
-        console.error(`Error fetching from ${url}:`, error);
-        continue;
-      }
-    }
-
-    // If all URLs failed, return error
-    return NextResponse.json(
-      { error: "All API endpoints failed", details: lastError?.message },
-      { status: 500 }
-    );
+    return await proxyToModal({
+      bases: API_BASES,
+      payload: { model, messages: cleanMessages, session_id: sessionId, config: buildConfig(config) },
+      stream: Boolean(stream),
+      signal: request.signal,
+      mapPredict: (data) => ({
+        output: data.output || data.response || "",
+        sessionName: data.session_name || data.sessionName || "New Chat",
+      }),
+    });
   } catch (error) {
     console.error("Error in capable models API:", error);
     return NextResponse.json(
@@ -97,4 +52,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

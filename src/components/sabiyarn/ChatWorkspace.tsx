@@ -8,6 +8,8 @@ import {
   CAPABLE_SLIDERS,
   DEFAULT_CAPABLE_CONFIG,
   DEFAULT_MODEL_ID,
+  DEFAULT_TASK_MODEL_ID,
+  CHAT_SUGGESTIONS,
   DEFAULT_PRETRAINED_CONFIG,
   DEFAULT_TASK,
   LANGUAGES,
@@ -29,9 +31,11 @@ import { Composer } from "./Composer";
 import { MessageView, ThinkingIndicator } from "./MessageView";
 import { SettingsPanel } from "./SettingsPanel";
 import { GuideDialog } from "./GuideDialog";
+import { readEventStream } from "./stream";
 
 const SESSIONS_KEY = "sabiyarn.sessions.v1";
-const PREFS_KEY = "sabiyarn.prefs.v1";
+// v3: chat model default and top-k/nucleus sampling defaults
+const PREFS_KEY = "sabiyarn.prefs.v3";
 
 interface Prefs {
   modelId: string;
@@ -102,6 +106,7 @@ export function ChatWorkspace() {
   const [input, setInput] = useState("");
   const [pendingSessionId, setPendingSessionId] = useState<string | null>(null);
   const [animateId, setAnimateId] = useState<string | null>(null);
+  const [streamingId, setStreamingId] = useState<string | null>(null);
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -137,8 +142,9 @@ export function ChatWorkspace() {
   }, []);
 
   useEffect(() => {
-    if (hydrated) writeStorage(SESSIONS_KEY, sessions);
-  }, [sessions, hydrated]);
+    // Skip writes on every streamed token; the finished message is saved once streaming ends.
+    if (hydrated && !streamingId) writeStorage(SESSIONS_KEY, sessions);
+  }, [sessions, hydrated, streamingId]);
 
   useEffect(() => {
     if (hydrated) writeStorage(PREFS_KEY, { modelId, pretrained: pretrainedConfig, capable: capableConfig });
@@ -203,6 +209,15 @@ export function ChatWorkspace() {
       )
     );
 
+  const updateMessage = (sessionId: string, messageId: string, patch: Partial<ChatMessage>) =>
+    setSessions((prev) =>
+      prev.map((s) =>
+        s.id === sessionId
+          ? { ...s, messages: s.messages.map((m) => (m.id === messageId ? { ...m, ...patch } : m)) }
+          : s
+      )
+    );
+
   const deleteSession = (id: string) => {
     if (pendingSessionId === id) abortRef.current?.abort();
     setSessions((prev) => prev.filter((s) => s.id !== id));
@@ -236,6 +251,7 @@ export function ChatWorkspace() {
                 messages: history.filter((m) => !m.error).map(({ role, content }) => ({ role, content })),
                 sessionId,
                 config: capableConfig,
+                stream: true,
               }),
             })
           : await fetch("/api/models/pretrained", {
@@ -246,8 +262,14 @@ export function ChatWorkspace() {
                 model: target.id,
                 prompt: userMsg.prompt ?? userMsg.content,
                 config: { ...pretrainedConfig, earlyStopping: true, eosTokenId: 32 },
+                stream: true,
               }),
             });
+
+      if (res.ok && res.body && res.headers.get("content-type")?.includes("text/event-stream")) {
+        await streamReply(res.body, sessionId, userMsg, target.id, started);
+        return;
+      }
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.details || data.error || `Request failed (${res.status})`);
@@ -276,6 +298,55 @@ export function ChatWorkspace() {
     } finally {
       if (abortRef.current === controller) abortRef.current = null;
       setPendingSessionId(null);
+    }
+  };
+
+  /** Renders tokens as they arrive, batching state updates to one per animation frame. */
+  const streamReply = async (
+    body: ReadableStream<Uint8Array>,
+    sessionId: string,
+    userMsg: ChatMessage,
+    targetId: string,
+    started: number
+  ) => {
+    const replyId = uid();
+    let text = "";
+    let created = false;
+    let frame = 0;
+
+    const flush = () => {
+      frame = 0;
+      if (!created) {
+        if (!text) return;
+        created = true;
+        setStreamingId(replyId);
+        appendMessage(sessionId, {
+          id: replyId,
+          role: "assistant",
+          content: text,
+          createdAt: Date.now(),
+          modelId: targetId,
+          task: userMsg.task,
+        });
+      } else {
+        updateMessage(sessionId, replyId, { content: text });
+      }
+    };
+
+    try {
+      await readEventStream(body, (event) => {
+        if (event.type === "error") throw new Error(event.message);
+        if (event.type === "delta") text += event.text;
+        if (event.type === "done" && event.output) text = event.output;
+        if (!frame) frame = requestAnimationFrame(flush);
+      });
+      if (!text) text = "No response generated";
+    } finally {
+      // Keep whatever arrived, including partial output after Stop or a dropped connection.
+      cancelAnimationFrame(frame);
+      flush();
+      if (created) updateMessage(sessionId, replyId, { latencyMs: Math.round(performance.now() - started) });
+      setStreamingId(null);
     }
   };
 
@@ -349,9 +420,11 @@ export function ChatWorkspace() {
   };
 
   const applySuggestion = (s: Suggestion) => {
-    const b = getBehavior(modelId);
-    if (!b.showTaskSelector && effectiveTask(modelId, s.task) !== s.task) setModelId(DEFAULT_MODEL_ID);
-    setTask(s.task);
+    if (s.task) {
+      const b = getBehavior(modelId);
+      if (!b.showTaskSelector && effectiveTask(modelId, s.task) !== s.task) changeModel(DEFAULT_TASK_MODEL_ID);
+      setTask(s.task);
+    }
     if (s.language) setLanguage(s.language);
     setInput(s.text);
     requestAnimationFrame(() => textareaRef.current?.focus());
@@ -505,13 +578,14 @@ export function ChatWorkspace() {
                     key={m.id}
                     message={m}
                     animate={m.id === animateId}
+                    streaming={m.id === streamingId}
                     onAnimationDone={() => setAnimateId(null)}
                     onRegenerate={
                       m.role === "assistant" && i === arr.length - 1 && !busy ? () => regenerate(m.id) : undefined
                     }
                   />
                 ))}
-                {pendingSessionId === activeSession!.id && <ThinkingIndicator modelName={model.name} />}
+                {pendingSessionId === activeSession!.id && !streamingId && <ThinkingIndicator modelName={model.name} />}
               </div>
             </div>
 
@@ -564,7 +638,7 @@ export function ChatWorkspace() {
               {footnote}
 
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                {SUGGESTIONS.map((s, i) => (
+                {(model.family === "capable" ? CHAT_SUGGESTIONS : SUGGESTIONS).map((s, i) => (
                   <motion.button
                     key={s.title}
                     initial={{ opacity: 0, y: 8 }}

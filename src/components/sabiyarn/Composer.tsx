@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode, type RefObject } from "react";
 import { ArrowUp, Check, ChevronDown, FileCode2, Globe, Languages, Lock, Square, Wand2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { LANGUAGES, TASKS, effectiveTask, getBehavior, taskNeedsLanguage } from "./models";
+import { LANGUAGES, TASKS, effectiveTask, getBehavior, getModel, taskNeedsLanguage } from "./models";
 import { MenuItem, MenuLabel, Popover } from "./Popover";
 
 interface ComposerProps {
@@ -154,7 +154,7 @@ export function Composer({
                   </>
                 )}
               </Popover>
-            ) : behavior.rawInput ? (
+            ) : getModel(modelId).family === "capable" ? null : behavior.rawInput ? (
               <Chip icon={<FileCode2 className="h-3.5 w-3.5" />} locked>
                 Raw input
               </Chip>

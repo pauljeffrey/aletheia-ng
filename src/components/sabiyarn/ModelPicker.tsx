@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { MODELS, getModel, type ModelInfo } from "./models";
 import { MenuItem, MenuLabel, Popover } from "./Popover";
 
-const GROUPS: ModelInfo["group"][] = ["Pretrained", "Finetuned", "Chat"];
+const GROUPS: ModelInfo["group"][] = ["Chat", "Pretrained", "Finetuned"];
 
 export function ModelPicker({ value, onChange }: { value: string; onChange: (id: string) => void }) {
   const current = getModel(value);
@@ -35,7 +35,7 @@ export function ModelPicker({ value, onChange }: { value: string; onChange: (id:
           const items = MODELS.filter((m) => m.group === group);
           return (
             <div key={group}>
-              <MenuLabel>{group === "Chat" ? "Chat models · coming soon" : `${group} models`}</MenuLabel>
+              <MenuLabel>{`${group} models`}</MenuLabel>
               {items.map((m) => (
                 <MenuItem
                   key={m.id}

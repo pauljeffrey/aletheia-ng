@@ -1,183 +1,269 @@
 """
-Modal script for deploying capable SabiYarn models (ChatGPT-style)
-Deploy to different workspaces: naijaai, pauljeffrey, model-host
+Modal script for deploying capable (chat) SabiYarn models
+Deploy to different workspaces: modal deploy capable_model.py
+
+Endpoints (served by `fastapi_app`):
+  POST /predict  -> {"output": "...", "session_name": "..."}   (whole response at once)
+  POST /         -> alias of /predict
+  POST /stream   -> text/event-stream of JSON events (token-by-token)
+                    {"type": "delta", "text": "..."}
+                    {"type": "done", "output": "...", "session_name": "..."}
+                    {"type": "error", "message": "..."}
+  GET  /health
 """
 
+import json
+import threading
+from typing import Any, Dict, Iterator, List, Optional
+
 import modal
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from typing import List, Dict, Any, Optional
-import re
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 # Create Modal app
 app = modal.App("sabiyarn-capable")
 
-# Define the image with required dependencies
+# The chat models' remote code targets newer transformers than the pretrained models
 image = (
-    modal.Image.debian_slim(python_version="3.10")
+    modal.Image.debian_slim(python_version="3.11")
     .pip_install(
-        "transformers==4.41.2",
-        "torch==2.1.0",
-        "accelerate==0.24.0",
-        "fastapi==0.104.1",
-        "uvicorn==0.24.0",
-        "pydantic==2.5.0",
+        "torch==2.5.1",
+        "transformers==4.57.1",
+        "safetensors>=0.4.3",
+        "fastapi==0.115.6",
+        "pydantic==2.10.4",
     )
+    .env({"HF_HOME": "/cache/huggingface"})
 )
 
-# Model repository mapping for capable models (to be added when available)
+# Persist downloaded weights across cold starts
+hf_cache = modal.Volume.from_name("sabiyarn-hf-cache", create_if_missing=True)
+
+# Model repository mapping for capable models
 CAPABLE_MODEL_REPOS: Dict[str, str] = {
+    "sabiyarn-moe-280m": "Aletheia-ng/SabiYarn_MoE-280M",
     "sabiyarn-32k": "BeardedMonster/sabiyarn-32k",
-    # "sabiyarn-chat": "BeardedMonster/SabiYarn-Chat",
-    # Add models here when they become available
 }
+DEFAULT_MODEL = "sabiyarn-moe-280m"
 
-END_OF_TOKEN_ID = 32
+END_OF_TEXT_ID = 32  # "|end_of_text|"; "</s>" (the chat template's turn end) is added at load time
+MAX_PROMPT_TOKENS = 4096
+ALLOWED_ROLES = {"system", "user", "assistant"}
 
 
-@app.function(
+def build_gen_config(config: Optional[Dict[str, Any]]) -> dict:
+    cfg = config or {}
+    return {
+        "max_new_tokens": max(1, int(cfg.get("maxNewTokens", 256))),
+        "do_sample": bool(cfg.get("doSample", True)),
+        "temperature": max(0.01, float(cfg.get("temperature", 0.7))),
+        "top_k": max(1, int(cfg.get("topK", 15))),
+        "top_p": min(1.0, max(0.01, float(cfg.get("topP", 0.95)))),
+        "repetition_penalty": float(cfg.get("repetitionPenalty", 1.1)),
+    }
+
+
+def session_name(messages: List[Dict[str, str]]) -> str:
+    first = next((m["content"] for m in messages if m.get("role") == "user"), "").strip()
+    if not first:
+        return "New Chat"
+    return first[:40].rstrip() + ("…" if len(first) > 40 else "")
+
+
+@app.cls(
     image=image,
     gpu="T4",
     timeout=600,
     scaledown_window=300,
+    volumes={"/cache": hf_cache},
 )
-def chat_completion(
-    model_id: str,
-    messages: List[Dict[str, str]],
-    session_id: str,
-    config: Optional[Dict[str, Any]] = None,
-) -> Dict[str, str]:
-    """
-    Generate chat completion with conversation history.
-    This will be implemented when capable models are available.
-    """
-    # Check if model exists
-    if model_id not in CAPABLE_MODEL_REPOS:
-        raise ValueError(f"Model {model_id} not found")
-    
-    repo_name = CAPABLE_MODEL_REPOS[model_id]
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    
-    try:
-        # Load model
-        tokenizer = AutoTokenizer.from_pretrained(repo_name, trust_remote_code=True)
-        model = AutoModelForCausalLM.from_pretrained(
-            repo_name, trust_remote_code=True
-        ).to(device)
-        model.eval()
-        
-        # Format conversation
-        # conversation = ""
-        # for msg in messages:
-        #     role = msg["role"]
-        #     content = msg["content"]
-        #     if role == "user":
-        #         conversation += f"User: {content}\n"
-        #     elif role == "assistant":
-        #         conversation += f"Assistant: {content}\n"
-        
-        # conversation += "Assistant: "
-        
-        
-        
-        # Tokenize
-        input_ids = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt").to(device)
-        
-        cfg = config or {}
-        max_new_tokens = int(cfg.get("maxNewTokens", 256))
-        temperature = float(cfg.get("temperature", 0.7))
-        top_p = float(cfg.get("topP", 0.9))
-        top_k = max(1, int(cfg.get("topK", 50)))
-        repetition_penalty = float(cfg.get("repetitionPenalty", 1.1))
-        do_sample = bool(cfg.get("doSample", True))
+class SabiYarnChat:
+    @modal.enter()
+    def load(self):
+        import torch
 
-        # Generate
-        gen_config = {
-            "max_new_tokens": max_new_tokens,
-            "temperature": temperature,
-            "top_p": top_p,
-            "top_k": top_k,
-            "repetition_penalty": repetition_penalty,
-            "do_sample": do_sample,
-            "pad_token_id": tokenizer.eos_token_id,
-            "eos_token_id": END_OF_TOKEN_ID,
+        self.torch = torch
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.loaded = {}
+        self.lock = threading.Lock()
+        # Warm the default model so the first request doesn't pay for it
+        self._get(DEFAULT_MODEL)
+        hf_cache.commit()
+
+    def _get(self, model_id: str):
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+
+        if model_id not in CAPABLE_MODEL_REPOS:
+            raise ValueError(f"Unknown model '{model_id}'. Available: {', '.join(CAPABLE_MODEL_REPOS)}")
+        with self.lock:
+            if model_id not in self.loaded:
+                repo = CAPABLE_MODEL_REPOS[model_id]
+                tokenizer = AutoTokenizer.from_pretrained(repo, trust_remote_code=True)
+                model = AutoModelForCausalLM.from_pretrained(repo, trust_remote_code=True)
+                self.loaded[model_id] = (tokenizer, model.to(self.device).eval())
+        return self.loaded[model_id]
+
+    def _prepare(self, model_id: str, messages: List[Dict[str, str]], config: Optional[Dict[str, Any]]):
+        tokenizer, model = self._get(model_id)
+
+        chat = [
+            {"role": m["role"], "content": str(m.get("content", ""))}
+            for m in messages
+            if m.get("role") in ALLOWED_ROLES and str(m.get("content", "")).strip()
+        ]
+        if not chat or chat[-1]["role"] != "user":
+            raise ValueError("The conversation must end with a user message")
+
+        def encode(msgs):
+            return tokenizer.apply_chat_template(msgs, add_generation_prompt=True, return_tensors="pt")
+
+        # Drop the oldest turns (keeping any system prompt) until the prompt fits
+        input_ids = encode(chat)
+        while input_ids.shape[-1] > MAX_PROMPT_TOKENS and len(chat) > 1:
+            drop = 1 if chat[0]["role"] == "system" and len(chat) > 2 else 0
+            chat.pop(drop)
+            input_ids = encode(chat)
+        input_ids = input_ids[:, -MAX_PROMPT_TOKENS:].to(self.device)
+
+        eos_ids = sorted({i for i in (tokenizer.eos_token_id, END_OF_TEXT_ID) if i is not None})
+        gen_kwargs = {
+            **build_gen_config(config),
+            "attention_mask": self.torch.ones_like(input_ids),
+            "eos_token_id": eos_ids,
+            "pad_token_id": tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_ids[0],
         }
-        
-        with torch.no_grad():
-            output = model.generate(input_ids, **gen_config)
-        
-        # Decode only the newly generated tokens after the prompt
-        prompt_length = input_ids.shape[-1]
-        generated_tokens = output[0, prompt_length:]
-        response = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
-        
-        # Clean up
-        response = re.sub(r"\n\n+", "\n", response)
-        response = response.strip()
-        
-        # Generate session name from first user message
-        session_name = "New Chat"
-        if messages and len(messages) > 0:
-            first_user_msg = next(
-                (msg["content"] for msg in messages if msg["role"] == "user"),
-                "New Chat"
-            )
-            session_name = first_user_msg[:30] + ("..." if len(first_user_msg) > 30 else "")
-        
-        return {
-            "output": response,
-            "session_name": session_name,
-        }
-        
-    except Exception as e:
-        raise Exception(f"Error generating chat response: {str(e)}")
+        return tokenizer, model, input_ids, gen_kwargs
+
+    def _complete(self, model_id, messages, config) -> str:
+        tokenizer, model, input_ids, gen_kwargs = self._prepare(model_id, messages, config)
+        with self.torch.no_grad():
+            output = model.generate(input_ids, **gen_kwargs)
+        return tokenizer.decode(output[0, input_ids.shape[-1]:], skip_special_tokens=True).strip()
+
+    @modal.method()
+    def chat(self, model_id: str, messages: List[Dict[str, str]], config: Optional[Dict[str, Any]] = None) -> str:
+        return self._complete(model_id, messages, config)
+
+    @modal.method(is_generator=True)
+    def stream(
+        self, model_id: str, messages: List[Dict[str, str]], config: Optional[Dict[str, Any]] = None
+    ) -> Iterator[str]:
+        """Yield text deltas as the model produces tokens (new text only, no prompt)."""
+        from transformers import StoppingCriteria, StoppingCriteriaList, TextIteratorStreamer
+
+        tokenizer, model, input_ids, gen_kwargs = self._prepare(model_id, messages, config)
+        streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True, timeout=120)
+        cancelled = threading.Event()
+
+        class StopOnCancel(StoppingCriteria):
+            def __call__(self, *args, **kwargs) -> bool:
+                return cancelled.is_set()
+
+        error: list = []
+
+        def run():
+            try:
+                with self.torch.no_grad():
+                    model.generate(
+                        input_ids,
+                        streamer=streamer,
+                        stopping_criteria=StoppingCriteriaList([StopOnCancel()]),
+                        **gen_kwargs,
+                    )
+            except Exception as e:  # surface errors to the consumer instead of hanging
+                error.append(e)
+                streamer.end()
+
+        thread = threading.Thread(target=run, daemon=True)
+        thread.start()
+
+        started = False
+        try:
+            for chunk in streamer:
+                if not started:
+                    chunk = chunk.lstrip()
+                    started = bool(chunk)
+                if chunk:
+                    yield chunk
+        finally:
+            cancelled.set()
+            thread.join(timeout=5)
+
+        if error:
+            raise error[0]
 
 
 # FastAPI app
 web_app = FastAPI(title="SabiYarn Capable Models API")
 
+
 class ChatRequest(BaseModel):
-    model: str
-    messages: List[Dict[str, str]]
-    session_id: str
+    model: Optional[str] = None
+    messages: List[Dict[str, Any]]
+    session_id: Optional[str] = None
     config: Optional[Dict[str, Any]] = None
 
+
+def resolve_model(model: Optional[str]) -> str:
+    model_id = model or DEFAULT_MODEL
+    if model_id not in CAPABLE_MODEL_REPOS:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Unknown model '{model_id}'. Available: {', '.join(CAPABLE_MODEL_REPOS)}",
+        )
+    return model_id
+
+
+def sse(payload: dict) -> str:
+    return f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
+
+
+@web_app.post("/")
 @web_app.post("/predict")
 async def predict(request: ChatRequest):
     """API endpoint for chat prediction"""
+    model_id = resolve_model(request.model)
     try:
-        if not CAPABLE_MODEL_REPOS:
-            raise HTTPException(
-                status_code=503,
-                detail="Capable models are not yet available. They will be released in the next 3 months."
-            )
-        
-        # Call Modal function asynchronously
-        result = await chat_completion.remote.aio(
-            request.model,
-            request.messages,
-            request.session_id,
-            request.config
-        )
-        return {
-            "output": result["output"],
-            "session_name": result.get("session_name")
-        }
+        output = await SabiYarnChat().chat.remote.aio(model_id, request.messages, request.config)
     except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    return {"output": output, "session_name": session_name(request.messages)}
+
+
+@web_app.post("/stream")
+async def stream(request: ChatRequest):
+    """Server-sent events stream of the assistant's reply"""
+    model_id = resolve_model(request.model)
+
+    async def events():
+        output = ""
+        try:
+            async for delta in SabiYarnChat().stream.remote_gen.aio(model_id, request.messages, request.config):
+                output += delta
+                yield sse({"type": "delta", "text": delta})
+            yield sse({"type": "done", "output": output.strip(), "session_name": session_name(request.messages)})
+        except Exception as e:
+            yield sse({"type": "error", "message": str(e)})
+
+    return StreamingResponse(
+        events(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
 
 @web_app.get("/health")
 async def health():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "models_available": len(CAPABLE_MODEL_REPOS) > 0,
-        "models": list(CAPABLE_MODEL_REPOS.keys())
+        "default_model": DEFAULT_MODEL,
+        "models": list(CAPABLE_MODEL_REPOS.keys()),
     }
+
 
 # Deploy FastAPI app on Modal
 @app.function(
