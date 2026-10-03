@@ -83,7 +83,7 @@ export async function proxyToModal({ bases, payload, stream, signal, mapPredict 
 }
 
 // Modal workspaces with the SabiYarn apps deployed, in failover order
-export const MODAL_WORKSPACES = ["naijaai", "model-host", "pauljeffrey"];
+export const MODAL_WORKSPACES = ["sabiyarn1", "sabiyarn2", "model-host", "ottobiz"];
 
 /** Base URL of a Modal ASGI app: https://{workspace}--{app}-{function}.modal.run */
 export const modalBases = (app: string, fn = "fastapi-app") =>

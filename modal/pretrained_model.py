@@ -17,9 +17,6 @@ import threading
 from typing import Dict, Iterator
 
 import modal
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
 
 # Create Modal app
 app = modal.App("sabiyarn-fastapi-app")
@@ -65,7 +62,12 @@ MAX_MARKER_LEN = 16
 
 
 def clean_output(text: str) -> str:
-    return CLEANUP_PATTERN.sub("", text).strip("\n")
+    return CLEANUP_PATTERN.sub("", text).strip()
+
+
+# Some finetuned models emit only a ":" marker and stop under greedy/sampled decoding;
+# beam search gets past it, so it's used as a fallback when a reply comes out empty.
+BEAM_FALLBACK = {"numBeams": 5, "doSample": False}
 
 
 def build_gen_config(config: dict) -> dict:
@@ -125,7 +127,10 @@ class SabiYarn:
         with self.torch.no_grad():
             output = model.generate(input_ids, **build_gen_config(config))
         new_tokens = output[0, input_ids.shape[-1]:]
-        return clean_output(self.tokenizer.decode(new_tokens, skip_special_tokens=True))
+        text = clean_output(self.tokenizer.decode(new_tokens, skip_special_tokens=True))
+        if not text and int(config.get("numBeams", 1)) <= 1:
+            return self._generate_text(model_id, prompt, {**config, **BEAM_FALLBACK})
+        return text
 
     @modal.method()
     def generate(self, model_id: str, prompt: str, config: dict) -> str:
@@ -183,63 +188,19 @@ class SabiYarn:
             final = clean_output(raw)
             if final.startswith(sent) and len(final) > len(sent):
                 yield final[len(sent):]
+                sent = final
         finally:
             cancelled.set()
             thread.join(timeout=5)
 
         if error:
             raise error[0]
-
-
-# FastAPI app
-web_app = FastAPI(title="SabiYarn Pretrained Models API")
-
-
-class PredictRequest(BaseModel):
-    model: str
-    prompt: str
-    config: dict
+        if not sent:
+            yield self._generate_text(model_id, prompt, {**config, **BEAM_FALLBACK})
 
 
 def sse(payload: dict) -> str:
     return f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
-
-
-@web_app.post("/predict")
-async def predict(request: PredictRequest):
-    """API endpoint for model prediction"""
-    try:
-        output = await SabiYarn().generate.remote.aio(request.model, request.prompt, request.config)
-        return {"output": output}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@web_app.post("/stream")
-async def stream(request: PredictRequest):
-    """Server-sent events stream of generated text"""
-
-    async def events():
-        output = ""
-        try:
-            async for delta in SabiYarn().stream.remote_gen.aio(request.model, request.prompt, request.config):
-                output += delta
-                yield sse({"type": "delta", "text": delta})
-            yield sse({"type": "done", "output": output})
-        except Exception as e:
-            yield sse({"type": "error", "message": str(e)})
-
-    return StreamingResponse(
-        events(),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-    )
-
-
-@web_app.get("/health")
-async def health():
-    """Health check endpoint"""
-    return {"status": "healthy", "models": list(MODEL_REPOS.keys())}
 
 
 # Deploy FastAPI app on Modal
@@ -250,4 +211,50 @@ async def health():
 )
 @modal.asgi_app()
 def fastapi_app():
+    # FastAPI is imported inside the container so deploying needs no local web dependencies
+    from fastapi import FastAPI, HTTPException
+    from fastapi.responses import StreamingResponse
+    from pydantic import BaseModel
+
+    web_app = FastAPI(title="SabiYarn Pretrained Models API")
+
+    class PredictRequest(BaseModel):
+        model: str
+        prompt: str
+        config: dict
+
+    @web_app.post("/predict")
+    async def predict(request: PredictRequest):
+        """API endpoint for model prediction"""
+        try:
+            output = await SabiYarn().generate.remote.aio(request.model, request.prompt, request.config)
+            return {"output": output}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    @web_app.post("/stream")
+    async def stream(request: PredictRequest):
+        """Server-sent events stream of generated text"""
+
+        async def events():
+            output = ""
+            try:
+                async for delta in SabiYarn().stream.remote_gen.aio(request.model, request.prompt, request.config):
+                    output += delta
+                    yield sse({"type": "delta", "text": delta})
+                yield sse({"type": "done", "output": output})
+            except Exception as e:
+                yield sse({"type": "error", "message": str(e)})
+
+        return StreamingResponse(
+            events(),
+            media_type="text/event-stream",
+            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        )
+
+    @web_app.get("/health")
+    async def health():
+        """Health check endpoint"""
+        return {"status": "healthy", "models": list(MODEL_REPOS.keys())}
+
     return web_app

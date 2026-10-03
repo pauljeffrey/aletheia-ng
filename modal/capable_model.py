@@ -17,9 +17,6 @@ import threading
 from typing import Any, Dict, Iterator, List, Optional
 
 import modal
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
 
 # Create Modal app
 app = modal.App("sabiyarn-capable")
@@ -194,75 +191,8 @@ class SabiYarnChat:
             raise error[0]
 
 
-# FastAPI app
-web_app = FastAPI(title="SabiYarn Capable Models API")
-
-
-class ChatRequest(BaseModel):
-    model: Optional[str] = None
-    messages: List[Dict[str, Any]]
-    session_id: Optional[str] = None
-    config: Optional[Dict[str, Any]] = None
-
-
-def resolve_model(model: Optional[str]) -> str:
-    model_id = model or DEFAULT_MODEL
-    if model_id not in CAPABLE_MODEL_REPOS:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Unknown model '{model_id}'. Available: {', '.join(CAPABLE_MODEL_REPOS)}",
-        )
-    return model_id
-
-
 def sse(payload: dict) -> str:
     return f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
-
-
-@web_app.post("/")
-@web_app.post("/predict")
-async def predict(request: ChatRequest):
-    """API endpoint for chat prediction"""
-    model_id = resolve_model(request.model)
-    try:
-        output = await SabiYarnChat().chat.remote.aio(model_id, request.messages, request.config)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    return {"output": output, "session_name": session_name(request.messages)}
-
-
-@web_app.post("/stream")
-async def stream(request: ChatRequest):
-    """Server-sent events stream of the assistant's reply"""
-    model_id = resolve_model(request.model)
-
-    async def events():
-        output = ""
-        try:
-            async for delta in SabiYarnChat().stream.remote_gen.aio(model_id, request.messages, request.config):
-                output += delta
-                yield sse({"type": "delta", "text": delta})
-            yield sse({"type": "done", "output": output.strip(), "session_name": session_name(request.messages)})
-        except Exception as e:
-            yield sse({"type": "error", "message": str(e)})
-
-    return StreamingResponse(
-        events(),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-    )
-
-
-@web_app.get("/health")
-async def health():
-    """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "default_model": DEFAULT_MODEL,
-        "models": list(CAPABLE_MODEL_REPOS.keys()),
-    }
 
 
 # Deploy FastAPI app on Modal
@@ -273,4 +203,69 @@ async def health():
 )
 @modal.asgi_app()
 def fastapi_app():
+    # FastAPI is imported inside the container so deploying needs no local web dependencies
+    from fastapi import FastAPI, HTTPException
+    from fastapi.responses import StreamingResponse
+    from pydantic import BaseModel
+
+    web_app = FastAPI(title="SabiYarn Capable Models API")
+
+    class ChatRequest(BaseModel):
+        model: Optional[str] = None
+        messages: List[Dict[str, Any]]
+        session_id: Optional[str] = None
+        config: Optional[Dict[str, Any]] = None
+
+    def resolve_model(model: Optional[str]) -> str:
+        model_id = model or DEFAULT_MODEL
+        if model_id not in CAPABLE_MODEL_REPOS:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Unknown model '{model_id}'. Available: {', '.join(CAPABLE_MODEL_REPOS)}",
+            )
+        return model_id
+
+    @web_app.post("/")
+    @web_app.post("/predict")
+    async def predict(request: ChatRequest):
+        """API endpoint for chat prediction"""
+        model_id = resolve_model(request.model)
+        try:
+            output = await SabiYarnChat().chat.remote.aio(model_id, request.messages, request.config)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+        return {"output": output, "session_name": session_name(request.messages)}
+
+    @web_app.post("/stream")
+    async def stream(request: ChatRequest):
+        """Server-sent events stream of the assistant's reply"""
+        model_id = resolve_model(request.model)
+
+        async def events():
+            output = ""
+            try:
+                async for delta in SabiYarnChat().stream.remote_gen.aio(model_id, request.messages, request.config):
+                    output += delta
+                    yield sse({"type": "delta", "text": delta})
+                yield sse({"type": "done", "output": output.strip(), "session_name": session_name(request.messages)})
+            except Exception as e:
+                yield sse({"type": "error", "message": str(e)})
+
+        return StreamingResponse(
+            events(),
+            media_type="text/event-stream",
+            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        )
+
+    @web_app.get("/health")
+    async def health():
+        """Health check endpoint"""
+        return {
+            "status": "healthy",
+            "default_model": DEFAULT_MODEL,
+            "models": list(CAPABLE_MODEL_REPOS.keys()),
+        }
+
     return web_app
