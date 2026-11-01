@@ -78,6 +78,16 @@ export const FOUNDER_PORTFOLIO: PortfolioItem[] = [
     iframeTitle: "HERA – Clinical Trial Matching",
   },
   {
+    kind: "iframe",
+    title: "Ponder",
+    subtitle: "A Chess AI That Thinks in Variations",
+    description:
+      "A small transformer chess model that imagines how each candidate move plays out on a real board, judges where every line ends, and only then picks its move. Play it, watch it take on Stockfish, then review your game move by move. Pretrained on tens of millions of Stockfish-analysed positions, refined with reinforcement learning, and light enough to run on a CPU.",
+    href: "https://ponder-chess-web.vercel.app/",
+    iframeSrc: "https://ponder-chess-web.vercel.app/",
+    iframeTitle: "Ponder – Chess AI That Thinks in Variations",
+  },
+  {
     kind: "github",
     title: "West African MT + RLHF",
     subtitle: "AfriCOMET-Guided Translation for Low-Resource Languages",
